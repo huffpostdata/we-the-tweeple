@@ -16,4 +16,31 @@
 div#app {
   margin-top: 5rem;
   margin-bottom: 5rem;
+
+  input {
+    font-size: 2rem;
+    padding: 1rem;
+  }
+
+  table {
+    border-collapse: collapse;
+
+    th, td {
+      padding: .2rem 1rem;
+    }
+
+    td {
+      width: 4rem;
+      text-align: right;
+    }
+
+    td:first-child {
+      width: 10rem;
+      text-align: left;
+    }
+  }
+}
+
+body {
+  overflow-y: scroll; // So when we populate the table, it doesn't add a scrollbar
 }
