@@ -1,0 +1,9 @@
+/.ipynb_checkpoints/
+*.swp
+/data/LEMAS/*/*.pdf
+/data/LEMAS/*/*/*.pdf
+/data/LEMAS/*/*related_literature.txt
+/data/monitoring-the-future/*.txt
+/data/monitoring-the-future/*.pdf
+views/*.js
+node_modules

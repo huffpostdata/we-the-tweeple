@@ -1,0 +1,115 @@
+// Makes the site follow these general rules:
+//
+// * <nav> at the top, followed by <article> and <footer>. They're all in a
+//   flexbox, so the footer is at the bottom no matter the size of the page.
+// * max width is 960px, but it's only applied to <article> children. That lets
+//   us publish full-width images without fiddling with margins. (Give them the
+//   class "full-width" to achieve that.)
+// * Sets $max-mobile-width and $min-desktop-width, and makes ".only-desktop"
+//   and ".only-mobile" classes hide things.
+// * Creates the page-width() mixin, to set things to 960px
+
+$page-width: 700px;
+$max-mobile-width: 639px;
+$min-desktop-width: 640px;
+
+@mixin with-width($width) {
+  max-width: $width;
+  margin-left: auto;
+  margin-right: auto;
+
+  @if $width != 100% {
+    // left/right margins are min 16px, max auto.
+    @media (max-width: $width + 32px) {
+      // We're assuming 16px == 1rem, though it isn't strictly necessary
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+  }
+}
+
+@mixin page-width() {
+  @include with-width($page-width);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+nav, footer {
+  -webkit-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+article {
+  -webkit-flex: 1 0 auto;
+  flex: 1 0 auto;
+}
+
+article {
+  &>* {
+    @include page-width();
+  }
+  &>*.full-width {
+    @include with-width(100%);
+  }
+}
+
+@media (min-width: 850px) {
+  .only-mobile { display: none; }
+}
+
+@media (max-width: 851px) {
+  .only-desktop { display: none; }
+}
+
+
+.button {
+    margin: 50px auto 100px auto;
+    font-family: "Source Sans Pro", Arial, sans-serif;
+    font-size: 17px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+}
+
+.button a {
+    padding: 20px;
+    width: 200px;
+    border: 2px white solid;
+    text-decoration: none;
+    color: #fff;
+    background-color: #0e2128;
+}
+
+.button a:hover {
+    padding: 20px;
+    width: 200px;
+    border: 2px white solid;
+    text-decoration: none;
+    background-color: #fff;
+    color: #0e2128;
+    -webkit-transition: background 0.2s linear;
+    -moz-transition: background 0.2s linear;
+    -ms-transition: background 0.2s linear;
+    -o-transition: background 0.2s linear;
+    transition: background 0.2s linear;
+}
+
+.photo-credit {
+  font-family: "Source Sans Pro", Arial, sans-serif;
+  font-size: .6rem;
+  color: #999;
+  float: left;
+  padding: 0px 10px;
+}

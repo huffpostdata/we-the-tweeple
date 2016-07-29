@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+html lang="en"
+  head
+    meta charset="utf-8"
+    title - TK
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/index.css')}"
+    $!{data.render_template('_social-meta', data)}
+  body
+    $!{data.helpers.nav()}
+
+    <article>
+      <p>Search here, and see what comes up!</p>
+      <div id="app" data-tsv-path="${data.path_to_asset('digest', 'data/clinton-trump-token-counts-truncated.tsv')}"></div>
+    </article>
+
+    $!{data.helpers.footer()}
+    script src="${data.path_to_asset('digest', 'javascripts/app.js')}"
+    script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
+    script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"

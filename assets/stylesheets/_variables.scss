@@ -1,0 +1,52 @@
+$background: #fff;
+$alt-background: #f7f7f7;
+$highlight-background: #f7f787;
+$color: black;
+$nav-background: #181818;
+$nav-color: white;
+$link-color: #6fa8bc;
+$muted-color: #6a6969;
+$nav-font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
+$body-font-family: NotoNashkArabic, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+$header-font-family: ProximaNovaCond-Extrabld, Arial, Helvetica, sans-serif;
+
+body {
+  background-color: $background;
+  color: $color;
+  font-family: $body-font-family;
+  font-size: 1.13rem;
+  line-height: 2rem;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+}
+
+h2 {
+  font-size: 2.3rem;
+  line-height: 2.6rem; 
+}
+
+h3 {
+  font-size: 1.8rem;
+}
+
+h4 {
+  font-size: 1.1rem;
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@mixin vertical-center-flex {
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  align-items: center;
+  -webkit-align-items: center;
+  height: 100%;
+}
