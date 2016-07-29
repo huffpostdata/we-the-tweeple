@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
   app_el.innerHTML = 'Loading...';
 
   load_tsv(app_el.getAttribute('data-tsv-path'), function() {
-    app_el.innerHTML = '<input name="q" autocomplete="off" type="text"><div class="results"></div>';
+    app_el.innerHTML = '<input name="q" autocomplete="off" type="text" placeholder="Type a word…"><div class="results"></div>';
     var input_el = app_el.querySelector('input[name=q]');
     var results_el = app_el.querySelector('div.results');
 
