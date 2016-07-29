@@ -13,6 +13,17 @@ html lang="en"
     <article>
       <p>Search here, and see what comes up!</p>
       <div id="app" data-tsv-path="${data.path_to_asset('digest', 'data/clinton-trump-token-counts-truncated.tsv')}"></div>
+
+      <h2>What's this?</h2>
+
+      <p>Here's how we made this tool:</p>
+
+      <ol>
+        <li>We downloaded all follower information for Trump and Clinton.</li>
+        <li>We broke down each Twitter bio into <a href="http://unicode.org/reports/tr29/">"words"</a>.</li>
+        <li>For each word, we counted how many Twitter bios contained that word.</li>
+        <li>We omitted all words that have fewer than five Trump bios or fewer than five Clinton bios.</li>
+      </ol>
     </article>
 
     $!{data.helpers.footer()}
