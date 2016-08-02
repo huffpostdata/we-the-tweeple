@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
     input_el.addEventListener('input', function() {
       var prefix = input_el.value.toLowerCase();
 
-      var matches = find_prefix_matches(prefix, 10);
+      var matches = find_prefix_matches(prefix, 15);
 
       if (prefix === '' || matches.length === 0) {
         results_el.innerHTML = 'No matches found';
