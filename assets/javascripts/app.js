@@ -3,10 +3,21 @@
 var tsv_string = null;  // String word\tclinton\ttrump TSV
 var tsv_offsets = null; // Array of offset integers
 
-function PrefixMatch(token, clinton_count, trump_count) {
+function PrefixMatch(token, clinton_count, trump_count, both_count) {
   this.token = token;
   this.clinton_count = clinton_count;
   this.trump_count = trump_count;
+  this.both_count = both_count;
+  this.either_count = clinton_count + trump_count - both_count;
+}
+
+function build_prefix_comparator(search_prefix) {
+  function prefix_comparator(v1, v2) {
+    if (v1.token === search_prefix) return -1;
+    if (v2.token === search_prefix) return 1;
+    return v2.either_count - v1.either_count || v1.token.localeCompare(v2.token);
+  }
+  return prefix_comparator;
 }
 
 function index_to_prefix_match(index) {
@@ -15,9 +26,9 @@ function index_to_prefix_match(index) {
   var line = tsv_string.slice(start_offset, end_offset);
   var match = index_to_prefix_match.regex.exec(line);
   if (match === null) throw new Error('Line "' + line + '" looks to be invalid');
-  return new PrefixMatch(match[1], +match[2], +match[3]);
+  return new PrefixMatch(match[1], +match[2], +match[3], +match[4]);
 }
-index_to_prefix_match.regex = /([^\t]*)\t(\d+)\t(\d+)/
+index_to_prefix_match.regex = /([^\t]*)\t(\d+)\t(\d+)\t(\d+)/
 
 function find_prefix_index(prefix) {
   var left = 0;
@@ -48,21 +59,36 @@ function find_prefix_index(prefix) {
   }
 }
 
+function insert_into_sorted_array(value, array, max_n_elements, comparator) {
+  var max_i = Math.min(array.length, max_n_elements);
+  var i;
+
+  for (i = 0; i < max_i; i++) {
+    if (comparator(value, array[i]) < 0) {
+      array.splice(i, 0, value);
+      array.splice(max_n_elements);
+      return;
+    }
+  }
+
+  if (i < max_n_elements - 1) {
+    array.push(value);
+  }
+}
+
 function find_prefix_matches(prefix, max_n_matches) {
   var ret = [];
 
   var first_index = find_prefix_index(prefix);
   if (first_index == -1) return ret;
 
-  var after_last_index = Math.min(first_index + max_n_matches, tsv_offsets.length);
+  var comparator = build_prefix_comparator(prefix);
 
-  for (var i = first_index; i < after_last_index; i++) {
+  for (var i = first_index; i < tsv_offsets.length; i++) {
     var prefix_match = index_to_prefix_match(i);
-    if (prefix_match.token.slice(0, prefix.length) === prefix) {
-      ret.push(prefix_match);
-    } else {
-      break;
-    }
+    if (prefix_match.token.slice(0, prefix.length) !== prefix) break;
+
+    insert_into_sorted_array(prefix_match, ret, max_n_matches, comparator);
   }
 
   return ret;
@@ -78,6 +104,8 @@ function set_tsv(text) {
       tsv_offsets.push(i + 1);
     }
   }
+
+  tsv_offsets.pop(); // empty newline at end of file
 }
 
 function load_tsv(url, callback) {
@@ -110,11 +138,25 @@ function html_escape(s) {
 }
 
 /**
- *  * Converts 1234567 to "1,234,567".
- *   */
+ * Converts 1234567 to "1,234,567".
+ */
 function format_int(n) {
   return n.toFixed(0)
     .replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+}
+
+function format_token_as_diagram(token, max_value) {
+  var half_mid = token.both_count / 2;
+  var left_value = token.clinton_count - half_mid;
+  var right_value = token.trump_count - half_mid;
+  var full_width = max_value * 2;
+
+  var left1 = .5 - (left_value / full_width);
+  var width1 = token.clinton_count / full_width;
+  var width2 = token.trump_count / full_width;
+  var left2 = .5 + (right_value / full_width) - width2;
+
+  return '<div class="log-bars"><div class="log-bar log-bar-left" style="left: ' + (left1 * 100) + '%; width: ' + (width1 * 100) + '%"></div><div class="log-bar log-bar-right" style="left: ' + (left2 * 100) + '%; width: ' + (width2 * 100) + '%"></div><div class="log-bar log-bar-both" style="left: ' + (left2 * 100) + '%; width: ' + (50 * token.both_count / max_value) + '%;"></div></div>';
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -134,7 +176,18 @@ document.addEventListener('DOMContentLoaded', function() {
       if (prefix === '' || matches.length === 0) {
         results_el.innerHTML = 'No matches found';
       } else {
-        results_el.innerHTML = '<table><thead><tr><th>Word</th><th>Clinton</th><th>Trump</th></tr></thead><tbody>' + matches.map(function(m) { return '<tr><td>' + html_escape(m.token) + '</td><td>' + format_int(m.clinton_count) + '</td><td>' + format_int(m.trump_count) + '</td></tr>'; }).join('') + '</tbody></table>';
+        var max_count = matches.reduce(function(s, m) { return Math.max(s, m.clinton_count - m.both_count / 2, m.trump_count - m.both_count / 2); }, 0);
+
+        results_el.innerHTML = '<table><thead><tr><th>Word</th><th class="left" colspan="2">Clinton</th><th class="right" colspan="2">Trump</th></tr></thead><tbody>'
+          + matches.map(function(m) {
+            return '<tr>'
+              + '<th>' + html_escape(m.token) + '</th>'
+              + '<td class="value value-left">' + format_int(m.clinton_count) + '</td>'
+              + '<td class="bars" colspan="2">'+ format_token_as_diagram(m, max_count) + '</td>'
+              + '<td class="value value-right">' + format_int(m.trump_count) + '</td>'
+              + '</tr>';
+          }).join('')
+        + '</tbody></table>';
       }
     });
   });
