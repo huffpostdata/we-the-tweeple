@@ -16,6 +16,8 @@
 div#app {
   margin-top: 5rem;
   margin-bottom: 5rem;
+  display: -webkit-flex;
+  display: flex;
 
   input {
     font-size: 2rem;
@@ -79,6 +81,23 @@ div#app {
       .log-bar-both {
         background: $color-both;
       }
+    }
+  }
+
+  .originals {
+    margin-left: 2rem;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    span.count {
+      display: inline-block;
+      width: 4rem;
+      text-align: right;
+      margin-right: 2rem;
     }
   }
 }

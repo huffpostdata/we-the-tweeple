@@ -5,13 +5,26 @@ var NClintonFollowers = 7083642; // TODO remove this "variable"
 var NTrumpFollowers = 9286800;   // TODO remove this "variable"
 var NBothCollowers = 1693691;
 
-function PrefixMatch(token, clinton_count, trump_count, both_count) {
+function PrefixMatch(token, clinton_count, trump_count, both_count, string) {
   this.token = token;
   this.clinton_count = clinton_count;
   this.trump_count = trump_count;
   this.both_count = both_count;
   this.total_count = clinton_count + trump_count - both_count;
+  this.string = string;
 }
+
+PrefixMatch.prototype.originals = function() {
+  return this.string.split('\n')
+    .slice(1) // remove token text
+    .map(function(s) {
+      var row = s.split('\t');
+      return {
+        n: +row[2],
+        text: row[1]
+      };
+    });
+};
 
 function build_prefix_comparator(search_prefix) {
   function prefix_comparator(v1, v2) {
@@ -26,7 +39,7 @@ function index_to_prefix_match(index) {
   var string = token_strings[index];
   var match = index_to_prefix_match.regex.exec(string);
   if (match === null) throw new Error('Line "' + line + '" looks to be invalid');
-  return new PrefixMatch(match[1], +match[2], +match[3], +match[4]);
+  return new PrefixMatch(match[1], +match[2], +match[3], +match[4], string);
 }
 index_to_prefix_match.regex = /([^\t]*)\t(\d+)\t(\d+)\t(\d+)/
 
@@ -171,9 +184,10 @@ document.addEventListener('DOMContentLoaded', function() {
   app_el.innerHTML = 'Loading...';
 
   load_tsv(app_el.getAttribute('data-tsv-path'), function() {
-    app_el.innerHTML = '<input name="q" autocomplete="off" type="text" placeholder="Type a word…"><div class="results"></div>';
+    app_el.innerHTML = '<div class="search"><input name="q" autocomplete="off" type="text" placeholder="Type a word…"><div class="results"></div></div><div class="originals"></div></div>';
     var input_el = app_el.querySelector('input[name=q]');
     var results_el = app_el.querySelector('div.results');
+    var originals_el = app_el.querySelector('div.originals');
 
     input_el.addEventListener('input', function() {
       var prefix = input_el.value.toLowerCase();
@@ -194,7 +208,17 @@ document.addEventListener('DOMContentLoaded', function() {
               + '<td class="value value-right">' + format_int(m.trump_count) + '</td>'
               + '</tr>';
           }).join('')
-        + '</tbody></table>';
+          + '</tbody></table>';
+
+        if (matches.length > 0) {
+          originals_el.innerHTML = '<ul>' + matches[0].originals().map(function(o) {
+            return '<li>'
+              + '<span class="count">' + format_int(o.n) + '</span>'
+              + '<tt>' + html_escape(o.text) + '</tt>'
+              + '</li>';
+          }).join('')
+          + '</ul>';
+        }
       }
     });
   });
