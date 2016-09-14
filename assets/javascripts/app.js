@@ -1,30 +1,30 @@
 'use strict'
 
-var tsv_string = null;  // String word\tclinton\ttrump TSV
-var tsv_offsets = null; // Array of offset integers
+var token_strings = []; // Array of unparsed token strings
+var NClintonFollowers = 7083642; // TODO remove this "variable"
+var NTrumpFollowers = 9286800;   // TODO remove this "variable"
+var NBothCollowers = 1693691;
 
 function PrefixMatch(token, clinton_count, trump_count, both_count) {
   this.token = token;
   this.clinton_count = clinton_count;
   this.trump_count = trump_count;
   this.both_count = both_count;
-  this.either_count = clinton_count + trump_count - both_count;
+  this.total_count = clinton_count + trump_count - both_count;
 }
 
 function build_prefix_comparator(search_prefix) {
   function prefix_comparator(v1, v2) {
     if (v1.token === search_prefix) return -1;
     if (v2.token === search_prefix) return 1;
-    return v2.either_count - v1.either_count || v1.token.localeCompare(v2.token);
+    return v2.total_count - v1.total_count || v1.token.localeCompare(v2.token);
   }
   return prefix_comparator;
 }
 
 function index_to_prefix_match(index) {
-  var start_offset = tsv_offsets[index];
-  var end_offset = index < (tsv_offsets.length - 1) ? tsv_offsets[index + 1] : tsv_string.length;
-  var line = tsv_string.slice(start_offset, end_offset);
-  var match = index_to_prefix_match.regex.exec(line);
+  var string = token_strings[index];
+  var match = index_to_prefix_match.regex.exec(string);
   if (match === null) throw new Error('Line "' + line + '" looks to be invalid');
   return new PrefixMatch(match[1], +match[2], +match[3], +match[4]);
 }
@@ -32,31 +32,27 @@ index_to_prefix_match.regex = /([^\t]*)\t(\d+)\t(\d+)\t(\d+)/
 
 function find_prefix_index(prefix) {
   var left = 0;
-  var right = tsv_offsets.length - 1;
-  var offset, tsv_token_prefix;
+  var right = token_strings.length; // one past the last element
 
   // Find leftmost TSV token that matches the prefix
 
   while (left < right) {
     var mid = (left + right) >> 1;
-    offset = tsv_offsets[mid];
-    tsv_token_prefix = tsv_string.slice(offset, offset + prefix.length);
+    var cur_text = token_strings[mid];
+    var cur_prefix = cur_text.slice(0, prefix.length);
 
-    if (prefix <= tsv_token_prefix) {
+    if (prefix <= cur_prefix) {
       right = mid;
     } else {
       left = mid + 1;
     }
   }
 
-  offset = tsv_offsets[left];
-  tsv_token_prefix = tsv_string.slice(offset, offset + prefix.length);
+  if (left === token_strings.length) return -1;
 
-  if (tsv_token_prefix === prefix) {
-    return left;
-  } else {
-    return -1;
-  }
+  var best_prefix = token_strings[left].slice(0, prefix.length);
+
+  return (best_prefix === prefix) ? left : -1;
 }
 
 function insert_into_sorted_array(value, array, max_n_elements, comparator) {
@@ -84,7 +80,7 @@ function find_prefix_matches(prefix, max_n_matches) {
 
   var comparator = build_prefix_comparator(prefix);
 
-  for (var i = first_index; i < tsv_offsets.length; i++) {
+  for (var i = first_index; i < token_strings.length; i++) {
     var prefix_match = index_to_prefix_match(i);
     if (prefix_match.token.slice(0, prefix.length) !== prefix) break;
 
@@ -95,17 +91,28 @@ function find_prefix_matches(prefix, max_n_matches) {
 }
 
 function set_tsv(text) {
-  tsv_string = text;
+  token_strings = [];
 
-  tsv_offsets = [ 0 ];
-  var end = tsv_string.length;
-  for (var i = 0; i < end; i++) {
-    if (text[i] === '\n') {
-      tsv_offsets.push(i + 1);
+  var token_start = 0;
+  var p = 0; // Index we're looking at. We'll skip through newlines....
+  while (true) {
+    var next_p = text.indexOf('\n', p);
+    if (next_p == -1) {
+      if (p > token_start) {
+        token_strings.push(text.slice(token_start));
+      }
+      break;
+    } else if (text[next_p + 1] === '\t') {
+      // "\n\t" is a pattern that happens _within_ tokens.
+      p = (next_p + 1);
+    } else {
+      // We finished reading the token. Save it, and add another.
+      token_strings.push(text.slice(token_start, next_p));
+      token_start = p = (next_p + 1);
     }
   }
 
-  tsv_offsets.pop(); // empty newline at end of file
+  token_strings.sort();
 }
 
 function load_tsv(url, callback) {
