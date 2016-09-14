@@ -46,6 +46,14 @@ div#app {
         text-align: left;
       }
 
+      tr:first-child {
+        border: 1px solid $color-both;
+        border-right: 0;
+      }
+      tr:not(:first-child) {
+        border-right: 1px solid $color-both;
+      }
+
       .log-bars {
         height: 1.5rem;
         width: 100%;
@@ -85,7 +93,8 @@ div#app {
   }
 
   .originals {
-    margin-left: 2rem;
+    margin-left: 4rem;
+    padding-top: 4.5rem;
 
     ul {
       margin: 0;

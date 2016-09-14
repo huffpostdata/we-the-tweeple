@@ -184,10 +184,10 @@ document.addEventListener('DOMContentLoaded', function() {
   app_el.innerHTML = 'Loading...';
 
   load_tsv(app_el.getAttribute('data-tsv-path'), function() {
-    app_el.innerHTML = '<div class="search"><input name="q" autocomplete="off" type="text" placeholder="Type a word…"><div class="results"></div></div><div class="originals"></div></div>';
+    app_el.innerHTML = '<div class="search"><input name="q" autocomplete="off" type="text" placeholder="Type a word…"><div class="results"></div></div><div class="originals"><h4>Most common spellings</h4><ul></ul></div></div>';
     var input_el = app_el.querySelector('input[name=q]');
     var results_el = app_el.querySelector('div.results');
-    var originals_el = app_el.querySelector('div.originals');
+    var originals_ul = app_el.querySelector('div.originals ul');
 
     input_el.addEventListener('input', function() {
       var prefix = input_el.value.toLowerCase();
@@ -211,13 +211,12 @@ document.addEventListener('DOMContentLoaded', function() {
           + '</tbody></table>';
 
         if (matches.length > 0) {
-          originals_el.innerHTML = '<ul>' + matches[0].originals().map(function(o) {
+          originals_ul.innerHTML = matches[0].originals().map(function(o) {
             return '<li>'
               + '<span class="count">' + format_int(o.n) + '</span>'
               + '<tt>' + html_escape(o.text) + '</tt>'
               + '</li>';
-          }).join('')
-          + '</ul>';
+          }).join('');
         }
       }
     });
