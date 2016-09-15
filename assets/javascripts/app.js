@@ -1,9 +1,6 @@
 'use strict'
 
 var token_strings = []; // Array of unparsed token strings
-var NClintonFollowers = 7083642; // TODO remove this "variable"
-var NTrumpFollowers = 9286800;   // TODO remove this "variable"
-var NBothCollowers = 1693691;
 
 function PrefixMatch(token, clinton_count, trump_count, both_count, string) {
   this.token = token;
