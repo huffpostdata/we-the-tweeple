@@ -133,7 +133,6 @@ function set_tsv(text) {
 }
 
 function load_tsv(url, callback) {
-  console.log("Load URL: " + url);
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
   xhr.onreadystatechange = function() {
@@ -188,21 +187,48 @@ document.addEventListener('DOMContentLoaded', function() {
   app_el.innerHTML = 'Loading...';
 
   load_tsv(app_el.getAttribute('data-tsv-path'), function() {
-    app_el.innerHTML = '<div class="search"><input name="q" autocomplete="off" type="text" placeholder="Type a word…"><div class="results"></div></div><div class="originals"><h4>Most common spellings</h4><ul></ul></div></div>';
+    app_el.innerHTML = '<div class="search"><input name="q" autocomplete="off" type="text" placeholder="Type a word…"><div class="results"></div></div><div class="originals"></div></div>';
     var input_el = app_el.querySelector('input[name=q]');
     var results_el = app_el.querySelector('div.results');
-    var originals_ul = app_el.querySelector('div.originals ul');
+    var originals_el = app_el.querySelector('div.originals');
 
     input_el.addEventListener('input', function() {
-      var prefix = tokenize(input_el.value)
-        .map(stem)
-        .filter(s => s.length > 0)
+      // Start by _not_ stemming the last word. "Stemming" here includes
+      // removing stopwords, and so a simple "a" will be removed. We don't want
+      // that.
+      var tokens = tokenize(input_el.value);
+
+      var NMatchesToDisplay = 15;
+      var prefix = tokens
+        .map(function(s, i) { return (i + 1 === tokens.length) ? s : stem(s) })
+        .filter(function(s) { return s.length > 0; })
         .join(' ');
+      var matches = (prefix === '') ? [] : find_prefix_matches(prefix, NMatchesToDisplay);
 
-      var matches = find_prefix_matches(prefix, 15);
+      if (matches.length < NMatchesToDisplay) {
+        // Now _do_ stem the last word -- or remove it entirely, if it's the
+        // start of a stopword.
+        var prefix2 = tokens
+          .map(function(s, i) { return (i + 1 === tokens.length) ? stem_incomplete(s) : stem(s) })
+          .filter(function(s) { return s.length > 0; })
+          .join(' ');
 
-      if (prefix === '' || matches.length === 0) {
+        var other_matches = (prefix2 === '') ? [] : find_prefix_matches(prefix2, NMatchesToDisplay);
+
+        other_matches.forEach(function(m) {
+          if (matches.length == NMatchesToDisplay) return;
+
+          for (var i = 0; i < matches.length; i++) {
+            if (matches[i].token === m.token) return;
+          }
+
+          matches.push(m);
+        });
+      }
+
+      if (matches.length === 0) {
         results_el.innerHTML = 'No matches found';
+        originals_el.innerHTML = '';
       } else {
         var max_count = matches.reduce(function(s, m) { return Math.max(s, m.clinton_count - m.both_count / 2, m.trump_count - m.both_count / 2); }, 0);
 
@@ -217,14 +243,16 @@ document.addEventListener('DOMContentLoaded', function() {
           }).join('')
           + '</tbody></table>';
 
-        if (matches.length > 0) {
-          originals_ul.innerHTML = matches[0].originals().map(function(o) {
+        originals_el.innerHTML = matches.length ? (
+          '<h4>Most Common Spellings</h4><ul>'
+          + matches[0].originals().map(function(o) {
             return '<li>'
               + '<span class="count">' + format_int(o.n) + '</span>'
               + '<tt>' + html_escape(o.text) + '</tt>'
               + '</li>';
-          }).join('');
-        }
+          }).join('')
+          + '</ul>'
+        ) : '';
       }
     });
   });
@@ -263,6 +291,18 @@ stem.porter2_stem = function(s) {
 	stem.snowball.setCurrent(s);
 	stem.snowball.stem();
 	return stem.snowball.getCurrent();
+}
+function stem_incomplete(s) {
+  if (stem.should_abort_stem_right_away(s)) return '';
+  s = stem.casefold_and_normalize(s);
+
+  // Nix _partial_ stopword
+  for (var i = 0; i < stem.EnglishStopwords.length; i++) {
+    var stopword = stem.EnglishStopwords[i];
+    if (stopword.slice(0, s.length) === s) return '';
+  }
+
+  return stem(s);
 }
 stem.EnglishStopwords = [
 	"a",
@@ -425,7 +465,14 @@ function tokenize(s) {
 
   while (s != '') {
     var m = tokenize.regex.exec(s);
-    if (!m) break;
+    if (!m) {
+      // Non-empty string with no more tokens? The user just typed a "space".
+      // Our logic elsewhere treats an "unfinished" last token differently from
+      // a "finished" one. (The final token is deemed "unfinished".) Add an
+      // empty token so the previous one will be "finished".
+      tokens.push('');
+      break;
+    }
 
     tokens.push(m[0]);
     s = s.slice(m.index + m[0].length);
