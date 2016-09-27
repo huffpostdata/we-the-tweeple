@@ -1,3 +1,7 @@
 index:
   path: _root
   model: index
+
+share-page:
+  path: :token
+  collection: biggestTokens
