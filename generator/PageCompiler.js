@@ -45,7 +45,7 @@ module.exports = class PageCompiler {
 
       if (object.collection) {
         for (const model of this.database[object.collection]) {
-          const out_path = path.replace(/:(\w+)/, (_, name) => model[name])
+          const out_path = path.replace(/:(\w+)/, (_, name) => encodeURIComponent(model[name]))
           out[out_path] = this.render(key, { model: model })
         }
       } else if (object.model) {
