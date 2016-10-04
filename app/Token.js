@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports = class Token {
   constructor(token, nTotal, nClinton, nTrump, tokenRenderer) {
     this.token = token
