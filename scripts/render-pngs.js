@@ -1,6 +1,5 @@
 // import
 
-const _ = require('lodash');
 const fs = require('fs-extra');
 const async = require('async');
 const Database = require('../app/Database.js');

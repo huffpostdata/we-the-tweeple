@@ -27,7 +27,6 @@
     "express": "^4.13.4",
     "fs-extra": "0.30.0",
     "google-docs-markup": "^0.2.0",
-    "lodash": "4.16.3",
     "morgan": "^1.7.0",
     "sync-request": "^3.0.0"
   }
