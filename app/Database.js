@@ -44,7 +44,7 @@ module.exports = class Database {
       return tokens;
     }, [])
     .orderBy(['1'], ['desc'])
-    .slice(0, 10000)
+    .slice(0, 3)
     .map((row) => {
       return f.build.apply(f, row);
     })
