@@ -1,10 +1,11 @@
+'use strict'
 // import
 
 const path = require('path');
 
 process.env['FONTCONFIG_PATH'] = path.resolve(__dirname, '../fonts');
 
-const fs = require('fs-extra');
+const fs = require('fs');
 const Canvas = require('canvas');
 const Image = Canvas.Image;
 

@@ -1,3 +1,5 @@
+'use strict'
+
 const Token = require('./Token')
 const TokenRenderer = require('./TokenRenderer')
 
