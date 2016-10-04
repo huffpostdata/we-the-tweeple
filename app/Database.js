@@ -25,4 +25,11 @@ module.exports = class Database {
       f.build('love/hate', 200, 1, 200)
     ]
   }
+
+  renderBiggestPngs() {
+    return this.biggestTokens.reduce((obj, token) => {
+      obj[token.token] = token.renderPng();
+      return obj;
+    }, {});
+  }
 }

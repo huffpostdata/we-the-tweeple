@@ -7,12 +7,13 @@ module.exports = class Token {
     this.tokenRenderer = tokenRenderer
   }
 
-  renderPng() {
+  renderPng(loc) {
     return this.tokenRenderer.renderPng(
       this.token,
       this.nTotal,
       this.nClinton,
-      this.nTrump
+      this.nTrump,
+      loc
     )
   }
 }
