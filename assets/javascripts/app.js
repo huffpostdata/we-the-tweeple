@@ -270,43 +270,39 @@ document.addEventListener('DOMContentLoaded', function() {
   app_el.innerHTML = 'Loading...';
 
   load_tsv(app_el.getAttribute('data-tsv-path'), function() {
-    app_el.innerHTML = '<div class="search"><input name="q" autocomplete="off" type="text" placeholder="Type a word…"><div class="results"></div></div><div class="originals"></div></div>';
+    app_el.innerHTML = '<div class="search"><input name="q" autocomplete="off" type="text" placeholder="Type a word…"><div class="autocomplete input-empty"></div></div>';
     var input_el = app_el.querySelector('input[name=q]');
-    var results_el = app_el.querySelector('div.results');
-    var originals_el = app_el.querySelector('div.originals');
+    var autocomplete_el = app_el.querySelector('div.autocomplete');
 
     input_el.addEventListener('input', function() {
       var prefix = input_el.value;
       var NMatchesToDisplay = 15;
       var matches = (prefix === '') ? [] : search(prefix, NMatchesToDisplay);
 
-      if (matches.length === 0) {
-        results_el.innerHTML = 'No matches found';
-        originals_el.innerHTML = '';
+      autocomplete_el.className = [
+        'autocomplete',
+        (prefix === '' ? 'empty' : ''),
+        (matches.length === 0 ? 'no-results' : 'has-results')
+      ].join(' ');
+
+      if (prefix === '') {
+        autocomplete_el.innerHTML = '';
+      } else if (matches.length === 0) {
+        autocomplete_el.innerHTML = 'No matches found';
       } else {
         var max_count = matches.reduce(function(s, m) { return Math.max(s, m.group.n); }, 0);
 
-        results_el.innerHTML = '<table><thead><tr><th>Word</th><th class="left" colspan="2">Clinton</th><th class="right" colspan="2">Trump</th></tr></thead><tbody>'
+        autocomplete_el.innerHTML = '<ul>'
           + matches.map(function(m) {
-            return '<tr>'
-              + '<th>' + html_escape(m.text) + '</th>'
-              + '<td class="value value-left">' + format_int(m.group.nClinton) + '</td>'
-              + '<td class="bars" colspan="2">'+ format_group_as_diagram(m.group, max_count) + '</td>'
-              + '<td class="value value-right">' + format_int(m.group.nTrump) + '</td>'
-              + '</tr>';
+            return [
+              '<li><a href="#!', encodeURIComponent(m.text), '">',
+                '<span class="token"><mark>', html_escape(m.text.slice(0, prefix.length)), '</mark>', m.text.slice(prefix.length), '</span>',
+                '<span class="n">', format_int(m.groupN), '</span>',
+                format_group_as_diagram(m.group, max_count),
+              '</a></li>'
+            ].join('');
           }).join('')
-          + '</tbody></table>';
-
-        originals_el.innerHTML = matches.length ? (
-          '<h4>Most Common Spellings</h4><ul>'
-          + matches[0].group.tokens.map(function(o) {
-            return '<li>'
-              + '<span class="count">' + format_int(o.n) + '</span>'
-              + '<tt>' + html_escape(o.text) + '</tt>'
-              + '</li>';
-          }).join('')
-          + '</ul>'
-        ) : '';
+          + '</ul>';
       }
     });
   });
