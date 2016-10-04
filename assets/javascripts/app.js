@@ -221,7 +221,7 @@ function renderVennSvg(nPopulation, nClinton, nTrump, nBoth) {
   }
 
   function solveForD(a) {
-    var Tolerance2 = 0.00001;
+    var Tolerance2 = 0.000001;
     var MaxIter = 10000;
 
     var minD = 0;
@@ -254,8 +254,8 @@ function renderVennSvg(nPopulation, nClinton, nTrump, nBoth) {
       '<circle class="trump" cx="', (100 + xTrump), '" cy="50" r="', rTrump, '"/>',
       '<path class="both" d="',
         'M100,', (50 + yArc),
-        'A', rTrump, ',', rTrump, ' 0 0,1 100,', (50 - yArc),
-        'A', rClinton, ',', rClinton, ' 0 0,1 100,', (50 + yArc),
+        'A', rTrump, ',', rTrump, ' 0 ', (xTrump < 0 ? 1 : 0), ',1 100,', (50 - yArc),
+        'A', rClinton, ',', rClinton, ' 0 ', (xClinton < 0 ? 1 : 0), ',1 100,', (50 + yArc),
         'Z"/>',
     '</svg>'
   ].join('');
