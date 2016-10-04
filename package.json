@@ -7,7 +7,7 @@
     "update-google-docs": "node generator/GoogleDocs.js",
     "update-google-sheets": "node generator/GoogleSheets.js",
     "render-osx-install": "brew install pkg-config cairo libpng jpeg giflib",
-    "render": "node --harmony render.js"
+    "render-pngs": "node --harmony scripts/render-pngs.js"
   },
   "author": "",
   "license": "MIT",
