@@ -364,7 +364,37 @@ document.addEventListener('DOMContentLoaded', function() {
       if (els.result.parentNode !== null) els.resultContainer.removeChild(els.result);
     } else {
       var group = matchOrNull.group;
-      els.result.innerHTML = renderVennSvg(group.n, group.nClinton, group.nTrump, group.nBoth);
+
+      var tokensHtml = '';
+      if (group.nVariants > 1) {
+        var liHtmls = group.tokens.map(function(token) {
+          return '<li><q>' + html_escape(token.text) + '</q><span class="n">' + format_int(token.n) + '</span></li>';
+        });
+        var nOther = group.nVariants - group.tokens.length;
+        if (nOther > 0) {
+          if (nOther === 1) {
+            liHtmls.push('<li class="other">1 similar spelling</li>');
+          } else {
+            liHtmls.push('<li class="other">' + nOther + ' similar spellings</li>');
+          }
+        }
+        tokensHtml = [
+          '<div class="variants">',
+            'Includes <ul>', liHtmls.join(''), '</ul>',
+          '</div>'
+        ].join('');
+      }
+
+      els.result.innerHTML = [
+        '<h3>',
+          '<span class="n">', format_int(matchOrNull.groupN), '</span>',
+          ' followers wrote <q>', html_escape(matchOrNull.text), '</q>',
+          ' in their Twitter bios',
+        '</h3>',
+        renderVennSvg(group.n, group.nClinton, group.nTrump, group.nBoth),
+        tokensHtml
+      ].join('');
+
       els.resultContainer.appendChild(els.result);
     }
   }

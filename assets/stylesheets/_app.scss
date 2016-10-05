@@ -106,6 +106,7 @@ div#app {
       display: block;
       position: relative;
       padding-bottom: 61.8%; // golden ratio
+      padding-bottom: 71.8%; // TK delete me
     }
 
     &>* {
@@ -123,6 +124,36 @@ div#app {
       margin-top: -.5rem;
       line-height: 1rem;
       color: $muted-color;
+    }
+
+    .variants {
+      ul {
+        display: inline;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        display: inline;
+
+        &:not(:first-child)::before {
+          content: ', ';
+        }
+
+        &:last-child::before {
+          content: ' and ';
+        }
+
+        span.n {
+          display: none;
+        }
+      }
+
+      q {
+        &::before, &::after { content: none; }
+        font-style: italic;
+      }
     }
   }
 
