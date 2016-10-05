@@ -1,7 +1,7 @@
 (function() {
   var GOOGLE_ANALYTICS_ID = 'UA-61898491-1';
   var AUTHOR = 'Adam Hooper';
-  var TAGS = 'trump-clinton-twitter-followers';
+  var TAGS = 'we-the-tweeple';
 
   // Google Analytics
   ;(function() {

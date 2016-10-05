@@ -2,7 +2,7 @@
 # For instance, "/foo" will make all URLs start with "/foo".
 #
 # This base_path will be the same on dev and production.
-base_path: '/2016/trump-clinton-twitter-followers'
+base_path: '/2016/we-the-tweeple'
 
 # The base_url describes where this site will be when it's live.
 # Start it off with "http://" unless you're certain Twitter, Facebook and
