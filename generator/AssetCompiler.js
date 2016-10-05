@@ -183,13 +183,26 @@ module.exports = class AssetCompiler {
       const filename = `assets/${this.config.javascript[bundle]}`
       const key = `javascripts/${bundle}`
 
-      try {
-        const js = fs.readFileSync(filename)
-        out[key] = new Asset(key, js, { content_type: 'application/javascript', max_age: 8640000000 }) // far-future expires
-        process.nextTick(build_one)
-      } catch (e) {
-        return callback(e)
-      }
+      const chunks = []
+      const md = mdeps()
+      const pack = browserPack({ raw: true })
+      md.pipe(pack)
+      pack.on('error', callback)
+      pack.on('data', (chunk) => { chunks.push(chunk) })
+      pack.on('end', () => {
+        console.log('END!')
+
+        try {
+          const js = Buffer.concat(chunks)
+          out[key] = new Asset(key, js, { content_type: 'application/javascript', max_age: 8640000000 }) // far-future expires
+          process.nextTick(build_one)
+        } catch (e) {
+          return callback(e)
+        }
+      })
+      md.end({
+        file: `./${filename}`
+      })
     }
 
     build_one()
