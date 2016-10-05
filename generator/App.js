@@ -17,6 +17,7 @@ class App {
 
   build() {
     const asset_config = read_config('assets')
+    asset_config.base_path = this.config.base_path
     const asset_compiler = new AssetCompiler(asset_config)
     asset_compiler.build_all()
 
@@ -77,16 +78,11 @@ class BuildOutput {
         headers: {
           'Content-Type': asset.content_type,
           'Cache-Control': `public, max-age=${asset.max_age / 1000}`,
-          'Expires': new Date(Date.now() + asset.max_age).toGMTString()
+          'ETag': 'this-file-should-never-change'
         }
       }
     } else if (this.pages[key]) {
-      return {
-        body: this.pages[key],
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8'
-        }
-      }
+      return this.pages[key]
     } else {
       return null
     }

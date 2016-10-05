@@ -1,7 +1,6 @@
 'use strict'
 
 const fs = require('fs')
-const yaml = require('js-yaml')
 const csv_parse = require('csv-parse/lib/sync')
 
 class GoogleSheets {
@@ -15,13 +14,20 @@ class GoogleSheets {
   // You must have called download_all_sync() to get data for this method.
   slug_to_array(slug) {
     if (!this.cache.has(slug)) {
-      const input_path = `${this.config.code_path}/${slug}.csv`
-      const csv = fs.readFileSync(input_path)
-      const array = csv_parse(csv, { columns: true })
+      const input_path = `${this.config.code_path}/${slug}.tsv`
+      const tsv = fs.readFileSync(input_path)
+      const array = csv_parse(tsv, { delimiter: '\t', columns: true })
       this.cache.set(slug, array)
     }
 
     return this.cache.get(slug)
+  }
+
+  // Returns an Array of Objects for the given slug, built with the given ctor.
+  //
+  // You must have called download_all_sync() to get data for this method.
+  slug_to_objects(slug, ctor) {
+    return this.slug_to_array(slug).map(hash => new ctor(hash))
   }
 
   // Turns a Google Sheets spreadsheet into a JSON object mapping sheet name to
@@ -31,10 +37,10 @@ class GoogleSheets {
 
     for (const sheet of this.config.sheets) {
       const res = sync_request('GET', sheet.url)
-      const csv = res.getBody()
-      const output_path = `${this.config.code_path}/${sheet.slug}.csv`
-      console.log(`GET ${sheet.url} => ${output_path} (${csv.length}b)`)
-      fs.writeFileSync(output_path, csv, { encoding: 'utf-8' })
+      const tsv = res.getBody()
+      const output_path = `${this.config.code_path}/${sheet.slug}.tsv`
+      console.log(`GET ${sheet.url} => ${output_path} (${tsv.length}b)`)
+      fs.writeFileSync(output_path, tsv, { encoding: 'utf-8' })
     }
   }
 }

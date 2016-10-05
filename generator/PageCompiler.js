@@ -1,8 +1,16 @@
 'use strict'
 
+const crypto = require('crypto')
 const glob = require('glob')
 const marko = require('marko')
+
 const PageContext = require('./PageContext')
+
+function md5sum(string) {
+  const hash = crypto.createHash('md5')
+  hash.update(string)
+  return hash.digest('hex')
+}
 
 module.exports = class PageCompiler {
   constructor(config, base_path, base_url, assets, database, helpers_ctor) {
@@ -25,14 +33,31 @@ module.exports = class PageCompiler {
     return this.cache.get(key)
   }
 
-  render_template(key, context) {
-    const template = this.get_template(key)
+  render_template(template_key, context) {
+    const template = this.get_template(template_key)
     return template.renderSync(context)
   }
 
-  render(key, data) {
-    const context = new PageContext(this, data)
-    return this.render_template(key, context)
+  render(key, object, data) {
+    const template_key = object.template || key
+
+    let body
+
+    if (Buffer.isBuffer(data.model)) {
+      body = data.model
+    } else {
+      const context = new PageContext(this, data)
+      body = this.render_template(template_key, context)
+    }
+
+    return {
+      body: body,
+      headers: {
+        'Content-Type': object['content-type'] || 'text/html; charset=utf-8',
+        'Cache-Control': 'max-age=30',
+        'ETag': md5sum(body)
+      }
+    }
   }
 
   render_all() {
@@ -44,15 +69,23 @@ module.exports = class PageCompiler {
       const path = this.key_to_path(key)
 
       if (object.collection) {
+        if (!this.database.hasOwnProperty(object.collection)) {
+          throw new Error(`${key} requires database property "${object.collection}" which does not exist. Add it.`)
+        }
         for (const model of this.database[object.collection]) {
-          const out_path = path.replace(/:(\w+)/, (_, name) => encodeURIComponent(model[name]))
-          out[out_path] = this.render(key, { model: model })
+          const out_path = path.replace(/:(\w+)/, (_, name) => model[name])
+          out[out_path] = this.render(key, object, { model: model })
         }
       } else if (object.model) {
         const model = this.database[object.model];
-        out[path] = this.render(key, { model: model })
+        if (!model) {
+          throw new Error(`There is no model for "${key}" in app/Database.js. Add one.`)
+        }
+        out[path] = this.render(key, object, { model: model })
+      } else if (object.redirect) {
+        out[path] = { redirect: this.key_to_path(object.redirect) }
       } else {
-        out[path] = this.render(key, {})
+        out[path] = this.render(key, object, {})
       }
     }
   }

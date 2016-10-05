@@ -14,19 +14,20 @@ function md5sum(string) {
 function detect_content_type(path) {
   const m = /\.(\w+)$/.exec(path)
   if (!m) throw new Error(`Expected ${path} to have a file extension. Maybe add one?`)
+  const ext = m[1]
 
   switch (m[1]) {
     case 'css': return 'text/css; charset=utf-8'
     case 'csv': return 'text/csv; charset=utf-8'
-    case 'tsv': return 'text/tab-separated-values; charset=utf-8'
     case 'gif': return 'image/gif'
     case 'jpg': return 'image/jpeg'
     case 'js': return 'application/javascript; charset=utf-8'
     case 'png': return 'image/png'
     case 'svg': return 'image/svg+xml'
     case 'ico': return 'image/x-icon'
+    case 'tsv': return 'text/tab-separated-values; charset=utf-8'
     case 'txt': return 'text/plain; charset=utf-8'
-    default: throw new Error(`We do not understand the file extension ".${m[1]}". Maybe code logic for it?`)
+    default: throw new Error(`We do not understand the file extension ".${ext}". Maybe code logic for it?`)
   }
 }
 
@@ -78,6 +79,10 @@ module.exports = class AssetCompiler {
     return asset.path
   }
 
+  full_asset_path(type, key) {
+    return `${this.config.base_path}/${this.asset_path(type, key)}`
+  }
+
   data(type, key) {
     const asset = this.get_asset(type, key)
     return asset.data
@@ -86,9 +91,9 @@ module.exports = class AssetCompiler {
   build_all() {
     this.assets = {}
 
-    this.build_scss()
     this.build_digest()
     this.build_plain()
+    this.build_scss()
   }
 
   build_plain() {
@@ -131,7 +136,22 @@ module.exports = class AssetCompiler {
       try {
         css = sass.renderSync({
           file: filename,
-          outputStyle: 'compact'
+          outputStyle: 'compact',
+          functions: {
+            'asset-as-url($type, $key)': (type, key) => {
+              const asset = this.get_asset(type.getValue(), key.getValue())
+              switch (asset.content_type) {
+                case 'image/svg+xml':
+                  return new sass.types.String(`url('data:image/svg+xml;base64,${asset.data.toString('base64')}')`)
+                  break
+                default:
+                  throw new Error(`Don't know how to encode a ${asset.content_type} as a CSS URL. Write code here?`)
+              }
+            },
+            'asset-url($type, $key)': (type, key) => {
+              return new sass.types.String(`url(${this.full_asset_path(type.getValue(), key.getValue())})`)
+            }
+          }
         }).css
       } catch (e) {
         // node-sass errors are weird

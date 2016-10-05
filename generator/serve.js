@@ -33,12 +33,15 @@ app.get(/.*/, (req, res) => {
     res.set('Content-Type', 'text/plain; charset=utf-8')
     res.status(500).send(output.error.stack)
   } else {
-    const key = req.url
+    const key = req.url.split('?', 1)[0] // Behave like S3. S3 ignores query params.
     const data = output.get(key)
 
     if (data === null) {
       res.set('Content-Type', 'text/html; charset=utf-8')
       res.status(404).send(render_404(output))
+    } else if (data.hasOwnProperty('redirect')) {
+      res.set('Location', data.redirect)
+      res.status(302).send()
     } else {
       res.set(data.headers)
       res.status(200).send(data.body)

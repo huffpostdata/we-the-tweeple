@@ -24,15 +24,25 @@ class AWS {
     return keys.reduce((p, key) => p.then(() => this.upload_asset(key, assets[key])), Promise.accept())
   }
 
-  // Returns a Promise
-  upload_page(key, page) {
+  upload_redirect(key, path) {
     const max_age = 30000
     const params = this.build_params({
       Key: key.substring(1),
-      Body: page,
-      CacheControl: 'public, max-age=30',
-      Expires: new Date(Date.now() + 30000),
-      ContentType: 'text/html; charset=utf-8'
+      WebsiteRedirectLocation: path
+    }, max_age)
+    console.log(`PUT s3://${params.Bucket}/${params.Key} => ${path} ${max_age}`)
+    return S3.putObject(params).promise()
+  }
+
+  // Returns a Promise
+  upload_page(key, page) {
+    if (page.hasOwnProperty('redirect')) return this.upload_redirect(key, page.redirect)
+
+    const max_age = 30000
+    const params = this.build_params({
+      Key: key.substring(1),
+      Body: page.body,
+      ContentType: page.headers['Content-Type']
     }, max_age)
     console.log(`PUT s3://${params.Bucket}/${params.Key} ${params.ContentType} ${max_age}`)
     return S3.putObject(params).promise()
@@ -51,8 +61,7 @@ class AWS {
     return Object.assign({
       Bucket: process.env.S3_BUCKET || this.config.upload_to_s3_bucket,
       ACL: 'public-read',
-      CacheControl: `public, max-age=${max_age / 1000}`,
-      Expires: new Date(Date.now() + max_age)
+      CacheControl: `public, max-age=${Math.round(max_age / 1000)}`
     }, params)
   }
 }

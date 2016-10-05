@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict'
 
 const chokidar = require('chokidar')
@@ -14,10 +16,12 @@ function queue_rebuild() {
   }
 }
 
-chokidar.watch('app assets config generator views'.split(' '), {
+chokidar.watch('app assets config data generator views'.split(' '), {
   ignored: /([\/\\]\.|.*.marko.js$)/
 })
   .on('change', queue_rebuild)
+  .on('add', queue_rebuild)
+  .on('unlink', queue_rebuild)
 
 function rebuild() {
   if (child) child.kill() // move along; NodeJS will reap the child soon

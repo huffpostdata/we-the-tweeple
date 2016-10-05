@@ -2,87 +2,195 @@
 
 const fs = require('fs')
 const yaml = require('js-yaml')
+const PageMetadata = require('./PageMetadata')
+const escape_html = require('./escape_html')
 
-const Escapes = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&apos;'
-}
-const EscapeRegex = new RegExp(`([${Object.keys(Escapes).join('')}])`, 'g')
+const MetadataRegex = /^([-_\.a-zA-Z0-9]+):(.*)$/
+const AuthorRegex = /^author:/i
+const EndnoteRegex = /^endnote:/i
 
-function escape_html(html) {
-  return html.replace(EscapeRegex, (c) => Escapes[c])
-}
-
-// Downloads Google Docs documents and writes them as abstract syntax trees to
-// the repository.
-class GoogleDocs {
-  constructor(config) {
+/**
+ * A document, loaded from config.code_path, that we can render.
+ *
+ * There are two phases to rendering:
+ *
+ * 1. During construction, read the AST in `code_path/slug.json` and
+ *    "pre-render" it. Pre-rendering parses out the metadata and reduces the AST
+ *    to a sequence of HTML strings (all non-underlined stuff in the AST) and
+ *    HTML-producing functions (all underlined method calls in the AST).
+ * 2. During render(), we use the passed `page_context` to call the
+ *    HTML-producing functions, and then we join all the HTML strings together.
+ *    This is very fast, which is handy if we're rendering the same Google Doc
+ *    hundreds or thousands of times.
+ */
+class GoogleDoc {
+  constructor(config, slug) {
     this.config = config
-    this.cache = new Map()
+    this.slug = slug
+    this._load()
   }
 
-  // Turns a Google Doc into HTML
-  render(slug, page_context) {
-    const ast = this.slug_to_ast(slug)
+  _load() {
+    const input_path = `${this.config.code_path}/${this.slug}.json`
+    const json = fs.readFileSync(input_path)
+    const ast = JSON.parse(json)
 
-    return ast
-      .map((block) => {
-        switch (block.type) {
-          case 'p':
-            if (block.texts.length === 1 && block.texts[0].underline) {
-              // the paragraph is nothing but code. This is block-level code.
-              return this.render_code(block.texts[0].text, page_context)
-            } else {
-              // fall through
-            }
-          case 'h1':
-          case 'h2':
-          case 'h3':
-          case 'h4':
-            return `<${block.type}>${this.render_texts(block.texts, page_context)}</${block.type}>`
-          case 'hr':
-          case 'page-break':
-            return '<hr>'
-          case 'ol':
-          case 'ul':
-            return `<${block.type}>${this.render_lis(block.blocks, page_context)}</${block.type}>`
-          default:
-            throw new Error(`Unhandled block type ${block.type}. Maybe add support for this type?`)
-        }
-      })
-      .join('')
+    var result = this._prerender_and_trap_metadata(ast)
+    this.metadata = new PageMetadata(this.slug, result.metadata)
+    this.output_pieces = result.output_pieces
+    this.endnotes_html = result.endnotes_html
   }
 
-  render_lis(lis, page_context) {
-    return lis
-      .map((li) => `<li>${this.render_texts(li.texts)}</li>`)
-      .join('')
+  render(page_context) {
+    return this.output_pieces.map((piece) => (
+      (typeof piece === 'string') ? piece : piece(page_context)
+    )).join('')
   }
 
-  render_texts(texts, page_context) {
-    return texts
-      .map((text) => {
-        if (text.underline) {
-          return this.render_code(text.text, page_context)
+  _prerender_and_trap_metadata(ast) {
+    const output_pieces = []
+    const this_output_piece_pieces = []
+    const metadata = {}
+    let endnotes_html = ''
+    const _this = this
+
+    function add_html(html) {
+      this_output_piece_pieces.push(html)
+    }
+
+    function flush_this_output_piece() {
+      if (this_output_piece_pieces.length !== 0) {
+        output_pieces.push(this_output_piece_pieces.join(''))
+        this_output_piece_pieces.splice(0)
+      }
+    }
+
+    function add_code(code) {
+      flush_this_output_piece()
+      output_pieces.push((page_context) => _this._render_code(code, page_context))
+    }
+
+    function add_code_or_metadata(code_or_metadata) {
+      const m = MetadataRegex.exec(code_or_metadata)
+      if (m !== null) {
+        var key = m[1].toLowerCase().replace(/-/g, '_')
+        var value = m[2].trim()
+        metadata[key] = value
+      } else {
+        add_code(code_or_metadata)
+      }
+    }
+
+    function prerender_text(text) {
+      if (text.underline) {
+        return add_code(text.text)
+      }
+
+      const html = escape_html(text.text)
+
+      if (text.bold) {
+        add_html(`<strong>${html}</strong>`)
+      } else if (text.italic) {
+        add_html(`<em>${html}</em>`)
+      } else if (text.href) {
+        const href = escape_html(text.href)
+        add_html(`<a href="${href}">${html}</a>`)
+      } else {
+        add_html(html)
+      }
+    }
+
+    /**
+     * Turns "Author: by [Somebody]" into "by <a href="somebody">Somebody</a>".
+     *
+     * This is like prerender_text(), but it only handles hyperlinks.
+     */
+    function parse_html_metadata(texts, a_attributes_string) {
+      const html_parts = []
+
+      texts.forEach((text, i) => {
+        const html = escape_html(text.text)
+        if (i === 0) {
+          html_parts.push(html.slice(html.indexOf(':') + 1))
         } else {
-          const html = escape_html(text.text)
-
-          if (text.bold) {
-            return `<strong>${html}</strong>`
-          } else if (text.italic) {
-            return `<em>${html}</em>`
-          } else if (text.href) {
+          if (text.href) {
             const href = escape_html(text.href)
-            return `<a href="${href}">${html}</a>`
+            html_parts.push(`<a ${a_attributes_string || ''} href="${href}">${html}</a>`)
           } else {
-            return html
+            html_parts.push(html)
           }
         }
       })
-      .join('')
+
+      return html_parts.join('').trim()
+    }
+
+    function add_endnote(texts) {
+      endnotes_html += `<p>${parse_html_metadata(texts)}</p>`
+    }
+
+    function add_author_metadata(texts) {
+      const html = parse_html_metadata(texts, 'rel="author"')
+
+      if (metadata.author_html) {
+        metadata.author_html += `<br>${html}`
+      } else {
+        metadata.author_html = html
+      }
+    }
+
+    function prerender_li(li) {
+      add_html('<li>')
+      li.texts.forEach(prerender_text)
+      add_html('</li>')
+    }
+
+    ast.forEach((block) => {
+      switch (block.type) {
+      case 'p':
+        if (block.texts[0].underline && AuthorRegex.test(block.texts[0].text)) {
+          add_author_metadata(block.texts)
+          break
+        } else if (block.texts[0].underline && EndnoteRegex.test(block.texts[0].text)) {
+          add_endnote(block.texts)
+          break
+        } else if (block.texts.length === 1 && block.texts[0].underline) {
+          // the paragraph is nothing but code. This is block-level code.
+          add_code_or_metadata(block.texts[0].text)
+          break
+        } else {
+          // no `break`: fall through to h1/h2/h3/h4 logic
+        }
+      case 'h1':
+      case 'h2':
+      case 'h3':
+      case 'h4':
+        add_html(`<${block.type}>`)
+        block.texts.forEach(prerender_text)
+        add_html(`</${block.type}>`)
+        break
+      case 'hr':
+      case 'page-break':
+        add_html('<hr>')
+        break
+      case 'ol':
+      case 'ul':
+        add_html(`<${block.type}>`)
+        block.blocks.forEach(prerender_li)
+        add_html(`</${block.type}>`)
+        break
+      default:
+        throw new Error(`Unhandled block type ${block.type}. Maybe add support for this type?`)
+      }
+    })
+
+    flush_this_output_piece()
+
+    return {
+      metadata: metadata,
+      output_pieces: output_pieces,
+      endnotes_html: endnotes_html
+    }
   }
 
   // HuffPost code syntax: it's just like JavaScript, but we allow backticks
@@ -91,42 +199,21 @@ class GoogleDocs {
   // around JSON.
   //
   // Want a backtick in a string? Too bad -- build a new syntax.
-  render_code(marked_up_code, page_context) {
-    const code = marked_up_code
-      .replace(/"/g, '\\"')
-      .replace(/`/g, '"')
+  _render_code(marked_up_code, page_context) {
+    const code = `page_context.helpers.${marked_up_code}`
+    return eval(code)
+  }
+}
 
-    // render('foo', 'bar') --> ('render', [ 'foo', 'bar' ])
-    const m = /^([^(]+)\((.*)\)/.exec(code)
-    if (!m) throw new Error(`Invalid syntax ${code}. Maybe fix the Google Doc and 'npm run update-google-docs'?`)
-    const method = m[1]
-    const args_json = `[${m[2]}]`
-
-    let args
-    try {
-      // We parse as YAML, not JSON. That parses something like "{ foo: 'bar' }"
-      // ... which looks more like JavaScript.
-      args = yaml.load(args_json)
-    } catch (e) {
-      throw new Error(`Could not parse ${args_json} as YAML: ${e}. Maybe fix the Google Doc and 'npm run update-google-docs'?`)
-    }
-
-    if (!page_context.helpers[method]) {
-      throw new Error(`Invalid method ${method} in the Google Doc. Maybe code it? Or maybe fix the Google Doc and 'npm run update-google-docs'?`)
-    }
-
-    return page_context.helpers[method].apply(page_context.helpers, args)
+// Downloads Google Docs documents and writes them as abstract syntax trees to
+// the repository.
+class GoogleDocs {
+  constructor(config) {
+    this.config = config
   }
 
-  slug_to_ast(slug) {
-    if (!this.cache.has(slug)) {
-      const input_path = `${this.config.code_path}/${slug}.json`
-      const json = fs.readFileSync(input_path)
-      const ast = JSON.parse(json)
-      this.cache.set(slug, ast)
-    }
-
-    return this.cache.get(slug)
+  load(slug) {
+    return new GoogleDoc(this.config, slug)
   }
 
   download_all_sync() {
@@ -140,13 +227,14 @@ class GoogleDocs {
       const html = res.getBody()
       const ast = gdm.parse_google_docs_html(html)
 
-      // Our docs have a page of instructions at the top. Skip until the first
-      // page break.
-      const useful_ast = ast.slice(ast.findIndex((b) => b.type == 'page-break') + 1)
+      // Our docs have a page of instructions at the top and comments at the bottom.
+      // Skip until the first page break.
+      const page_break_index = ast.findIndex((b) => b.type == 'page-break')
+      const useful_ast = ast.slice(0, page_break_index > 0 ? page_break_index : undefined)
 
       const output_path = `${this.config.code_path}/${doc.slug}.json`
       console.log(`GET ${doc.url} => ${output_path} (${useful_ast.length} paragraphs)`)
-      fs.writeFileSync(output_path, JSON.stringify(useful_ast))
+      fs.writeFileSync(output_path, JSON.stringify(useful_ast, undefined, 2))
     }
   }
 }
