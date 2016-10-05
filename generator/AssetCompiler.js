@@ -4,6 +4,8 @@ const crypto = require('crypto')
 const glob = require('glob')
 const fs = require('fs')
 const sass = require('node-sass')
+const mdeps = require('module-deps')
+const browserPack = require('browser-pack')
 
 function md5sum(string) {
   const hash = crypto.createHash('md5')
@@ -69,7 +71,7 @@ module.exports = class AssetCompiler {
     if (!this.assets[type]) throw new Error(`No assets of type "${type}". Check assets.yml?`)
 
     const asset = this.assets[type][key]
-    if (!asset) throw new Error(`Unknown asset "${type}/${key}". Maybe add it to assets.yml?`)
+    if (!asset) throw new Error(`Unknown asset "${type}/${key}". Maybe add it to assets.yml? Valid ${type} assets are: ${Object.keys(this.assets[type]).join(' ')}`)
 
     return asset
   }
@@ -88,12 +90,19 @@ module.exports = class AssetCompiler {
     return asset.data
   }
 
-  build_all() {
+  build_all(callback) {
     this.assets = {}
 
-    this.build_digest()
-    this.build_plain()
-    this.build_scss()
+    try {
+      // synchronous, whee
+      this.build_digest()
+      this.build_plain()
+      this.build_scss()
+    } catch (e) {
+      return callback(e)
+    }
+
+    this.build_javascript(callback)
   }
 
   build_plain() {
@@ -161,5 +170,28 @@ module.exports = class AssetCompiler {
 
       out[key] = new Asset(key, css, { content_type: 'text/css; charset=utf-8', max_age: 8640000000 }) // far-future expires
     }
+  }
+
+  build_javascript(callback) {
+    const out = this.assets.javascript = {}
+    const bundles = Object.keys(this.config.javascript)
+
+    const build_one = () => {
+      if (bundles.length === 0) return callback(null, out);
+
+      const bundle = bundles.shift()
+      const filename = `assets/${this.config.javascript[bundle]}`
+      const key = `javascripts/${bundle}`
+
+      try {
+        const js = fs.readFileSync(filename)
+        out[key] = new Asset(key, js, { content_type: 'application/javascript', max_age: 8640000000 }) // far-future expires
+        process.nextTick(build_one)
+      } catch (e) {
+        return callback(e)
+      }
+    }
+
+    build_one()
   }
 }

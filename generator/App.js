@@ -15,12 +15,7 @@ class App {
     this.config = config
   }
 
-  build() {
-    const asset_config = read_config('assets')
-    asset_config.base_path = this.config.base_path
-    const asset_compiler = new AssetCompiler(asset_config)
-    asset_compiler.build_all()
-
+  _build_with_asset_compiler(asset_compiler) {
     const database = this.load_database()
 
     let helpers_ctor
@@ -54,6 +49,21 @@ class App {
     }
 
     return output
+  }
+
+  build(callback) {
+    const asset_config = read_config('assets')
+    asset_config.base_path = this.config.base_path
+    const asset_compiler = new AssetCompiler(asset_config)
+
+    asset_compiler.build_all((err) => {
+      if (err !== null) return callback(err)
+      try {
+        return callback(null, this._build_with_asset_compiler(asset_compiler))
+      } catch (e) {
+        return callback(e)
+      }
+    })
   }
 
   load_database() {
@@ -90,19 +100,24 @@ class BuildOutput {
 }
 
 // Returns a BuildOutput
-App.build_output_from_scratch = () => {
+App.build_output_from_scratch = function(callback) {
   const t1 = new Date()
   const app_config = read_config('app')
   const app = new App(app_config)
 
-  try {
-    const output = app.build()
-    const t2 = new Date()
-    console.log(`Rendered in ${t2-t1}ms`)
-    return new BuildOutput(output.assets, output.pages, null)
+  try { // build() still has synchronous code
+    app.build((error, output) => {
+      const t2 = new Date()
+      console.log(`Rendered in ${t2-t1}ms`)
+      if (error) {
+        return callback(error)
+      } else {
+        return callback(null, new BuildOutput(output.assets, output.pages, null))
+      }
+    })
   } catch (err) {
     console.warn(err.stack)
-    return new BuildOutput(null, null, err)
+    return callback(err)
   }
 }
 

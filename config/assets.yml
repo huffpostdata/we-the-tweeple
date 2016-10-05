@@ -1,9 +1,12 @@
+javascript:
+  app.js: javascripts/app.js
+
 scss:
   index.css: stylesheets/index.scss
 
 digest:
   -
-    pattern: javascripts/*.js
+    pattern: javascripts/{stats,social}.js
     max_age: 8640000000
   -
     pattern: images/**/*.{png,jpg,gif,svg,ico}
