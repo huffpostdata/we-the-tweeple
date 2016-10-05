@@ -345,8 +345,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function cancelAutocomplete() {
     els.autocomplete.classList.add('input-empty');
-    autocompleteMatches = [];
-    autocompleteIndex = -1;
   }
 
   function showFirstAutocompleteIfEqual() {
@@ -409,6 +407,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     switch (c) {
       case 13: // Enter
+      case 27: // Escape
         ev.preventDefault();
         if (autocompleteIndex === -1) {
           showFirstAutocompleteIfEqual();
@@ -417,10 +416,6 @@ document.addEventListener('DOMContentLoaded', function() {
           els.input.value = match.text;
           showMatch(match);
         }
-        break;
-      case 27: // Escape
-        ev.preventDefault();
-        cancelAutocomplete();
         break;
       case 38: // Down
       case 40: // Up
