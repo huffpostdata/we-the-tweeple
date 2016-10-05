@@ -1,17 +1,47 @@
 div#app {
+  @include page-width();
+
   margin-top: 5rem;
   margin-bottom: 5rem;
   display: -webkit-flex;
   display: flex;
+  position: relative;
+
+  .search {
+    width: 100%;
+  }
 
   input {
+    display: block;
     font-size: 2rem;
     padding: 1rem;
+    margin: 0;
+    border: 2px solid $muted-color;
     box-sizing: border-box;
+    height: 4rem;
     width: 100%;
   }
 
   .autocomplete {
+    position: absolute;
+    top: 4rem;
+    margin-top: -1px;
+    width: 100%;
+    border: 1px solid $very-muted-color;
+    box-sizing: border-box;
+    z-index: 1;
+    background: $background;
+
+    &.no-results {
+      color: $muted-color;
+      cursor: default;
+      padding: .5rem 1rem;
+    }
+
+    &.input-empty {
+      display: none;
+    }
+
     ul {
       margin: 0;
       padding: 0;
@@ -20,6 +50,10 @@ div#app {
 
     li {
       padding: 0;
+
+      &.hover {
+        background: $highlight-background;
+      }
     }
 
     a {
@@ -31,10 +65,6 @@ div#app {
       padding: .5rem 1rem;
       text-decoration: none;
       color: inherit;
-
-      &:hover {
-        background: $highlight-background;
-      }
     }
 
     span.token {
@@ -64,10 +94,6 @@ div#app {
       width: 4rem;
       -webkit-flex: 0 0 auto;
       flex: 0 0 auto;
-
-      circle.clinton { fill: $color-democrat; }
-      circle.trump { fill: $color-republican; }
-      path.both { fill: $color-both; }
     }
   }
 
@@ -98,6 +124,12 @@ div#app {
       line-height: 1rem;
       color: $muted-color;
     }
+  }
+
+  svg {
+    circle.clinton { fill: $color-democrat; }
+    circle.trump { fill: $color-republican; }
+    path.both { fill: $color-both; }
   }
 }
 

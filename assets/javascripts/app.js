@@ -275,27 +275,33 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   els.result.className = 'hit';
 
-  function doSearch() {
-    if (groups.length === 0) return; // In case not loaded yet
+  var autocompleteMatches = [];
+  var autocompleteIndex = -1;
+
+  function autocomplete(prefix) {
+    if (groups.length === 0) return; // Not loaded yet. Only happens during init.
+
+    showMatch(null);
 
     var prefix = els.input.value;
-    var matches = (prefix === '') ? [] : search(prefix, NMatchesToDisplay);
+    autocompleteMatches = (prefix === '') ? [] : search(prefix, NMatchesToDisplay);
+    autocompleteIndex = -1; // so "down" goes to 0
 
     els.autocomplete.className = [
       'autocomplete',
-      (prefix === '' ? 'empty' : ''),
-      (matches.length === 0 ? 'no-results' : 'has-results')
+      (prefix === '' ? 'input-empty' : ''),
+      (autocompleteMatches.length === 0 ? 'no-results' : 'has-results')
     ].join(' ');
 
-    if (prefix === '') {
+    if (prefix === '') { // empty search
       els.autocomplete.innerHTML = '';
-    } else if (matches.length === 0) {
+    } else if (autocompleteMatches.length === 0) {
       els.autocomplete.innerHTML = 'No matches found';
     } else {
-      var maxN = matches.reduce(function(s, m) { return Math.max(s, m.group.n); }, 0);
+      var maxN = autocompleteMatches.reduce(function(s, m) { return Math.max(s, m.group.n); }, 0);
 
       els.autocomplete.innerHTML = '<ul>'
-        + matches.map(function(m) {
+        + autocompleteMatches.map(function(m) {
           return [
             '<li><a href="#!', encodeURIComponent(m.text), '">',
               '<span class="token"><mark>', html_escape(m.text.slice(0, prefix.length)), '</mark>', m.text.slice(prefix.length), '</span>',
@@ -308,9 +314,112 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  els.input.addEventListener('input', doSearch);
+  function setWrappedAutocompleteIndex(index) {
+    if (autocompleteMatches.length === 0) return;
+    if (index >= autocompleteMatches.length) index = 0;
+    if (index < 0) index = autocompleteMatches.length - 1;
+
+    autocompleteIndex = index;
+
+    var newHover = els.autocomplete.querySelectorAll('li')[autocompleteIndex];
+    var oldHover = els.autocomplete.querySelector('li.hover');
+    if (newHover !== oldHover && oldHover !== null) oldHover.classList.remove('hover');
+    newHover.classList.add('hover');
+  }
+
+  function findIndexOfAutocompleteNode(node) {
+    while (node.tagName !== 'LI' && node !== els.autocomplete) {
+      node = node.parentNode;
+    }
+    if (node === els.autocomplete) return;
+
+    var nodeAndSiblings = node.parentNode.childNodes;
+    for (var i = 0; i < nodeAndSiblings.length; i++) {
+      if (nodeAndSiblings[i] === node) {
+        return i;
+      }
+    }
+
+    return 0;
+  }
+
+  function cancelAutocomplete() {
+    els.autocomplete.classList.add('input-empty');
+    autocompleteMatches = [];
+    autocompleteIndex = -1;
+  }
+
+  function showFirstAutocompleteIfEqual() {
+    if (autocompleteMatches.length > 0 && autocompleteMatches[0].foldedText === els.input.value.toLowerCase()) {
+      showMatch(autocompleteMatches[0]);
+    } else {
+      showMatch(null);
+    }
+  }
+
+  function showMatch(matchOrNull) {
+    cancelAutocomplete();
+
+    if (!matchOrNull) {
+      if (els.result.parentNode !== null) els.resultContainer.removeChild(els.result);
+    } else {
+      var group = matchOrNull.group;
+      els.result.innerHTML = renderVennSvg(group.n, group.nClinton, group.nTrump, group.nBoth);
+      els.resultContainer.appendChild(els.result);
+    }
+  }
+
+  els.input.addEventListener('input', autocomplete);
+  els.input.addEventListener('focus', autocomplete); // typing something new...
+  els.input.addEventListener('blur', showFirstAutocompleteIfEqual);
+
+  // Use keyboard to navigate autocomplete entry
+  els.input.addEventListener('keydown', function(ev) {
+    var c = ev.keyCode;
+
+    switch (c) {
+      case 13: // Enter
+        ev.preventDefault();
+        if (autocompleteIndex === -1) {
+          showFirstAutocompleteIfEqual();
+        } else {
+          var match = autocompleteMatches[autocompleteIndex];
+          els.input.value = match.text;
+          showMatch(match);
+        }
+        break;
+      case 27: // Escape
+        ev.preventDefault();
+        cancelAutocomplete();
+        break;
+      case 38: // Down
+      case 40: // Up
+        setWrappedAutocompleteIndex(autocompleteIndex + (c === 38 ? -1 : 1));
+        ev.preventDefault();
+        break;
+    }
+  });
+
+  // On hover, "hover" over autocomplete entry
+  els.autocomplete.addEventListener('mousemove', function(ev) {
+    setWrappedAutocompleteIndex(findIndexOfAutocompleteNode(ev.target) || 0);
+  });
+
+  // We can't handle "click" or "touch", because they'd blur the input, which
+  // has its own event handler. Instead, we handle mousedown and touchstart.
+  function selectAutocompleteFromEvent(ev) {
+    ev.preventDefault();
+    var index = findIndexOfAutocompleteNode(ev.target) || 0;
+    var match = autocompleteMatches[autocompleteIndex];
+    if (!match) return; // clicked on border or "No matches found"
+    els.input.value = match.text;
+    showMatch(match);
+  }
+  els.autocomplete.addEventListener('mousedown', selectAutocompleteFromEvent);
+  els.autocomplete.addEventListener('touchstart', selectAutocompleteFromEvent);
+
   loadTsv(app_el.getAttribute('data-tsv-path'), function() {
     els.loading.parentNode.removeChild(els.loading);
-    doSearch(); // in case the user typed something in
+    autocomplete(); // in case the user typed something in
   });
 });
