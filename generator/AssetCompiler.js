@@ -190,8 +190,6 @@ module.exports = class AssetCompiler {
       pack.on('error', callback)
       pack.on('data', (chunk) => { chunks.push(chunk) })
       pack.on('end', () => {
-        console.log('END!')
-
         try {
           const js = Buffer.concat(chunks)
           out[key] = new Asset(key, js, { content_type: 'application/javascript', max_age: 8640000000 }) // far-future expires
