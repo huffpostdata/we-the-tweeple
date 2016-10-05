@@ -15,12 +15,12 @@ html lang="en"
 
       #app data-tsv-path="${data.path_to_asset('digest', 'data/clinton-trump-token-counts-truncated.tsv')}"
         .search
-          input autofocus name="q" autocomplete="off" type="text" placeholder="Type a word…"
+          input autofocus name="q" id="q" autocomplete="off" type="text" placeholder="Type a word…"
           .autocomplete.input-empty
           .result
             <!-- only the last element will be visible -->
             .loading - Loading…
-            .empty - Please search for a word
+            label.empty for="q" - Please search for a word
             <!-- .hit - <svg>..... -->
 
       h2 - What's this?

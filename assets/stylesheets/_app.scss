@@ -35,6 +35,8 @@ div#app {
     &.no-results {
       color: $muted-color;
       cursor: default;
+      height: 2rem;
+      line-height: 1rem;
       padding: .5rem 1rem;
     }
 
