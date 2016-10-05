@@ -5,9 +5,10 @@
 const App = require('./App')
 const AWS = require('./AWS')
 
-const output = App.build_output_from_scratch()
+App.build_output_from_scratch((error, output) => {
+  if (error) throw error
+  if (output.error) throw output.error
 
-if (output.error) throw output.error
-
-AWS.upload_assets_and_pages(output.assets, output.pages)
-  .then(null, console.warn) // or throw the error asynchronously
+  AWS.upload_assets_and_pages(output.assets, output.pages)
+    .then(null, console.warn) // or throw the error asynchronously
+})
