@@ -8,7 +8,9 @@ html lang="en"
     link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/index.css')}"
     $!{data.render_template('_social-meta', data)}
   body
-    $!{data.helpers.nav()}
+    $!{data.helpers.partial('_nav')}
+
+    $!{data.helpers.partial('_header')}
 
     article
       p - Search here, and see what comes up!
@@ -33,7 +35,7 @@ html lang="en"
         li - For each word, we counted how many Twitter bios contained that word.
         li - We omitted all words that fewer than 100 Trump and/or Clinton followers used in their bios.
 
-    $!{data.helpers.footer()}
+    $!{data.helpers.partial('_footer')}
     script src="${data.path_to_asset('digest', 'javascripts/app.js')}"
     script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
     script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"

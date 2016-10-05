@@ -16,10 +16,6 @@ class Helpers {
     return this.context.render_template(name, this.context)
   }
 
-  nav() {
-    return this.partial('_nav')
-  }
-
   float_right_image(name, caption, options) {
     const context = extend_context(this.context, { name: name, caption: caption, options: options })
     return this.context.render_template('_float-right-image', context)
@@ -38,11 +34,6 @@ class Helpers {
   diptych_image(left_name, right_name, caption, options) {
     const context = extend_context(this.context, { left_name: left_name, right_name: right_name, caption: caption, options: options })
     return this.context.render_template('_diptych-image', context)
-  }
-
-  footer() {
-    const context = extend_context(this.context, { meta: this.context.model.meta })
-    return this.context.render_template('_footer', context)
   }
 
   // Changes 'Written by [Adam Hooper]' to 'Written by <a href="..."></a>'

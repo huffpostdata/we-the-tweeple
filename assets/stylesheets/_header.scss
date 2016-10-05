@@ -1,109 +1,31 @@
-// Makes the header a full-width image, with centered children maxxed out at
-// the page width.
-//
-// Also sets fonts and positions a full-width image.
-article>header:not(.specificity-hack) {
-  max-width: 100%;
-  margin: 0;
-  text-align: center;
-  // Give the header the aspect ratio of the image, by setting everything else
-  // to position:absolute
-  position: relative;
-  margin-bottom: 5rem; // leave room for caption
+header {
+  .desktop {
+    display: none;
+    @media (min-width: $min-desktop-width) { display: block; }
 
-  img {
-    display: block;
-    width: 100%;
-    height: auto;
-    //opacity: .5;
-  }
-
-  .header-inner {
-    display: block;
-    @media (min-width: $min-desktop-width + 500px) {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .header-inner {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    flex-direction: column;
     &::before {
+      content: '';
       display: block;
-      content: ' ';
-      -webkit-flex: 2 0 auto;
-      flex: 2 0 auto;
+      height: 0;
+      padding-bottom: (100% * 1032 / 2048);
+      background-color: #caeaff;
+      background-image: asset-url('digest', 'images/header-desktop.jpg');
+      background-size: 100%;
     }
   }
 
-  .header-inner>* {
-    margin: 2rem auto 0rem auto;
-    max-width: $page-width + 200px;
-  }
-
-  h1 {
-    font-family: $header-font-family;
-    text-transform: uppercase;
-    font-size: 5.2rem;
-    line-height: 5.4rem;
-    padding-top: 3rem;
-
-    @media (max-width: $page-width) {
-        font-size: 4.2rem;
-        line-height: 4.4rem;
-    }
-
-    @media (max-width: 400px) {
-        font-size: 3.5rem;
-        line-height: 3.7rem;
-    }
-    -webkit-text-stroke: 0px #fff;
-    background-size: 1000% 100%;
-  }
-
-
-  h2 {
-    font-style: italic;
-    font-size: 1.8rem;
-    line-height: 2.4rem;
-    padding: 2rem 1rem;
-    -webkit-flex: 1 0 auto;
-    flex: 1 0 auto;
-    font-family: $nav-font-family;
-    font-weight: 400;
-    .dek-break:after {
-      @media (max-width: 699.999px) {
-        content: "\00a0";
-      }
-      @media (min-width: 700px) {
-        content:"\000A";
-        white-space: pre;
-      }
-    }
-  }
-
-  img {
+  .mobile {
     display: block;
-    max-width: 100%;
-  }
+    @media (min-width: $min-desktop-width) { display: none; }
 
-  p.caption-desktop {
-    @media (max-width: 1139px){
-        display: none;
+    &::before {
+      content: '';
+      display: block;
+      height: 0;
+      padding-bottom: (100% * 534 / 750);
+      background-color: #caeaff;
+      background-image: asset-url('digest', 'images/header-mobile.jpg');
+      background-size: 100%;
     }
-    text-align: right;
-    float: right;
-    margin-right: 3rem;
-    text-transform: uppercase;
-    font-size: .6rem;
-    font-family: $nav-font-family;
-    color: $muted-color;
-    display: block;
   }
 }
