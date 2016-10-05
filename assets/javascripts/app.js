@@ -22,38 +22,6 @@ function Token(group, n, text) {
 }
 
 /**
- * Sets `groups` and `tokens`
- */
-function setTsv(text) {
-  var groupRe = /(\d+)\t(\d+)\t(\d+)\t(\d+)\n((?:\d+\t[^\t\n]+\n)+)/g;
-  var id = 0;
-  while (true) {
-    var m = groupRe.exec(text);
-    if (m === null) break;
-
-    id += 1;
-    var group = new Group(id, +m[1], +m[2], +m[3], +m[4]);
-    groups.push(group);
-
-    var tokensString = m[5];
-
-    var tokenRe = /(\d+)\t([^\t\n]+)\n/g;
-    while (true) {
-      var m2 = tokenRe.exec(tokensString);
-      if (m2 === null) break;
-
-      var token = new Token(group, +m2[1], m2[2]);
-      group.tokens.push(token);
-      tokens.push(token);
-    }
-  }
-
-  tokens.sort(function(a, b) {
-    return a.foldedText < b.foldedText ? -1 : 1; // Assume a.text != b.text, ever
-  });
-}
-
-/**
  * Returns the "best" `n` tokens that match the prefix.
  */
 function search(prefix, n) {
@@ -111,7 +79,39 @@ function search(prefix, n) {
   return uniqueMatches;
 }
 
-function load_tsv(url, callback) {
+/**
+ * Sets `groups` and `tokens`, then calls `callback(err)`.
+ */
+function loadTsv(url, callback) {
+  function setTsv(text) {
+    var groupRe = /(\d+)\t(\d+)\t(\d+)\t(\d+)\n((?:\d+\t[^\t\n]+\n)+)/g;
+    var id = 0;
+    while (true) {
+      var m = groupRe.exec(text);
+      if (m === null) break;
+
+      id += 1;
+      var group = new Group(id, +m[1], +m[2], +m[3], +m[4]);
+      groups.push(group);
+
+      var tokensString = m[5];
+
+      var tokenRe = /(\d+)\t([^\t\n]+)\n/g;
+      while (true) {
+        var m2 = tokenRe.exec(tokensString);
+        if (m2 === null) break;
+
+        var token = new Token(group, +m2[1], m2[2]);
+        group.tokens.push(token);
+        tokens.push(token);
+      }
+    }
+
+    tokens.sort(function(a, b) {
+      return a.foldedText < b.foldedText ? -1 : 1; // Assume a.text != b.text, ever
+    });
+  }
+
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
   xhr.onreadystatechange = function() {
@@ -261,49 +261,56 @@ function renderVennSvg(nPopulation, nClinton, nTrump, nBoth) {
   ].join('');
 }
 
-function format_group_as_diagram(group, max_value) {
-  return renderVennSvg(max_value, group.nClinton, group.nTrump, group.nBoth);
-}
-
 document.addEventListener('DOMContentLoaded', function() {
+  var NMatchesToDisplay = 15;
   var app_el = document.querySelector('#app');
-  app_el.innerHTML = 'Loading...';
 
-  load_tsv(app_el.getAttribute('data-tsv-path'), function() {
-    app_el.innerHTML = '<div class="search"><input name="q" autocomplete="off" type="text" placeholder="Type a word…"><div class="autocomplete input-empty"></div></div>';
-    var input_el = app_el.querySelector('input[name=q]');
-    var autocomplete_el = app_el.querySelector('div.autocomplete');
+  var els = {
+    input: app_el.querySelector('[name=q]'),
+    autocomplete: app_el.querySelector('.autocomplete'),
+    resultContainer: app_el.querySelector('.result'),
+    emptyResult: app_el.querySelector('.result .empty'),
+    loading: app_el.querySelector('.loading'),
+    result: document.createElement('div')
+  };
+  els.result.className = 'hit';
 
-    input_el.addEventListener('input', function() {
-      var prefix = input_el.value;
-      var NMatchesToDisplay = 15;
-      var matches = (prefix === '') ? [] : search(prefix, NMatchesToDisplay);
+  function doSearch() {
+    if (groups.length === 0) return; // In case not loaded yet
 
-      autocomplete_el.className = [
-        'autocomplete',
-        (prefix === '' ? 'empty' : ''),
-        (matches.length === 0 ? 'no-results' : 'has-results')
-      ].join(' ');
+    var prefix = els.input.value;
+    var matches = (prefix === '') ? [] : search(prefix, NMatchesToDisplay);
 
-      if (prefix === '') {
-        autocomplete_el.innerHTML = '';
-      } else if (matches.length === 0) {
-        autocomplete_el.innerHTML = 'No matches found';
-      } else {
-        var max_count = matches.reduce(function(s, m) { return Math.max(s, m.group.n); }, 0);
+    els.autocomplete.className = [
+      'autocomplete',
+      (prefix === '' ? 'empty' : ''),
+      (matches.length === 0 ? 'no-results' : 'has-results')
+    ].join(' ');
 
-        autocomplete_el.innerHTML = '<ul>'
-          + matches.map(function(m) {
-            return [
-              '<li><a href="#!', encodeURIComponent(m.text), '">',
-                '<span class="token"><mark>', html_escape(m.text.slice(0, prefix.length)), '</mark>', m.text.slice(prefix.length), '</span>',
-                '<span class="n">', format_int(m.groupN), '</span>',
-                format_group_as_diagram(m.group, max_count),
-              '</a></li>'
-            ].join('');
-          }).join('')
-          + '</ul>';
-      }
-    });
+    if (prefix === '') {
+      els.autocomplete.innerHTML = '';
+    } else if (matches.length === 0) {
+      els.autocomplete.innerHTML = 'No matches found';
+    } else {
+      var maxN = matches.reduce(function(s, m) { return Math.max(s, m.group.n); }, 0);
+
+      els.autocomplete.innerHTML = '<ul>'
+        + matches.map(function(m) {
+          return [
+            '<li><a href="#!', encodeURIComponent(m.text), '">',
+              '<span class="token"><mark>', html_escape(m.text.slice(0, prefix.length)), '</mark>', m.text.slice(prefix.length), '</span>',
+              '<span class="n">', format_int(m.groupN), '</span>',
+              renderVennSvg(maxN, m.group.nClinton, m.group.nTrump, m.group.nBoth),
+            '</a></li>'
+          ].join('');
+        }).join('')
+        + '</ul>';
+    }
+  }
+
+  els.input.addEventListener('input', doSearch);
+  loadTsv(app_el.getAttribute('data-tsv-path'), function() {
+    els.loading.parentNode.removeChild(els.loading);
+    doSearch(); // in case the user typed something in
   });
 });

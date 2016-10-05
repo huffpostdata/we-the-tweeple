@@ -10,21 +10,28 @@ html lang="en"
   body
     $!{data.helpers.nav()}
 
-    <article>
-      <p>Search here, and see what comes up!</p>
-      <div id="app" data-tsv-path="${data.path_to_asset('digest', 'data/clinton-trump-token-counts-truncated.tsv')}"></div>
+    article
+      p - Search here, and see what comes up!
 
-      <h2>What's this?</h2>
+      #app data-tsv-path="${data.path_to_asset('digest', 'data/clinton-trump-token-counts-truncated.tsv')}"
+        .search
+          input autofocus name="q" autocomplete="off" type="text" placeholder="Type a word…"
+          .autocomplete.input-empty
+          .result
+            <!-- only the last element will be visible -->
+            .loading - Loading…
+            .empty - Please search for a word
+            <!-- .hit - <svg>..... -->
 
-      <p>Here's how we made this tool:</p>
+      h2 - What's this?
 
-      <ol>
-        <li>We downloaded all follower information for Trump and Clinton.</li>
-        <li>We broke down each Twitter bio into words.</li>
-        <li>For each word, we counted how many Twitter bios contained that word.</li>
-        <li>We omitted all words that fewer than 50 Trump and/or Clinton followers used in their bios.</li>
-      </ol>
-    </article>
+      p - Here's how we made this tool:
+
+      ol
+        li - We downloaded all follower information for Trump and Clinton.
+        li - We broke down each Twitter bio into words.
+        li - For each word, we counted how many Twitter bios contained that word.
+        li - We omitted all words that fewer than 100 Trump and/or Clinton followers used in their bios.
 
     $!{data.helpers.footer()}
     script src="${data.path_to_asset('digest', 'javascripts/app.js')}"
