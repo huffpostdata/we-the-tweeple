@@ -1,5 +1,6 @@
-var renderVennSvg = require('./_venn')
+var renderVennSvg = require('./_venn');
 
+var RootPath = '/2016/we-the-tweeple';  // FIXME make this dynamic
 var groups = [];
 var tokens = [];
 
@@ -20,6 +21,10 @@ function Token(group, n, text) {
   this.foldedText = text.toLowerCase();
   this.groupN = this.group.n;
 }
+
+Token.prototype.hasSharePage = function() {
+  return [ 'Adam', 'Continues', 'Foobar', 'love/hate' ].indexOf(this.text) != -1;
+};
 
 /**
  * Returns the "best" `n` tokens that match the prefix.
@@ -280,6 +285,12 @@ function main() {
       ].join('');
 
       els.resultContainer.appendChild(els.result);
+    }
+
+    if (matchOrNull && matchOrNull.hasSharePage()) {
+      window.history.replaceState({}, '', RootPath + '/' + encodeURIComponent(matchOrNull.text));
+    } else {
+      window.history.replaceState({}, '', RootPath);
     }
   }
 
