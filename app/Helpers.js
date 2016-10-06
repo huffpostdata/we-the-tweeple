@@ -2,6 +2,7 @@
 
 const PageContext = require('../generator/PageContext')
 const venn = require('../assets/javascripts/_venn')
+const formatInt = require('../assets/javascripts/_format-int')
 
 function extend_context(context, locals) {
   const new_locals = Object.assign({}, context.locals, locals)
@@ -72,10 +73,12 @@ class Helpers {
 
     function prepareToken(token) {
       const g = token.group
-      return Object.assign(g, {
+      return {
         text: token.text,
+        nClinton: formatInt(g.nClinton),
+        nTrump: formatInt(g.nTrump),
         vennSvg: venn(maxN, g.nClinton, g.nTrump, g.nBoth)
-      })
+      }
     }
 
     const data = {

@@ -4,8 +4,15 @@
   .lists
     for(slug in [ 'clinton', 'trump' ])
       .list.${slug}
-        p - <strong>${slug === 'clinton' ? 'Clinton' : 'Trump'}</strong> followers are more likely to use the phrase…
+        p
+          strong.${slug} - ${slug === 'clinton' ? 'Clinton' : 'Trump'}
+          -  followers are more likely to use the phrase…
         ul
-          li data-n="${token.n}" data-n-clinton="${token.nClinton}" data-n-trump="${token.nTrump}" data-n-both="${token.nBoth}" for(token in data[slug])
+          li for(token in data[slug])
             kbd - ${token.text}
             $!{token.vennSvg}
+            .tooltip
+              .inner
+                strong.clinton - ${token.nClinton}
+                span.vs - vs
+                strong.trump - ${token.nTrump}

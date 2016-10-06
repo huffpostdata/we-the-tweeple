@@ -1,5 +1,6 @@
 var renderVennSvg = require('./_venn');
 var Database = require('./_database');
+var formatInt = require('./_format-int');
 
 var RootPath = '/2016/we-the-tweeple';  // FIXME make this dynamic
 
@@ -34,14 +35,6 @@ function html_escape(s) {
       "'": '&#x27;'
     }[c];
   });
-}
-
-/**
- * Converts 1234567 to "1,234,567".
- */
-function format_int(n) {
-  return n.toFixed(0)
-    .replace(/(\d)(?=(\d{3})+$)/g, '$1,');
 }
 
 function main() {
@@ -86,7 +79,7 @@ function main() {
           return [
             '<li><a href="#!', encodeURIComponent(m.text), '">',
               '<span class="token"><mark>', html_escape(m.text.slice(0, prefix.length)), '</mark>', m.text.slice(prefix.length), '</span>',
-              '<span class="n">', format_int(m.groupN), '</span>',
+              '<span class="n">', formatInt(m.groupN), '</span>',
               renderVennSvg(maxN, m.group.nClinton, m.group.nTrump, m.group.nBoth),
             '</a></li>'
           ].join('');
@@ -147,7 +140,7 @@ function main() {
       var tokensHtml = '';
       if (group.nVariants > 1) {
         var liHtmls = group.tokens.map(function(token) {
-          return '<li><q>' + html_escape(token.text) + '</q><span class="n">' + format_int(token.n) + '</span></li>';
+          return '<li><q>' + html_escape(token.text) + '</q><span class="n">' + formatInt(token.n) + '</span></li>';
         });
         var nOther = group.nVariants - group.tokens.length;
         if (nOther > 0) {
@@ -166,7 +159,7 @@ function main() {
 
       els.result.innerHTML = [
         '<h3>',
-          '<span class="n">', format_int(matchOrNull.groupN), '</span>',
+          '<span class="n">', formatInt(matchOrNull.groupN), '</span>',
           ' followers wrote <q>', html_escape(matchOrNull.text), '</q>',
           ' in their Twitter bios',
         '</h3>',

@@ -1,4 +1,6 @@
 .term-table {
+  $venn-width: 6rem;
+
   max-width: 30rem;
   h3 {
     font-family: $header-font-family;
@@ -13,8 +15,8 @@
     border-right: 1px solid $muted-color;
   }
 
-  .clinton strong { color: $color-democrat; }
-  .trump strong { color: $color-republican; }
+  strong.clinton { color: $color-democrat; }
+  strong.trump { color: $color-republican; }
 
   .lists {
     display: -webkit-flex;
@@ -41,6 +43,7 @@
     display: flex;
     -webkit-align-items: center;
     align-items: center;
+    position: relative;
   }
 
   kbd {
@@ -52,6 +55,69 @@
 
   svg {
     display: block;
-    height: 3rem;
+    width: $venn-width;
+    height: $venn-width / 2;
+  }
+
+  .tooltip {
+    display: none;
+    position: absolute;
+    right: $venn-width / 2;
+    width: 0;
+    top: -1.5rem;
+    height: 1.25rem;
+    line-height: 1rem;
+    background: white;
+    font-size: .8rem;
+
+    .inner {
+      position: relative;
+      width: 7rem; // 99,999 vs 99,999
+      margin-left: -3.5rem;
+      height: 1.25rem;
+      border: 1px solid $muted-color;
+      background: $background;
+      text-align: center;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-align-items: center;
+      align-items: center;
+
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: -.375rem;
+        left: 50%;
+        margin-left: -.375rem;
+        display: inline-block;
+        width: .75rem;
+        height: .75rem;
+        box-sizing: border-box;
+        transform: rotate(-45deg);
+        border: 1px solid $muted-color;
+        border-top-color: $background;
+        border-right-color: $background;
+        background: $background;
+      }
+
+      strong {
+        font-weight: normal;
+      }
+
+      span.vs {
+        font-style: italic;
+        padding: 0 .25rem;
+      }
+
+      &>* {
+        position: relative; // above ::before
+      }
+    }
+  }
+
+  li:hover .tooltip {
+    display: block;
   }
 }
