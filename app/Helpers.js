@@ -1,6 +1,7 @@
 'use strict'
 
 const PageContext = require('../generator/PageContext')
+const venn = require('../assets/javascripts/_venn')
 
 function extend_context(context, locals) {
   const new_locals = Object.assign({}, context.locals, locals)
@@ -49,6 +50,41 @@ class Helpers {
       .replace(/\[([^\]]+)\]/g, (_, name) => `<a rel="author" href="${name_to_href(name)}">${name}</a>`)
   }
 
+  term(text) {
+    return `<kbd>${text}</kbd>` // assume no HTML characters
+  }
+
+  term_table(options) {
+    const title = options.title
+    if (!title) throw new Error(`Expected term_table() options to include "title": ${JSON.stringify(options)}`)
+
+    const lookupToken = (term) => {
+      const token = this.context.model.tokenDB.find(term)
+      if (!token) throw new Error(`term_table() could not find token "${token}": ${JSON.stringify(options)}`)
+      return token
+    }
+
+    const clintonTokens = (options.clinton || []).map(lookupToken)
+    const trumpTokens = (options.trump || []).map(lookupToken)
+    const allTokens = clintonTokens.concat(trumpTokens)
+
+    const maxN = allTokens.reduce(((s, t) => Math.max(s, t.groupN)), 0)
+
+    function prepareToken(token) {
+      const g = token.group
+      return Object.assign(g, {
+        text: token.text,
+        vennSvg: venn(maxN, g.nClinton, g.nTrump, g.nBoth)
+      })
+    }
+
+    const data = {
+      title: title,
+      clinton: clintonTokens.map(prepareToken),
+      trump: trumpTokens.map(prepareToken)
+    }
+    return this.context.render_template('_term-table', data)
+  }
 }
 
 module.exports = Helpers

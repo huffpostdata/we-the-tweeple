@@ -1,129 +1,21 @@
 var renderVennSvg = require('./_venn');
+var Database = require('./_database');
 
 var RootPath = '/2016/we-the-tweeple';  // FIXME make this dynamic
-var groups = [];
-var tokens = [];
 
-function Group(id, nClinton, nTrump, nBoth, nVariants) {
-  this.id = id;
-  this.nClinton = nClinton;
-  this.nTrump = nTrump;
-  this.nBoth = nBoth;
-  this.n = this.nClinton + this.nTrump - this.nBoth;
-  this.nVariants = nVariants;
-  this.tokens = [];
-}
-
-function Token(group, n, text) {
-  this.group = group;
-  this.n = n;
-  this.text = text;
-  this.foldedText = text.toLowerCase();
-  this.groupN = this.group.n;
-}
-
-Token.prototype.hasSharePage = function() {
-  return [ 'Adam', 'Continues', 'Foobar', 'love/hate' ].indexOf(this.text) != -1;
-};
+var database = new Database(''); // until we load
 
 /**
- * Returns the "best" `n` tokens that match the prefix.
- */
-function search(prefix, n) {
-  var foldedPrefix = prefix.toLowerCase();
-
-  // Find first index, using binary search.
-  // We're searching for prefix. If we search [ "fib", "foo" ] for "fo", we'll
-  // end up with begin=1 -- the index of "foo", the first match.
-  var begin = 0, end = tokens.length;
-  while (begin < end) {
-    var mid = (begin + end) >> 1;
-    var token = tokens[mid];
-    if (foldedPrefix <= token.foldedText) {
-      end = mid;
-    } else {
-      begin = mid + 1;
-    }
-  }
-  if (begin === tokens.length) return [];
-
-  // Find last index, using iteration. Binary search wouldn't speed things up,
-  // because we need at least O(n) to collect results.
-  var matches = [];
-  for (var i = begin; i < tokens.length; i++) {
-    var token = tokens[i];
-    if (token.foldedText.slice(0, foldedPrefix.length) !== foldedPrefix) break;
-    matches.push(token);
-  }
-
-  // Sort matches. The prefix is the first; the others are by popularity.
-  matches.sort(function(a, b) {
-    if (a.foldedText === foldedPrefix) return -1;
-    if (b.foldedText === foldedPrefix) return 1;
-    return (b.groupN - a.groupN) || (b.n - a.n) || a.foldedText.localeCompare(b.foldedText);
-  });
-
-  // Pick the top N matches.
-  //
-  // Are there two tokens from the same group? Nix the second, since the first
-  // is most important.
-  var uniqueMatches = [];
-  var usedGroups = {};
-  for (var i = 0; i < matches.length && uniqueMatches.length < n; i++) {
-    var token = matches[i];
-    if (usedGroups.hasOwnProperty(token.group.id)) continue;
-    usedGroups[token.group.id] = null;
-    uniqueMatches.push(token);
-  }
-
-  // Sort the matches alphabetically.
-  uniqueMatches.sort(function(a, b) {
-    return a.foldedText.localeCompare(b.foldedText); // prefix is shortest, so it's first
-  });
-
-  return uniqueMatches;
-}
-
-/**
- * Sets `groups` and `tokens`, then calls `callback(err)`.
+ * Sets `database`, then calls `callback(err)`.
  */
 function loadTsv(url, callback) {
-  function setTsv(text) {
-    var groupRe = /(\d+)\t(\d+)\t(\d+)\t(\d+)\n((?:\d+\t[^\t\n]+\n)+)/g;
-    var id = 0;
-    while (true) {
-      var m = groupRe.exec(text);
-      if (m === null) break;
-
-      id += 1;
-      var group = new Group(id, +m[1], +m[2], +m[3], +m[4]);
-      groups.push(group);
-
-      var tokensString = m[5];
-
-      var tokenRe = /(\d+)\t([^\t\n]+)\n/g;
-      while (true) {
-        var m2 = tokenRe.exec(tokensString);
-        if (m2 === null) break;
-
-        var token = new Token(group, +m2[1], m2[2]);
-        group.tokens.push(token);
-        tokens.push(token);
-      }
-    }
-
-    tokens.sort(function(a, b) {
-      return a.foldedText < b.foldedText ? -1 : 1; // Assume a.text != b.text, ever
-    });
-  }
-
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
   xhr.onreadystatechange = function() {
     if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
     if (xhr.status === 200) {
-      setTsv(xhr.responseText);
+      database = new Database(xhr.responseText);
       callback();
     } else {
       callback(new Error("Invalid status code from server: " + xhr.status));
@@ -170,12 +62,10 @@ function main() {
   var autocompleteIndex = -1;
 
   function autocomplete(prefix) {
-    if (groups.length === 0) return; // Not loaded yet. Only happens during init.
-
     showMatch(null);
 
     var prefix = els.input.value;
-    autocompleteMatches = (prefix === '') ? [] : search(prefix, NMatchesToDisplay);
+    autocompleteMatches = (prefix === '') ? [] : database.prefixSearch(prefix, NMatchesToDisplay);
     autocompleteIndex = -1; // so "down" goes to 0
 
     els.autocomplete.className = [

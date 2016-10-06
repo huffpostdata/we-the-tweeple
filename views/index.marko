@@ -6,36 +6,18 @@ html lang="en"
     title - TK
     meta name="viewport" content="width=device-width, initial-scale=1"
     link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/index.css')}"
-    $!{data.render_template('_social-meta', data)}
+    $!{data.helpers.partial('_social-meta')}
   body
     $!{data.helpers.partial('_nav')}
-
     $!{data.helpers.partial('_header')}
 
     article
-      p - Search here, and see what comes up!
+      $!{data.model.render(data)}
 
-      #app data-tsv-path="${data.path_to_asset('digest', 'data/clinton-trump-token-counts-truncated.tsv')}"
-        .search
-          input autofocus name="q" id="q" autocomplete="off" type="text" placeholder="Type a word…"
-          .autocomplete.input-empty
-          .result
-            <!-- only the last element will be visible -->
-            .loading - Loading…
-            label.empty for="q" - Please search for a word
-            <!-- .hit - <svg>..... -->
-
-      h2 - What's this?
-
-      p - Here's how we made this tool:
-
-      ol
-        li - We downloaded all follower information for Trump and Clinton.
-        li - We broke down each Twitter bio into words.
-        li - For each word, we counted how many Twitter bios contained that word.
-        li - We omitted all words that fewer than 100 Trump and/or Clinton followers used in their bios.
+      .comments
+        .fb-comments data-width="100%"
 
     $!{data.helpers.partial('_footer')}
-    script src="${data.path_to_asset('javascript', 'javascripts/app.js')}"
+
     script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
     script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"

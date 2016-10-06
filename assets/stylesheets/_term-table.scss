@@ -1,0 +1,57 @@
+.term-table {
+  max-width: 30rem;
+  h3 {
+    font-family: $header-font-family;
+    font-size: 1.25rem;
+    text-align: center;
+  }
+
+  &.no-clinton .list.clinton { display: none; }
+  &.no-trump .list.trump { display: none; }
+
+  &.has-clinton.has-trump .clinton {
+    border-right: 1px solid $muted-color;
+  }
+
+  .clinton strong { color: $color-democrat; }
+  .trump strong { color: $color-republican; }
+
+  .lists {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+
+  .list {
+    box-sizing: border-box;
+    max-width: 15rem;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
+  kbd {
+    display: block;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    line-height: 1.5rem;
+  }
+
+  svg {
+    display: block;
+    height: 3rem;
+  }
+}

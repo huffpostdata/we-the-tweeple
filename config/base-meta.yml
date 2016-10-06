@@ -1,8 +1,0 @@
-# We'll use this as defaults; per-page configurations are in app/database.js
-title: TK
-description: TK
-twitter: TK
-url_route: index
-image_asset_path: images/social.jpg
-author: TK
-author_twitter: '@huffpostdata'

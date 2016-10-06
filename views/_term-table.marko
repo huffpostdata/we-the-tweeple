@@ -1,0 +1,11 @@
+.term-table.${data.clinton.length > 0 ? 'has-clinton' : 'no-clinton'}.${data.trump.length > 0 ? 'has-trump' : 'no-trump'}
+  h3 - ${data.title}
+  .scale - TK scale
+  .lists
+    for(slug in [ 'clinton', 'trump' ])
+      .list.${slug}
+        p - <strong>${slug === 'clinton' ? 'Clinton' : 'Trump'}</strong> followers are more likely to use the phrase…
+        ul
+          li data-n="${token.n}" data-n-clinton="${token.nClinton}" data-n-trump="${token.nTrump}" data-n-both="${token.nBoth}" for(token in data[slug])
+            kbd - ${token.text}
+            $!{token.vennSvg}

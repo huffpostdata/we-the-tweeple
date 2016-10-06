@@ -1,0 +1,11 @@
+#app data-tsv-path="${data.path_to_asset('digest', 'data/clinton-trump-token-counts-truncated.tsv')}"
+  .search
+    p style="position:absolute;top:-2rem;height:1rem;line-height:1rem;" - (TK add autofocus?)
+    input name="q" id="q" autocomplete="off" type="text" placeholder="Type a word…"
+    .autocomplete.input-empty
+    .result
+      <!-- only the last element will be visible -->
+      .loading - Loading…
+      label.empty for="q" - Please search for a word
+      <!-- .hit - <svg>..... -->
+script src="${data.path_to_asset('javascript', 'javascripts/app.js')}"

@@ -13,3 +13,6 @@ code_path: app/google-docs
 docs:
   # Put Google Docs documents here. They must be published to the public and
   # their URLs must end with "?embedded=true".
+  -
+    slug: index
+    url: https://docs.google.com/document/d/1O9AIfy7rTsWdPTAslPBXf78ChrY6hW4fQsvSkQXVTds/pub?embedded=true

@@ -1,0 +1,426 @@
+[
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Hed: We The Tweeple",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Dek: Search the Twitter bios of six million Clinton and Trump followers",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Author: By ",
+        "underline": true
+      },
+      {
+        "text": "Christopher Mathias",
+        "href": "http://www.huffingtonpost.com/author/christopher-mathias"
+      },
+      {
+        "text": ", ",
+        "underline": true
+      },
+      {
+        "text": "Allison Fenichel",
+        "href": "http://www.huffingtonpost.com/author/allison-fenichel"
+      },
+      {
+        "text": " and ",
+        "underline": true
+      },
+      {
+        "text": "Adam Hooper",
+        "href": "http://www.huffingtonpost.com/author/adamhooper"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Author: Design by ",
+        "underline": true
+      },
+      {
+        "text": "Alissa Scheller",
+        "href": "http://www.huffingtonpost.com/author/alissa-scheller"
+      },
+      {
+        "text": ", ",
+        "underline": true
+      },
+      {
+        "text": "Jonathan Shin",
+        "href": "http://www.huffingtonpost.com/author/jonathan-shin"
+      },
+      {
+        "text": " and ",
+        "underline": true
+      },
+      {
+        "text": "Troy Dunham",
+        "href": "http://www.huffingtonpost.com/author/troy-dunham"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Social-Image: header-desktop.jpg",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Twitter-author: @HuffPostData",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Date-published: Tuesday, Oct. 11, 2016 12:16 P.M. EDT",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "So here’s a fun thing:"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "partial(`_app`)",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "The Huffington Post downloaded the Twitter bios of the 6 million people who exclusively follow Donald Trump or Hillary Clinton. (We did not download the bios of people who follow both Trump and Clinton.) "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Then, we broke down each Twitter bio into its composite words, made a searchable database, and voila: the world can search, for example, for how many Trump followers have "
+      },
+      {
+        "text": "term(`Harry Potter`)",
+        "underline": true
+      },
+      {
+        "text": " in their Twitter bio, (answer: TK) compared to Clinton followers (answer: TK), or "
+      },
+      {
+        "text": "term(`beer`)",
+        "underline": true
+      },
+      {
+        "text": " (TK for Trump or TK for Clinton), or "
+      },
+      {
+        "text": "term(`#whitegenocide`)",
+        "underline": true
+      },
+      {
+        "text": " (TK for Trump and TK for Clinton). "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "A big caveat: a Trump or Clinton follower does not a Trump or Clinton voter make. In other words, this is in no way a scientific data set, and we’re not here to make big new proclamations about THE AMERICAN VOTER. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "But that said, these Twitter bios do seem to paint a familiar picture of America, that of the deeply divided nation pundits tell us made up of red states and blue states. A place where very specific cultural signifiers are reliable indicators of a person’s politics. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Take religion and guns -- the two things Barack Obama once accused rural, conservative voters in Pennsylvania of clinging to. Although Obama apologized for the remark, [polls show] he wasn’t necessarily wrong."
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "term_table({ title: `Religion and Guns`, trump: [ `Christian`, `Christ`, `God`, `#2A`, `#MolonLabe` ] })",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Similarly, Trump followers made up a large majority of the Twitter bios we downloaded referencing Christianity. Over 36,000 Trump followers have “Christian” in their bio, compared to over 11,000 Clinton followers. For “Christ,” it’s 24,215 for Trump and 8,109 for Clinton. For “Christ follower,” it’s 3,803 for Trump and 819 for Clinton. For “God” it’s 92,978 for Trump and 44,966 for Clinton. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Also prominent among Trump followers’ bios were Bible verses: "
+      },
+      {
+        "text": "term(`Psalm 23:4`)",
+        "underline": true
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "term(`John 15:13`)",
+        "underline": true
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "term(`Matthew 19:26`)",
+        "underline": true
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "term(`Roman 1:16`)",
+        "underline": true
+      },
+      {
+        "text": ",  "
+      },
+      {
+        "text": "term(`Luke 1:37`)",
+        "underline": true
+      },
+      {
+        "text": ", and most popularly, "
+      },
+      {
+        "text": "term(`Joshua 1:9`)",
+        "underline": true
+      },
+      {
+        "text": " (Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go”). "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "And as for guns, “#2A,” meaning Second Amendment, pops up in the bios of 3,344 Trump followers, compared to 412 Clinton followers. Then there’s “#MolonLabe,” a Greek phrase meaning “come and take [them],” attributed to Spartan King Leonidas when the Persian army told him and his army to lay down their weapons. The phrase, adopted by gun rights advocates as a rallying cry against gun control, is in the Twitter bios of 320 Trump followers, and in the the bios just 20 Clinton followers."
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Similarly, Trump followers tend to use more coded language and internet slang in their Twitter bios. Over 400 have #LNYHBT in their bios, an acronym for “Let Not Your Heart Be Troubled,” a Bible verse co-opted by Fox News host and Trump enabler Sean Hannity. (You can buy your #LYHNBT t-shirts at SeanHatnnityStore.com.) Nearly 800 Trump followers have “#TGDN” in their bios, an acronym for Twitter Gulag Defense Network, a coalition of conservative Twitter users who follow each other on Twitter, boosting their number of followers so their accounts are less likely to be suspended for posting offensive and inappropriate content. Nearly 570 Trump followers have “shitpost” in their Twitter bios, a slang term an act of online trolling aimed at derailing a conversation. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Meanwhile popular Clinton follower hashtags with acronyms include “#BLM,” for Black Lives Matter, “#LGBT” for Lesbian, Gay, Bisexual and Transgender, and “#RPCV,” for Returned Peace Corps Volunteer. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Trump followers use more nationalistic phrases in their bios, including “Proud American,” “Patriot,” “American patriot,” ‘Love America,” and “God Bless America.” "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "They also identify as “father,” “husband,” “wife,” “son,” and “daughter” in higher numbers than Clinton followers. “Mother” however, is more often found in Clinton follower bios. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "But despite their apparent wholesomeness, Trump followers simultaneously use more curse words in their bios, including “Fuck,” “shit,” “cunt,” “ass,” and “bitch.” "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "And while Trump followers more often have state schools in their bios, including “Roll Tide,” “Penn State,” “LSU,” “FSU” and so forth, Clinton followers more often include private universities like “Harvard,” “Columbia,” “Georgetown,” “American University,” and “Northwestern.” "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Clinton followers are more bookish, using terms like “bookworm,” “bibliophile,” “book lover,” “reader/writer,” and “book nerd.” A lot of them identify as professors, or as having PHDs. They use terms like “tree hugger,” “Buddhist,” “human rights activist,” “advocate,” “justice,” “vegan,” and “vegetarian.” "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "And while Clinton followers more often identify with pop culture, branding themselves Beliebers, or as fans of Taylor Swift, Arianna Grande, Lady Gaga, One Direction, and the show Dr. Who, Trump followers more often identify themselves with sports, more often using “baseball,” “basketball,” “football,” “soccer,” “wrestling,” “volleyball,” and “lacrosse” in their bios. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "So, what to make of all of this? "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "In the 1990s a linguist at the University of California Berkeley named George Lakoff wanted to know why certain beliefs are often grouped together. For example, what does being a pro-life Christian have to do with owning guns? With patriotism or nationalism? With small government? "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "“The conservative and progressive worldviews dividing our country can most readily be understood in terms of moral worldviews that are encapsulated in two very different common forms of family life: The Nurturant Parent family (progressive) and the Strict Father family (conservative),” Lakoff, who authored the 1996 bestseller “Moral Politics,” wrote earlier this year in a Huffington Post article titled “Understanding Trump.” "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "“In the strict father family, father knows best,” Lakoff wrote. “He knows right from wrong and has the ultimate authority to make sure his children and his spouse do what he says, which is taken to be what is right.” "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "And in the strict father worldview, there’s a deep respect for social hierarchies.  "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "“The basic idea is that authority is justified by morality (the strict father version), and that, in a well-ordered world, there should be (and traditionally has been) a moral hierarchy in which those who have traditionally dominated should dominate. The hierarchy is: God above Man, Man above Nature, The Disciplined (Strong) above the Undisciplined (Weak), The Rich above the Poor, Employers above Employees, Adults above Children, Western culture above other cultures, America above other countries. The hierarchy extends to: Men above women, Whites above Nonwhites, Christians above nonChristians, Straights above Gays.” "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "In other words, it’s why conservatives are seemingly more religious, more nationalistic, and even more sports-focused. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "“Sports has to do with power and force and authority,” Lakoff explained to HuffPost. “Competitive sports,” he said,  are a good way “to see who's the strongest and has most authority, and therefore has mettle.” "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Trump, Lakoff says, represents the ultimate strict father. Problems are dealt with simply, directly, and without nuance. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "“Immigrants are flooding in from Mexico — build a wall to stop them,” Lakoff wrote. “For all the immigrants who have entered illegally, just deport them — even if there are 11 million of them working throughout the economy and living throughout the country. The cure for gun violence is to have a gun ready to directly shoot the shooter.” And so on. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "For Lakoff, who does not seem to abide by the strict father worldview, solutions like these are dangerous. In order to defeat Trump this November, liberals and progressives, he says, need to emphasize the value they hold dearest: empathy. Even for those they don’t agree with. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "“...keep out of nasty exchanges and attacks. Keep out of shouting matches,” Lakoff writes.   "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "“You have to understand Trump to stand calmly up to him and those running with him all over the country.“"
+      }
+    ]
+  }
+]
