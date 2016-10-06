@@ -1,6 +1,6 @@
 ## Developing
 
-1. Install NodeJS >= 6.4.0 from https://nodejs.org/en/
+1. Install NodeJS >= 6.7.0 from https://nodejs.org/en/
 2. `npm install`
 3. `node generator/dev.js`
 
