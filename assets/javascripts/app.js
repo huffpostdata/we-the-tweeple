@@ -1,5 +1,3 @@
-'use strict'
-
 var renderVennSvg = require('./_venn')
 
 var groups = [];
@@ -149,7 +147,7 @@ function format_int(n) {
     .replace(/(\d)(?=(\d{3})+$)/g, '$1,');
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function main() {
   var NMatchesToDisplay = 15;
   var app_el = document.querySelector('#app');
 
@@ -333,6 +331,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
   loadTsv(app_el.getAttribute('data-tsv-path'), function() {
     els.loading.parentNode.removeChild(els.loading);
-    autocomplete(); // in case the user typed something in
+
+    // FIXME here be races...
+    if (document.body.hasAttribute('data-search-term')) {
+      els.input.focus();
+      els.input.value = document.body.getAttribute('data-search-term');
+      autocomplete();
+      showMatch(autocompleteMatches[0]); // Assume the search matches
+    } else {
+      // The user typed while the page was loading
+      autocomplete();
+    }
   });
-});
+}
+
+main();

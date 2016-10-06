@@ -183,11 +183,18 @@ module.exports = class AssetCompiler {
       const filename = `assets/${this.config.javascript[bundle]}`
       const key = `javascripts/${bundle}`
 
+      let done = false
+      function callbackOnce(...args) {
+        if (!done) callback(...args)
+        done = true
+      }
+
       const chunks = []
       const md = mdeps()
       const pack = browserPack({ raw: true })
       md.pipe(pack)
-      pack.on('error', callback)
+      md.on('error', callbackOnce)
+      pack.on('error', callbackOnce)
       pack.on('data', (chunk) => { chunks.push(chunk) })
       pack.on('end', () => {
         try {
@@ -195,7 +202,7 @@ module.exports = class AssetCompiler {
           out[key] = new Asset(key, js, { content_type: 'application/javascript', max_age: 8640000000 }) // far-future expires
           process.nextTick(build_one)
         } catch (e) {
-          return callback(e)
+          return callbackOnce(e)
         }
       })
       md.end({

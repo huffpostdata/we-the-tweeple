@@ -3,26 +3,41 @@
 html lang="en"
   head
     meta charset="utf-8"
-    title - TK
+    title - TK ${data.model.token}
     meta name="viewport" content="width=device-width, initial-scale=1"
 
-    meta name="description" content="TK"
+    meta name="description" content="TK ${data.model.token}"
 
     meta name="twitter:card" content="summary_large_image"
     meta name="twitter:creator" content="@HuffPostData"
     meta name="twitter:site" content="@huffpostdata"
     meta name="twitter:image" content="${data.path_to('share-png', data.model.token)}"
-  body
+  body data-search-term="${data.model.token}" style="opacity: 0;"
     script
       ---
       (function() {
+        // Share-page hook: load main page
         function fallbackRedirect() {
           window.location = '${data.path_to('index')}#${encodeURIComponent(data.model.token)}';
         }
 
         function replacePage(newDocument) {
           document.head.innerHTML = newDocument.head.innerHTML;
-          document.body.innerHTML = newDocument.body.innerHTML;
+
+          // Can't use innerHTML to insert script tags
+          // need a temp array: newDocument.body.childNodes will bleed elements
+          // as we add them to document.body.
+          var nodes = Array.prototype.slice.apply(newDocument.body.childNodes);
+          for (var i = 0; i != nodes.length; i++) {
+            var node = nodes[i];
+            if (node.tagName === 'SCRIPT') {
+              var node2 = document.createElement('script');
+              node2.src = node.src;
+              document.body.appendChild(node2);
+            } else {
+              document.body.appendChild(node);
+            }
+          }
         }
 
         function requestAndReplacePage() {
@@ -41,6 +56,6 @@ html lang="en"
           xhr.send(null);
         }
 
-        document.addEventListener('DOMContentLoaded', requestAndReplacePage);
+        requestAndReplacePage();
       }());
       ---

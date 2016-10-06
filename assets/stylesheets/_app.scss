@@ -1,3 +1,10 @@
+body[data-search-term] {
+  // When we load from share-page, the stylesheet is inserted after the page
+  // finishes loading ... which means styles are applied asynchronously. By
+  // the time this rule applies, the stylesheet has been loaded.
+  opacity: 1 !important;
+}
+
 div#app {
   @include page-width();
 
