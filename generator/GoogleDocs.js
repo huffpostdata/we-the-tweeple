@@ -1,7 +1,6 @@
 'use strict'
 
 const fs = require('fs')
-const yaml = require('js-yaml')
 const PageMetadata = require('./PageMetadata')
 const escape_html = require('./escape_html')
 
@@ -193,12 +192,9 @@ class GoogleDoc {
     }
   }
 
-  // HuffPost code syntax: it's just like JavaScript, but we allow backticks
-  // instead of quotes. (That's because Google Docs likes to turn quotes into
-  // smart quotes.) Also, we don't allow code: it's really syntactic sugar
-  // around JSON.
-  //
-  // Want a backtick in a string? Too bad -- build a new syntax.
+  // HuffPost code syntax: it's just JavaScript. Users should write backticks
+  // (valid ES6 Strings) instead of quotes in their Google Docs, or Google will
+  // convert them to smart quotes.
   _render_code(marked_up_code, page_context) {
     const code = `page_context.helpers.${marked_up_code}`
     return eval(code)
