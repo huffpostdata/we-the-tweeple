@@ -4,4 +4,10 @@ index:
 
 share-page:
   path: :token
-  collection: biggestTokens
+  collection: tokens
+
+share-png:
+  path: share/:token.png
+  collection: tokens
+  blob: png
+  content-type: image/png

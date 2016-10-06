@@ -45,6 +45,8 @@ module.exports = class PageCompiler {
 
     if (Buffer.isBuffer(data.model)) {
       body = data.model
+    } else if (object.hasOwnProperty('blob') && Buffer.isBuffer(data.model[object.blob])) {
+      body = data.model[object.blob]
     } else {
       const context = new PageContext(this, data)
       body = this.render_template(template_key, context)

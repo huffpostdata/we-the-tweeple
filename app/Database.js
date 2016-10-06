@@ -15,7 +15,7 @@ module.exports = class Database {
 
     const f = new TokenFactory();
 
-    this.biggestTokens = [
+    this.tokens = [
       f.build('Adam', 240, 100, 200),
       f.build('Continues', 305, 300, 10),
       f.build('Foobar', 200100, 10000, 200000),

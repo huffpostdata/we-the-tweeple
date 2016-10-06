@@ -9,6 +9,7 @@ module.exports = class TokenFactory {
   }
 
   build(token, nTotal, nClinton, nTrump) {
-    return new Token(token, nTotal, nClinton, nTrump, this.tokenRenderer)
+    const png = this.tokenRenderer.renderPng(token, nTotal, nClinton, nTrump)
+    return new Token(token, nTotal, nClinton, nTrump, png)
   }
 }
