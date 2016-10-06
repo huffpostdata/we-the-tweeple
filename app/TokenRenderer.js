@@ -69,6 +69,6 @@ module.exports = class TokenRenderer {
     ctx.fillText('How many Twitter followers say', imageHeight, titleLine1);
     ctx.fillText(token + ' in their bios?', imageHeight, titleLine2);
 
-    return canvas.toBuffer();
+    return canvas.toBuffer(undefined, 3, canvas.PNG_FILTER_NONE);
   }
 }
