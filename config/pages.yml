@@ -15,3 +15,6 @@ share-png:
   collection: tokens
   blob: png
   content-type: image/png
+
+test-social-images:
+  model: tokens

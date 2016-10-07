@@ -45,7 +45,7 @@ module.exports = class PageContext {
 
     if (n_path_params != params.length) throw new Error(`The path ${key} has ${n_path_params} params, but you supplied ${params.length} (${JSON.stringify(params)}). Maybe adjust the params to path_to()?`)
 
-    const interpolated_path = path.replace(/:(\w+)/g, () => params.shift())
+    const interpolated_path = path.replace(/:(\w+)/g, () => encodeURIComponent(params.shift()))
 
     return `${interpolated_path}`
   }

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+html lang="en"
+  head
+    meta charset="utf-8"
+    title - We The Tweeple
+    style
+      ---
+        img {
+          display: inline-block;
+          margin: 1rem;
+        }
+      ---
+  body
+    for(token in data.model)
+      img src="${data.path_to('share-png', token.token)}" width="400" height="200"
