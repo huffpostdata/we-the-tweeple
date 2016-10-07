@@ -27,14 +27,17 @@ module.exports = class TokenRenderer {
   constructor() {
     this.bg = new Image();
     this.bg.src = fs.readFileSync('./raw-assets/design.png');
+
+    this.canvas = new Canvas(imageWidth, imageHeight);
+    this.ctx = this.canvas.getContext('2d');
   }
 
   /**
    * Creates a Buffer with PNG data, ready for streaming.
    */
   renderPng(token, nTotal, nClinton, nTrump) {
-    const canvas = new Canvas(imageWidth, imageHeight);
-    const ctx = canvas.getContext('2d');
+    const canvas = this.canvas;
+    const ctx = this.ctx;
 
     ctx.drawImage(this.bg, 0, 0, imageWidth, imageHeight);
 
