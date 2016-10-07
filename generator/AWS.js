@@ -38,9 +38,10 @@ class AWS {
   upload_page(key, page) {
     if (page.hasOwnProperty('redirect')) return this.upload_redirect(key, page.redirect)
 
+    const brokenKey = decodeURIComponent(key) // When AWS gets a GET request, it decodes the URI :(
     const max_age = 30000
     const params = this.build_params({
-      Key: key.substring(1),
+      Key: brokenKey.substring(1),
       Body: page.body,
       ContentType: page.headers['Content-Type']
     }, max_age)
