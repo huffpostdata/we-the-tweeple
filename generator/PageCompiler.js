@@ -75,7 +75,7 @@ module.exports = class PageCompiler {
           throw new Error(`${key} requires database property "${object.collection}" which does not exist. Add it.`)
         }
         for (const model of this.database[object.collection]) {
-          const out_path = path.replace(/:(\w+)/, (_, name) => model[name])
+          const out_path = path.replace(/:(\w+)/, (_, name) => encodeURIComponent(model[name]))
           out[out_path] = this.render(key, object, { model: model })
         }
       } else if (object.model) {

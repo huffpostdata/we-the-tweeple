@@ -15,9 +15,6 @@ function Token(group, n, text) {
   this.foldedText = text.toLowerCase();
   this.groupN = this.group.n;
 }
-Token.prototype.hasSharePage = function() { // FIXME handle dev/prod difference
-  return [ 'Adam', 'Continues', 'Foobar', 'love/hate' ].indexOf(this.text) != -1;
-};
 
 function Database(tsv) {
   var groups = [];

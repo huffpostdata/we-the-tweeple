@@ -9,6 +9,8 @@ const fs = require('fs');
 const Canvas = require('canvas');
 const Image = Canvas.Image;
 
+const formatInt = require('../assets/javascripts/_format-int')
+
 // vars
 
 const imageWidth = 2000;
@@ -18,12 +20,6 @@ const titleLine2 = titleLine1 + 90;
 const countLine = 885;
 const markerWidthAdd = 20;
 const markerHeightAdd = 30;
-
-// fns
-
-function addCommas(num) {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
 
 // export
 
@@ -47,8 +43,8 @@ module.exports = class TokenRenderer {
     ctx.textBaseline = 'middle';
     ctx.fillStyle = 'white';
 
-    ctx.fillText(addCommas(nClinton), imageWidth * 0.25, countLine);
-    ctx.fillText(addCommas(nTrump), imageWidth * 0.75, countLine);
+    ctx.fillText(formatInt(nClinton), imageWidth * 0.25, countLine);
+    ctx.fillText(formatInt(nTrump), imageWidth * 0.75, countLine);
 
     ctx.font = '600 55pt Poppins SemiBold';
     ctx.textAlign = 'center';

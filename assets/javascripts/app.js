@@ -2,7 +2,7 @@ var renderVennSvg = require('./_venn');
 var Database = require('./_database');
 var formatInt = require('./_format-int');
 
-var RootPath = '/2016/we-the-tweeple';  // FIXME make this dynamic
+var RootPath = '/2016/we-the-tweeple';  // XXX autocomplete this?
 
 var database = new Database(''); // until we load
 
@@ -133,8 +133,12 @@ function main() {
     cancelAutocomplete();
 
     if (!matchOrNull) {
+      window.history.replaceState({}, '', RootPath);
+
       if (els.result.parentNode !== null) els.resultContainer.removeChild(els.result);
     } else {
+      window.history.replaceState({}, '', RootPath + '/' + encodeURIComponent(matchOrNull.text));
+
       var group = matchOrNull.group;
 
       var tokensHtml = '';
@@ -168,12 +172,6 @@ function main() {
       ].join('');
 
       els.resultContainer.appendChild(els.result);
-    }
-
-    if (matchOrNull && matchOrNull.hasSharePage()) {
-      window.history.replaceState({}, '', RootPath + '/' + encodeURIComponent(matchOrNull.text));
-    } else {
-      window.history.replaceState({}, '', RootPath);
     }
   }
 
