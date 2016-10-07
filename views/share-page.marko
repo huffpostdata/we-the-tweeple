@@ -45,7 +45,7 @@ html lang="en"
           xhr.open('GET', '${data.path_to('index')}');
           xhr.timeout = 10000;
           xhr.responseType = 'document';
-          xhr.ontimeout = fallbackRedirect;
+          xhr.ontimeout = xhr.onerror = xhr.onabort = fallbackRedirect;
           xhr.onload = function() {
             if (xhr.status === 200 || xhr.status === 304) {
               replacePage(xhr.response);
