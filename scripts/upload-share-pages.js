@@ -26,7 +26,7 @@ const NGreenlets = 20
 function path_to(key, tokenOrNull) {
   switch (key) {
     case 'index': return appConfig.base_path
-    case 'share-png': return `${appConfig.base_path}/share/${encodeURIComponent(tokenOrNull)}.png`
+    case 'share-image': return `${appConfig.base_path}/share/${encodeURIComponent(tokenOrNull)}.png`
     default: throw new Error(`Our path_to() stub cannot handle the key: ${key}`)
   }
 }

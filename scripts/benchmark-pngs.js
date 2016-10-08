@@ -14,13 +14,14 @@ const tokenRenderer = new TokenRenderer()
 const Skip = 250
 
 let n = 0
+let nBytes = 0
 
 for (let i = 0; i < tokens.length; i += Skip) {
   n += 1
   const token = tokens[i]
   const group = token.group
 
-  tokenRenderer.renderPng(token.text, group.n, group.nClinton, group.nTrump)
+  nBytes += tokenRenderer.renderImage(token.text, group.n, group.nClinton, group.nTrump).length
 }
 
-console.log(`Rendered ${n} images`)
+console.log(`Rendered ${n} images (${nBytes} bytes)`)

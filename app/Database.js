@@ -24,8 +24,8 @@ module.exports = class Database {
     ].map(term => {
       const token = tokenDB.find(term)
       const g = token.group
-      const png = tokenRenderer.renderPng(token.text, g.n, g.nClinton, g.nTrump)
-      const ret = new Token(token.text, g.n, g.nClinton, g.nTrump, png)
+      const image = tokenRenderer.renderImage(token.text, g.n, g.nClinton, g.nTrump)
+      const ret = new Token(token.text, g.n, g.nClinton, g.nTrump, image)
       return ret
     })
   }

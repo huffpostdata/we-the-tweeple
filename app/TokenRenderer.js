@@ -6,9 +6,10 @@ const path = require('path');
 process.env['FONTCONFIG_PATH'] = path.resolve(__dirname, '../fonts');
 
 const fs = require('fs');
+const os = require('os');
 const Canvas = require('canvas');
 const Image = Canvas.Image;
-const lightnpng = require('node-lightnpng')
+const jpeg = require('jpeg-turbo')
 
 const formatInt = require('../assets/javascripts/_format-int')
 
@@ -34,9 +35,9 @@ module.exports = class TokenRenderer {
   }
 
   /**
-   * Creates a Buffer with PNG data, ready for streaming.
+   * Creates a Buffer with image data.
    */
-  renderPng(token, nTotal, nClinton, nTrump) {
+  renderImage(token, nTotal, nClinton, nTrump) {
     const canvas = this.canvas;
     const ctx = this.ctx;
 
@@ -69,8 +70,13 @@ module.exports = class TokenRenderer {
     ctx.fillText('How many Twitter followers say', imageHeight, titleLine1);
     ctx.fillText(token + ' in their bios?', imageHeight, titleLine2);
 
-    return canvas.toBuffer(undefined, 3, canvas.PNG_FILTER_NONE)
+    if (canvas.stride != canvas.width * 4) throw new Error("We don't support stride != 4*width")
     const buf = canvas.toBuffer('raw')
-    return lightnpng.native_argb32_to_png(buf, canvas.width, canvas.height, canvas.stride)
+    return jpeg.compressSync(buf, {
+      format: os.endianness() == 'LE' ? jpeg.FORMAT_BGRA : jpeg.FORMAT_ARGB,
+      width: canvas.width,
+      height: canvas.height,
+      quality: 90 // text deserves quality. It doesn't affect speed too much
+    })
   }
 }
