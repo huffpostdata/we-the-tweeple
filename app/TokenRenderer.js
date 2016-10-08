@@ -8,6 +8,7 @@ process.env['FONTCONFIG_PATH'] = path.resolve(__dirname, '../fonts');
 const fs = require('fs');
 const Canvas = require('canvas');
 const Image = Canvas.Image;
+const lightnpng = require('node-lightnpng')
 
 const formatInt = require('../assets/javascripts/_format-int')
 
@@ -68,6 +69,8 @@ module.exports = class TokenRenderer {
     ctx.fillText('How many Twitter followers say', imageHeight, titleLine1);
     ctx.fillText(token + ' in their bios?', imageHeight, titleLine2);
 
-    return canvas.toBuffer(undefined, 3, canvas.PNG_FILTER_NONE);
+    return canvas.toBuffer(undefined, 3, canvas.PNG_FILTER_NONE)
+    const buf = canvas.toBuffer('raw')
+    return lightnpng.native_argb32_to_png(buf, canvas.width, canvas.height, canvas.stride)
   }
 }

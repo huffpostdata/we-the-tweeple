@@ -11,7 +11,7 @@ const database = new Database(fs.readFileSync(`${__dirname}/../assets/data/clint
 const tokens = database.tokens
 const tokenRenderer = new TokenRenderer()
 
-const Skip = 500
+const Skip = 250
 
 let n = 0
 

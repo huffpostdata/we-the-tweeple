@@ -14,12 +14,13 @@
   "dependencies": {
     "aws-sdk": "^2.3.5",
     "browser-pack": "^6.0.1",
-    "canvas": "^1.5.0",
+    "canvas": "adamhooper/node-canvas#toBuffer-raw",
     "csv-parse": "^1.0.4",
     "glob": "^7.0.5",
     "js-yaml": "^3.6.0",
     "marko": "^3.1.6",
     "module-deps": "^4.0.7",
+    "node-lightnpng": "^1.0.2",
     "node-sass": "^3.5.3"
   },
   "devDependencies": {
