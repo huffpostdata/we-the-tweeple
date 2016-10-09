@@ -1,5 +1,11 @@
 svg {
   circle.clinton { fill: $color-democrat; }
   circle.trump { fill: $color-republican; }
-  path.both, circle.both { fill: $color-both; }
+  path.both-outline, circle.both-outline {
+    stroke: white;
+    stroke-width: 0.03px;
+  }
+  path.both, circle.both {
+    fill: $color-both;
+  }
 }

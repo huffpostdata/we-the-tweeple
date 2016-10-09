@@ -197,20 +197,20 @@ function measure(nPopulation, nClinton, nTrump, nBoth) {
   };
 }
 
-function renderIntersection(m, nPopulation, nClinton, nTrump, nBoth) {
+function renderIntersection(m, className, nPopulation, nClinton, nTrump, nBoth) {
   if (nBoth === 0) {
     return '';
   } else if (nBoth === nClinton) {
     return [
-      '<circle class="both" cx="', m.x, '" cy="0" r="', m.clinton.r, '"/>'
+      '<circle class="', className, '" cx="', m.x, '" cy="0" r="', m.clinton.r, '"/>'
     ].join('');
   } else if (nBoth === nTrump) {
     return [
-      '<circle class="both" cx="', m.x, '" cy="0" r="', m.trump.r, '"/>'
+      '<circle class="', className, '" cx="', m.x, '" cy="0" r="', m.trump.r, '"/>'
     ].join('');
   } else {
     return [
-      '<path class="both" d="',
+      '<path class="', className, '" d="',
         'M', m.x, ',', m.y,
         'A', m.trump.r, ',', m.trump.r, ' 0 ', (m.x > 0 ? 1 : 0), ',1 ', m.x, ',', -m.y,
         'A', m.clinton.r, ',', m.clinton.r, ' 0 ', (m.x < 0 ? 1 : 0), ',1 ', m.x, ',', m.y,
@@ -231,12 +231,14 @@ function renderIntersection(m, nPopulation, nClinton, nTrump, nBoth) {
 function renderVenn(nPopulation, nClinton, nTrump, nBoth) {
   var m = measure(nPopulation, nClinton, nTrump, nBoth);
 
-  var both = renderIntersection(m, nPopulation, nClinton, nTrump, nBoth);
+  var bothOutline = renderIntersection(m, 'both-outline', nPopulation, nClinton, nTrump, nBoth);
+  var both = renderIntersection(m, 'both', nPopulation, nClinton, nTrump, nBoth);
 
   return [
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -1 4 2">',
       '<circle class="clinton" cx="', -m.clinton.x, '" cy="0" r="', m.clinton.r, '"/>',
       '<circle class="trump" cx="', m.trump.x, '" cy="0" r="', m.trump.r, '"/>',
+      bothOutline,
       both,
     '</svg>'
   ].join('');
