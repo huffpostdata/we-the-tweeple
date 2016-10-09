@@ -1,5 +1,5 @@
 svg {
   circle.clinton { fill: $color-democrat; }
   circle.trump { fill: $color-republican; }
-  path.both { fill: $color-both; }
+  path.both, circle.both { fill: $color-both; }
 }
