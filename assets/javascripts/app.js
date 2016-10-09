@@ -141,12 +141,15 @@ function main() {
 
       var group = matchOrNull.group;
 
-      var tokensHtml = '';
+      var variantsHtml = '';
       if (group.nVariants > 1) {
-        var liHtmls = group.tokens.map(function(token) {
-          return '<li><q>' + html_escape(token.text) + '</q><span class="n">' + formatInt(token.n) + '</span></li>';
-        });
-        var nOther = group.nVariants - group.tokens.length;
+        var liHtmls = group.tokens
+          .filter(function(token) { return token != matchOrNull; })
+          .slice(0, 2)
+          .map(function(token) {
+            return '<li><q>' + html_escape(token.text) + '</q><span class="n">' + formatInt(token.n) + '</span></li>';
+          });
+        var nOther = group.nVariants - liHtmls.length - 1;
         if (nOther > 0) {
           if (nOther === 1) {
             liHtmls.push('<li class="other">1 similar spelling</li>');
@@ -154,7 +157,7 @@ function main() {
             liHtmls.push('<li class="other">' + nOther + ' similar spellings</li>');
           }
         }
-        tokensHtml = [
+        variantsHtml = [
           '<div class="variants">',
             'Includes <ul>', liHtmls.join(''), '</ul>',
           '</div>'
@@ -162,15 +165,33 @@ function main() {
       }
 
       var venn = renderVenn(group.n, group.nClinton, group.nTrump, group.nBoth);
+      var m = venn.measurements;
+
+      var leftPercent = 100 - 25 * (2 + m.clinton.x + m.clinton.r);
+      var rightPercent = 100 - 25 * (2 + m.trump.x + m.trump.r);
+      var centerPercent = (leftPercent + 100 - rightPercent) / 2;
 
       els.result.innerHTML = [
-        '<h3>',
-          '<span class="n">', formatInt(matchOrNull.groupN), '</span>',
-          ' followers wrote <q>', html_escape(matchOrNull.text), '</q>',
-          ' in their Twitter bios',
-        '</h3>',
-        venn.svg,
-        tokensHtml
+        variantsHtml,
+        '<figure class="venn-container" style="margin-left: ', (50 - centerPercent), '%; margin-right: ', (centerPercent - 50), '%;">',
+          '<h3 style="left: ', leftPercent, '%; right: ', rightPercent, '%;">',
+            '<strong>', formatInt(group.n), '</strong>',
+            '<span>followers used <q>', html_escape(matchOrNull.text), '</q> in their Twitter bios</span>',
+          '</h3>',
+          venn.svg,
+          '<div class="only-clinton" style="right: ', (100 - leftPercent), '%;">',
+            '<em>', formatInt(group.nOnlyClinton), '</em> ',
+            '<span>', (group.nOnlyClinton === 1 ? 'follows' : 'follow'), ' only Clinton</span>',
+          '</div>',
+          '<div class="only-trump" style="left: ', (100 - rightPercent), '%;">',
+            '<em>', formatInt(group.nOnlyTrump), '</em> ',
+            '<span>', (group.nOnlyTrump === 1 ? 'follows' : 'follow'), ' only Trump</span>',
+          '</div>',
+          '<div class="both" style="width: 75%; left: ', (25 * (2 + m.x) - 37.5), '%; top: ', (50 * (1 + m.y)), '%;">',
+            '<em>', formatInt(group.nBoth), '</em>',
+            '<span>', (group.nBoth === 1 ? 'follows' : 'follow'), ' both</span>',
+          '</div>',
+        '</figure>'
       ].join('');
 
       els.resultContainer.appendChild(els.result);

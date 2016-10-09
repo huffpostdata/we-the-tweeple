@@ -3,6 +3,8 @@ function Group(id, nClinton, nTrump, nBoth, nVariants) {
   this.nClinton = nClinton;
   this.nTrump = nTrump;
   this.nBoth = nBoth;
+  this.nOnlyClinton = nClinton - nBoth;
+  this.nOnlyTrump = nTrump - nBoth;
   this.n = this.nClinton + this.nTrump - this.nBoth;
   this.nVariants = nVariants;
   this.tokens = [];

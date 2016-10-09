@@ -20,7 +20,8 @@ module.exports = class Database {
     this.index.tokenDB = tokenDB
 
     this.tokens = [
-      'Adam', 'continue', 'Trump', '#MAGA', 'ابو', 'générale', 'R&B/Soul', '読書', 'पुर', 'Дизайн'
+      'Adam', 'continue', 'Trump', '#MAGA', 'ابو', 'générale', 'R&B/Soul', '読書', 'पुर', 'Дизайн',
+      'RTs are not endorsements'
     ].map(term => {
       const token = tokenDB.find(term)
       const g = token.group

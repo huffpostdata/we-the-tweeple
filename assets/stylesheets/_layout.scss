@@ -64,14 +64,6 @@ article {
   }
 }
 
-@media (min-width: 850px) {
-  .only-mobile { display: none; }
-}
-
-@media (max-width: 851px) {
-  .only-desktop { display: none; }
-}
-
 
 .button {
     margin: 50px auto 100px auto;
@@ -104,12 +96,4 @@ article {
     -ms-transition: background 0.2s linear;
     -o-transition: background 0.2s linear;
     transition: background 0.2s linear;
-}
-
-.photo-credit {
-  font-family: "Source Sans Pro", Arial, sans-serif;
-  font-size: .6rem;
-  color: #999;
-  float: left;
-  padding: 0px 10px;
 }
