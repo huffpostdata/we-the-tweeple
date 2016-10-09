@@ -1,4 +1,4 @@
-var renderVennSvg = require('./_venn');
+var renderVenn = require('./_venn');
 var Database = require('./_database');
 var formatInt = require('./_format-int');
 
@@ -80,7 +80,7 @@ function main() {
             '<li><a href="#!', encodeURIComponent(m.text), '">',
               '<span class="token"><mark>', html_escape(m.text.slice(0, prefix.length)), '</mark>', m.text.slice(prefix.length), '</span>',
               '<span class="n">', formatInt(m.groupN), '</span>',
-              renderVennSvg(maxN, m.group.nClinton, m.group.nTrump, m.group.nBoth),
+              renderVenn(maxN, m.group.nClinton, m.group.nTrump, m.group.nBoth).svg,
             '</a></li>'
           ].join('');
         }).join('')
@@ -161,13 +161,15 @@ function main() {
         ].join('');
       }
 
+      var venn = renderVenn(group.n, group.nClinton, group.nTrump, group.nBoth);
+
       els.result.innerHTML = [
         '<h3>',
           '<span class="n">', formatInt(matchOrNull.groupN), '</span>',
           ' followers wrote <q>', html_escape(matchOrNull.text), '</q>',
           ' in their Twitter bios',
         '</h3>',
-        renderVennSvg(group.n, group.nClinton, group.nTrump, group.nBoth),
+        venn.svg,
         tokensHtml
       ].join('');
 

@@ -227,6 +227,13 @@ function renderIntersection(m, className, nPopulation, nClinton, nTrump, nBoth) 
  *   nClinton: number of Clinton followers
  *   nTrump: number of Trump followers
  *   nBoth: number of Clinton followers who are also Trump followers
+ *
+ * Return value:
+ *
+ *   {
+ *     measurements: { ... },
+ *     svg: '<svg ...'
+ *   }
  */
 function renderVenn(nPopulation, nClinton, nTrump, nBoth) {
   var m = measure(nPopulation, nClinton, nTrump, nBoth);
@@ -234,7 +241,7 @@ function renderVenn(nPopulation, nClinton, nTrump, nBoth) {
   var bothOutline = renderIntersection(m, 'both-outline', nPopulation, nClinton, nTrump, nBoth);
   var both = renderIntersection(m, 'both', nPopulation, nClinton, nTrump, nBoth);
 
-  return [
+  var svg = [
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -1 4 2">',
       '<circle class="clinton" cx="', -m.clinton.x, '" cy="0" r="', m.clinton.r, '"/>',
       '<circle class="trump" cx="', m.trump.x, '" cy="0" r="', m.trump.r, '"/>',
@@ -242,6 +249,11 @@ function renderVenn(nPopulation, nClinton, nTrump, nBoth) {
       both,
     '</svg>'
   ].join('');
+
+  return {
+    measurements: m,
+    svg: svg
+  };
 }
 
 module.exports = renderVenn;

@@ -1,7 +1,7 @@
 'use strict'
 
 const PageContext = require('../generator/PageContext')
-const venn = require('../assets/javascripts/_venn')
+const renderVenn = require('../assets/javascripts/_venn')
 const formatInt = require('../assets/javascripts/_format-int')
 
 function extend_context(context, locals) {
@@ -77,7 +77,7 @@ class Helpers {
         text: token.text,
         nClinton: formatInt(g.nClinton),
         nTrump: formatInt(g.nTrump),
-        vennSvg: venn(maxN, g.nClinton, g.nTrump, g.nBoth)
+        vennSvg: renderVenn(maxN, g.nClinton, g.nTrump, g.nBoth).svg
       }
     }
 
