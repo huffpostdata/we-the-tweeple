@@ -4,6 +4,10 @@ var formatInt = require('./_format-int');
 
 var RootPath = '/2016/we-the-tweeple';  // XXX autocomplete this?
 
+var nClintonTotal = 3103739; // TK adjust this -- num with bios
+var nTrumpTotal = 3926005; // TK adjust this -- num with bios
+var nBothTotal = 747171; // TK adjust this -- num with bios
+
 var database = new Database(''); // until we load
 
 /**
@@ -137,14 +141,15 @@ function main() {
 
       if (els.result.parentNode !== null) els.resultContainer.removeChild(els.result);
     } else {
-      window.history.replaceState({}, '', RootPath + '/' + encodeURIComponent(matchOrNull.text));
+      var token = matchOrNull;
+      var group = token.group;
 
-      var group = matchOrNull.group;
+      window.history.replaceState({}, '', RootPath + '/' + encodeURIComponent(token.text));
 
       var variantsHtml = '';
       if (group.nVariants > 1) {
         var liHtmls = group.tokens
-          .filter(function(token) { return token != matchOrNull; })
+          .filter(function(t) { return t != token; })
           .slice(0, 2)
           .map(function(token) {
             return '<li><q>' + html_escape(token.text) + '</q><span class="n">' + formatInt(token.n) + '</span></li>';
@@ -171,12 +176,44 @@ function main() {
       var rightPercent = 100 - 25 * (2 + m.trump.x + m.trump.r);
       var centerPercent = (leftPercent + 100 - rightPercent) / 2;
 
+      var sentenceHTML = null;
+      if (group.nClinton === 0 || group.nTrump === 0) {
+        var winner = group.nClinton > 0 ? 'Clinton' : 'Trump';
+        sentenceHTML = [
+          '<h4 class="', winner.toLowerCase(), '">',
+            'Only <strong class="winner">', winner, '</strong> followers use the phrase ',
+            '<q>', html_escape(token.text), '</q>',
+          '</h4>'
+        ].join('');
+      } else {
+        var fClinton = group.nClinton / nClintonTotal;
+        var fTrump = group.nTrump / nTrumpTotal;
+        var winPercent = Math.round(100 * Math.abs(fClinton - fTrump) / Math.min(fClinton, fTrump));
+        if (winPercent === 0) {
+          sentenceHTML = [
+            '<h4 class="tie">Clinton and Trump followers use the phrase ',
+            '<q>', html_escape(token.text), '</q> in equal proportions</h4>'
+          ].join('');
+        } else {
+          var winner = fClinton > fTrump ? 'Clinton' : 'Trump';
+          var loser = fClinton < fTrump ? 'Clinton' : 'Trump';
+          sentenceHTML = [
+            '<h4 class="', winner.toLowerCase(), '">',
+              '<strong class="winner">', winner, '</strong> followers are ',
+              '<strong class="likely">', formatInt(winPercent), '% more likely to use the phrase ',
+              '<q>', html_escape(token.text), '</q> than ',
+              '<strong class="loser">', loser, '</strong> followers',
+            '</h4>'
+          ].join('');
+        }
+      }
+
       els.result.innerHTML = [
         variantsHtml,
         '<figure class="venn-container" style="margin-left: ', (50 - centerPercent), '%; margin-right: ', (centerPercent - 50), '%;">',
           '<h3 style="left: ', leftPercent, '%; right: ', rightPercent, '%;">',
             '<strong>', formatInt(group.n), '</strong>',
-            '<span>followers used <q>', html_escape(matchOrNull.text), '</q> in their Twitter bios</span>',
+            '<span>followers used <q>', html_escape(token.text), '</q> in their Twitter bios</span>',
           '</h3>',
           venn.svg,
           '<div class="only-clinton" style="right: ', (100 - leftPercent), '%;">',
@@ -191,7 +228,9 @@ function main() {
             '<em>', formatInt(group.nBoth), '</em>',
             '<span>', (group.nBoth === 1 ? 'follows' : 'follow'), ' both</span>',
           '</div>',
-        '</figure>'
+        '</figure>',
+        '<h4>', 
+        sentenceHTML
       ].join('');
 
       els.resultContainer.appendChild(els.result);

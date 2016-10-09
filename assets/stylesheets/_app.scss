@@ -114,6 +114,7 @@ div#app {
     $h3-height: 2.5rem; // does not include $strong-height
     $h3-lines-height: 1rem;
     $both-height: 3rem;
+    $sentence-height: 8rem;
 
     // Use a hand-wavy number here. Each candidate needs 6rem of space for a
     // label, but if we put 6rem here we'll have no space on iOS. We take
@@ -135,7 +136,7 @@ div#app {
       display: block;
       position: relative;
       padding-bottom: 50%; // SVG is 2:1
-      padding-top: $variants-height + $strong-height + $h3-height + $h3-lines-height + $both-height - $svg-margin;
+      padding-top: $variants-height + $strong-height + $h3-height + $h3-lines-height + $both-height - $svg-margin + $sentence-height;
     }
 
     label, .hit {
@@ -290,6 +291,28 @@ div#app {
       margin-top: -.5rem;
       line-height: 1rem;
       color: $muted-color;
+    }
+
+    h4 {
+      position: absolute;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      box-sizing: border-box;
+      padding-top: 1rem;
+      margin-left: -$svg-margin;
+      margin-right: -$svg-margin;
+      height: $sentence-height;
+      text-align: center;
+      bottom: 0;
+
+      &.clinton {
+        strong.winner { color: $color-democrat; }
+        strong.loser { color: $color-republican; }
+      }
+      &.trump {
+        strong.winner { color: $color-republican; }
+        strong.loser { color: $color-democrat; }
+      }
     }
 
     .variants {
