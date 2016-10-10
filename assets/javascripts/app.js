@@ -1,4 +1,5 @@
 var makeHeaderInteractive = require('./_header');
+var makeStoryDiagrams = require('./_story-diagrams');
 var html_escape = require('./_html-escape');
 var renderVenn = require('./_venn');
 var Database = require('./_database');
@@ -248,6 +249,8 @@ function main() {
 
   loadTsv(app_el.getAttribute('data-tsv-path'), function() {
     els.loading.parentNode.removeChild(els.loading);
+
+    makeStoryDiagrams(database);
 
     // FIXME here be races...
     if (document.body.hasAttribute('data-search-term')) {
