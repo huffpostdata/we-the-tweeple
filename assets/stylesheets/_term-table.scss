@@ -1,6 +1,8 @@
 .term-table {
   $venn-width: 6rem;
 
+  font-size: .85rem;
+
   max-width: 30rem;
   h3 {
     font-family: $header-font-family;
@@ -11,8 +13,14 @@
   &.no-clinton .list.clinton { display: none; }
   &.no-trump .list.trump { display: none; }
 
-  &.has-clinton.has-trump .list.clinton {
-    border-right: 1px solid $muted-color;
+  &.has-clinton.has-trump {
+    .list.clinton {
+      border-right: 1px solid $muted-color;
+      // No need for margin-right: the SVG has a negative margin-left
+    }
+    .list.trump {
+      margin-left: 1rem;
+    }
   }
 
   strong.clinton { color: $color-democrat; }
@@ -28,7 +36,6 @@
   .list {
     box-sizing: border-box;
     max-width: 15rem;
-    margin: 0 1rem;
   }
 
   ul {
@@ -50,6 +57,9 @@
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     line-height: 1.5rem;
+    font-family: inherit;
+    &::before { content: '“'; }
+    &::after { content: '”'; }
   }
 
   svg {
@@ -57,6 +67,8 @@
     width: $venn-width;
     height: $venn-width / 2;
   }
+  .list.clinton svg { margin-right: -1rem; }
+  .list.trump svg { margin-left: -1rem; }
 
   .tooltip {
     display: none;
