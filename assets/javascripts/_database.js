@@ -60,11 +60,11 @@ Token.prototype.sentenceData = function() {
 
 Token.prototype.sentenceTemplate = function(data) {
   if (data.winner === '') {
-    return 'Clinton and Trump followers use the phrase TOKEN in equal proportions in their Twitter bios.';
+    return 'Clinton and Trump followers use the term TOKEN in equal proportions in their Twitter bios.';
   } else if (data.loser === '') {
-    return 'Only WINNER followers use the phrase TOKEN in their Twitter bios.';
+    return 'Only WINNER followers use the term TOKEN in their Twitter bios.';
   } else {
-    return 'WINNER followers are PERCENT% more likely to use the phrase TOKEN in their Twitter bios than LOSER followers.';
+    return 'WINNER followers are PERCENT% more likely to use the term TOKEN in their Twitter bios than LOSER followers.';
   }
 };
 

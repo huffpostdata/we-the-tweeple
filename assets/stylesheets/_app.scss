@@ -8,7 +8,10 @@ body[data-search-term] {
 div#app {
   @include page-width();
 
-  margin-top: 5rem;
+  span.only-desktop { display: none; }
+  @media (min-width: $min-desktop-width) { span.only-desktop { display: inline; } }
+
+  margin-top: 2rem;
   display: -webkit-flex;
   display: flex;
   position: relative;
@@ -295,10 +298,12 @@ div#app {
 
     h4 {
       position: absolute;
-      font-size: 1.25rem;
+      font-size: 1rem;
+      font-weight: normal;
+      color: $muted-color;
       line-height: 1.5;
       box-sizing: border-box;
-      padding-top: 1rem;
+      padding-top: 3rem;
       margin-left: -$svg-margin;
       margin-right: -$svg-margin;
       height: $sentence-height;

@@ -1,9 +1,11 @@
 #app data-tsv-path="${data.path_to_asset('digest', 'data/clinton-trump-token-counts-truncated.tsv')}"
   .search
-    input name="q" id="q" type="text" placeholder="Type a word…"
+    input name="q" id="q" autocomplete="false" type="text" placeholder="Type a word…"
     .autocomplete.input-empty
     .result
       <!-- only the last element will be visible -->
       .loading - Loading…
-      label.empty for="q" - Please search for a word
+      label.empty for="q"
+        span.all - Pick a word, any word
+        span.only-desktop - , or click a bird
       <!-- .hit - <svg>..... -->

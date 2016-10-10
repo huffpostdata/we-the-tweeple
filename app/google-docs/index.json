@@ -106,14 +106,6 @@
     "type": "p",
     "texts": [
       {
-        "text": "So here’s a fun thing:"
-      }
-    ]
-  },
-  {
-    "type": "p",
-    "texts": [
-      {
         "text": "partial(`_app`)",
         "underline": true
       }
@@ -123,7 +115,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "The Huffington Post downloaded the Twitter bios of the 6 million people who exclusively follow Donald Trump or Hillary Clinton. (We did not download the bios of people who follow both Trump and Clinton.) "
+        "text": "What word did you pick? TKTKTKTKTKTKTKTKTKTKTKT"
       }
     ]
   },
@@ -131,7 +123,23 @@
     "type": "p",
     "texts": [
       {
-        "text": "Then, we broke down each Twitter bio into its composite words, made a searchable database, and voila: the world can search, for example, for how many Trump followers have "
+        "text": "The Huffington Post downloaded the Twitter bios of the six million people who follow Hillary Clinton and Donald Trump. That’s six million 160-character potential voters telling the world their parental status, their professional and personal accomplishments, their hobbies, their niche interests, their favorite quote, their worst nightmare, all nicely synopsized with the occasional comma or hashtag. In other words six million micro autobiographies that may tell us a thing or two about who supports Clinton and Trump."
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Clinton and Trump Twitter bios paint a familiar picture of America, that of the deeply divided nation pundits tell us make up of red states and blue states, a place where specific cultural signifiers are reliable indicators of a person’s politics. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "METHODOLOGY: Then, we broke down each Twitter bio into its composite words, made a searchable database, and voila: the world can search, for example, for how many Trump followers have "
       },
       {
         "text": "term(`Harry Potter`)",
@@ -161,14 +169,6 @@
     "texts": [
       {
         "text": "A big caveat: a Trump or Clinton follower does not a Trump or Clinton voter make. In other words, this is in no way a scientific data set, and we’re not here to make big new proclamations about THE AMERICAN VOTER. "
-      }
-    ]
-  },
-  {
-    "type": "p",
-    "texts": [
-      {
-        "text": "But that said, these Twitter bios do seem to paint a familiar picture of America, that of the deeply divided nation pundits tell us made up of red states and blue states. A place where very specific cultural signifiers are reliable indicators of a person’s politics. "
       }
     ]
   },
