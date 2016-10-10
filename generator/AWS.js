@@ -3,6 +3,24 @@
 const S3 = new (require('aws-sdk').S3)()
 const read_config = require('./read_config')
 
+/**
+ * When the reader GETs from AWS and the URL contains '%XX', AWS will decode
+ * the string _before_ fetching it.
+ *
+ * This seems like an obvious bug in AWS. All we can do is decode the string
+ * before we upload it.
+ *
+ * An alternative approach: double-encode the key. That makes for some very
+ * ugly URLs, though.
+ */
+function mangleKey(s) {
+  // decodeURIComponent() throws on malformed URL. We'll assume AWS doesn't.
+  // (TODO test this)
+  return s.replace(/%([0-9A-F][0-9A-F])/g, function(_, x) {
+    return String.fromCharCode(+('0x' + x));
+  });
+}
+
 class AWS {
   constructor(config) {
     this.config = config
@@ -11,7 +29,7 @@ class AWS {
   // Returns a Promise
   upload_asset(key, asset) {
     const params = this.build_params({
-      Key: key.substring(1),
+      Key: mangleKey(key.substring(1)),
       Body: asset.data,
       ContentType: asset.content_type
     }, asset.max_age)
@@ -27,7 +45,7 @@ class AWS {
   upload_redirect(key, path) {
     const max_age = 30000
     const params = this.build_params({
-      Key: key.substring(1),
+      Key: mangleKey(key.substring(1)),
       WebsiteRedirectLocation: path
     }, max_age)
     console.log(`PUT s3://${params.Bucket}/${params.Key} => ${path} ${max_age}`)
@@ -38,10 +56,9 @@ class AWS {
   upload_page(key, page) {
     if (page.hasOwnProperty('redirect')) return this.upload_redirect(key, page.redirect)
 
-    const brokenKey = decodeURIComponent(key) // When AWS gets a GET request, it decodes the URI :(
     const max_age = 30000
     const params = this.build_params({
-      Key: brokenKey.substring(1),
+      Key: mangleKey(key.substring(1)),
       Body: page.body,
       ContentType: page.headers['Content-Type']
     }, max_age)
