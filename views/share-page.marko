@@ -22,7 +22,7 @@ html lang="en"
     meta name="twitter:creator" content="@HuffPostData"
     meta name="twitter:title" content="We The Tweeple"
     meta name="twitter:description" content="${data.model.sentenceText()}"
-    meta name="twitter:image" content="${data.url_to('share-image', data.model.sentenceText())}"
+    meta name="twitter:image" content="${data.url_to('share-image', data.model.token)}"
   body data-search-term="${data.model.token}" style="opacity: 0;"
     script
       ---
