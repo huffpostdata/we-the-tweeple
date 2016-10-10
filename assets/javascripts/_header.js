@@ -13,7 +13,7 @@ function makeHeaderInteractive(utfgrid, clickFunc) {
   canvas.width = width;
   canvas.height = height;
 
-  var charToImageData = {}; // cache
+  var charToImageData = {}; // cache: { x, y, ImageData }
   var currentChar = ' ';
 
   function evToChar(ev) {
@@ -28,13 +28,29 @@ function makeHeaderInteractive(utfgrid, clickFunc) {
   }
 
   function buildCharImageData(c) {
-    var imageData = ctx.createImageData(width, height);
-    var d = imageData.data;
+    // 1. Find bounds. (these are many-megabyte imates)
+    var xMin = width, xMax = 0, yMin = height, yMax = 0;
+
     for (var y = 0; y < height; y++) {
       var row = grid[y];
       for (var x = 0; x < width; x++) {
         if (row.charAt(x) === c) {
-          var pos = 4 * (y * width + x);
+          if (x < xMin) xMin = x;
+          if (x > xMax) xMax = x;
+          if (y < yMin) yMin = y;
+          if (y > yMax) yMax = y;
+        }
+      }
+    }
+
+    // 2. Build ImageData
+    var imageData = ctx.createImageData(xMax - xMin + 1, yMax - yMin + 1);
+    var d = imageData.data;
+    for (var y = yMin; y <= yMax; y++) {
+      var row = grid[y];
+      for (var x = xMin; x < xMax; x++) {
+        if (row.charAt(x) === c) {
+          var pos = 4 * ((y - yMin) * (xMax - xMin + 1) + (x - xMin));
           d[pos + 0] = 0xff; // R
           d[pos + 1] = 0xff; // G
           d[pos + 2] = 0xff; // B
@@ -42,7 +58,8 @@ function makeHeaderInteractive(utfgrid, clickFunc) {
         }
       }
     }
-    return imageData;
+
+    return { x: xMin, y: yMin, imageData: imageData };
   }
 
   function charToToken(c) {
@@ -61,8 +78,8 @@ function makeHeaderInteractive(utfgrid, clickFunc) {
     ctx.clearRect(0, 0, width, height);
 
     if (c !== ' ') {
-      var imageData = charToImageData[c];
-      ctx.putImageData(imageData, 0, 0);
+      var data = charToImageData[c];
+      ctx.putImageData(data.imageData, data.x, data.y);
       canvas.classList.add('highlight');
     } else {
       canvas.classList.remove('highlight');
