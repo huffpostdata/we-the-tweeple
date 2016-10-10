@@ -188,8 +188,8 @@ div#app {
         margin: 0 -6rem;
         font-family: $body-font-family;
         font-weight: normal;
-        font-size: 1rem;
-        line-height: 1.25;
+        font-size: 1.15rem;
+        line-height: 1.8;
 
         // Lines are ::before and ::after
         &::before {
@@ -276,10 +276,10 @@ div#app {
             content: '';
             width: 1px;
             margin: 2px 0 2px -.5px;
-            background: $color-both;
+            background: $very-muted-color;
             display: block;
             -webkit-flex: 1 1 auto;
-            border: 1px solid $background;
+            
           }
         }
       }
