@@ -294,7 +294,6 @@ function main() {
 
     // FIXME here be races...
     if (document.body.hasAttribute('data-search-term')) {
-      els.input.focus();
       els.input.value = document.body.getAttribute('data-search-term');
       autocomplete();
       showMatch(autocompleteMatches[0]); // Assume the search matches
