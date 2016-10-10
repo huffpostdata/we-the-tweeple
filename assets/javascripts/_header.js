@@ -13,7 +13,7 @@ function makeHeaderInteractive(utfgrid, clickFunc) {
   canvas.width = width;
   canvas.height = height;
 
-  var charToImageData = {}; // cache: { x, y, ImageData }
+  var charToImageData = {}; // cache: { x, y, width, height, ImageData }
   var currentChar = ' ';
 
   function evToChar(ev) {
@@ -59,7 +59,13 @@ function makeHeaderInteractive(utfgrid, clickFunc) {
       }
     }
 
-    return { x: xMin, y: yMin, imageData: imageData };
+    return {
+      x: xMin,
+      y: yMin,
+      imageData: imageData,
+      width: imageData.width,
+      height: imageData.height
+    };
   }
 
   function charToToken(c) {
@@ -75,7 +81,10 @@ function makeHeaderInteractive(utfgrid, clickFunc) {
       charToImageData[c] = buildCharImageData(c);
     }
 
-    ctx.clearRect(0, 0, width, height);
+    if (currentChar !== ' ') {
+      var oldData = charToImageData[currentChar];
+      ctx.clearRect(oldData.x, oldData.y, oldData.width, oldData.height);
+    }
 
     if (c !== ' ') {
       var data = charToImageData[c];
@@ -84,11 +93,15 @@ function makeHeaderInteractive(utfgrid, clickFunc) {
     } else {
       canvas.classList.remove('highlight');
     }
+
+    currentChar = c;
   }
 
   function maybeHover(ev) {
     const c = evToChar(ev);
-    highlightChar(c);
+    if (c !== currentChar) {
+      highlightChar(c);
+    }
   }
 
   function maybeSearch(ev) {
