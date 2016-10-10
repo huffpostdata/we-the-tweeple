@@ -11,7 +11,7 @@
   &.no-clinton .list.clinton { display: none; }
   &.no-trump .list.trump { display: none; }
 
-  &.has-clinton.has-trump .clinton {
+  &.has-clinton.has-trump .list.clinton {
     border-right: 1px solid $muted-color;
   }
 
@@ -28,8 +28,7 @@
   .list {
     box-sizing: border-box;
     max-width: 15rem;
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
+    margin: 0 1rem;
   }
 
   ul {
