@@ -24,6 +24,7 @@ function detect_content_type(path) {
     case 'gif': return 'image/gif'
     case 'jpg': return 'image/jpeg'
     case 'js': return 'application/javascript; charset=utf-8'
+    case 'json': return 'application/json'
     case 'png': return 'image/png'
     case 'svg': return 'image/svg+xml'
     case 'ico': return 'image/x-icon'
