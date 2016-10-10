@@ -1,6 +1,15 @@
 .term-table.${data.clinton.length > 0 ? 'has-clinton' : 'no-clinton'}.${data.trump.length > 0 ? 'has-trump' : 'no-trump'}
   h3 - ${data.title}
-  .scale - TK scale
+  .scale
+    .unit - Number of followers
+    svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 48"
+      circle cx="24" cy="24" r="23.5"
+      circle cx="24" cy="36" r="11.5"
+      line x1="24" y1="0.5" x2="96" y2="0.5"
+      line x1="24" y1="24.5" x2="96" y2="24.5"
+    .ticks
+      .max - ${data.nMax}
+      .quarter - ${data.nQuarter}
   .lists
     for(slug in [ 'clinton', 'trump' ])
       .list.${slug}

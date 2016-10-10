@@ -69,7 +69,7 @@ class Helpers {
     const trumpTokens = (options.trump || []).map(lookupToken)
     const allTokens = clintonTokens.concat(trumpTokens)
 
-    const maxN = allTokens.reduce(((s, t) => Math.max(s, t.groupN)), 0)
+    const maxN = allTokens.reduce(((s, t) => Math.max(s, t.group.nClinton, t.group.nTrump)), 0)
 
     function prepareToken(token) {
       const g = token.group
@@ -84,7 +84,9 @@ class Helpers {
     const data = {
       title: title,
       clinton: clintonTokens.map(prepareToken),
-      trump: trumpTokens.map(prepareToken)
+      trump: trumpTokens.map(prepareToken),
+      nMax: formatInt(maxN),
+      nQuarter: formatInt(Math.round(maxN / 4))
     }
     return this.context.render_template('_term-table', data)
   }

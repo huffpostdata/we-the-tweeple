@@ -26,7 +26,55 @@
   strong.clinton { color: $color-democrat; }
   strong.trump { color: $color-republican; }
 
+  .scale {
+    padding-top: 1rem;
+    font-style: italic;
+
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+
+    .unit {
+      display: inline-block;
+      padding-right: 1rem;
+    }
+
+    svg {
+      width: $venn-width;
+      height: $venn-width / 2;
+    }
+
+    circle {
+      stroke: $color;
+      stroke-width: .5px;
+      fill: none;
+    }
+
+    line {
+      stroke: $muted-color;
+      stroke-width: .5px;
+    }
+
+    .ticks {
+      margin-left: .25rem;
+      width: 3rem;
+      height: $venn-width / 2;
+      position: relative;
+      line-height: 1;
+
+      .max, .quarter { position: absolute; left: 0; }
+
+      .max { top: -.425rem; }
+
+      .quarter { top: $venn-width / 4 - .425rem; }
+    }
+  }
+
   .lists {
+    padding-top: 1.25rem;
     display: -webkit-flex;
     display: flex;
     -webkit-justify-content: center;
@@ -62,7 +110,7 @@
     &::after { content: '”'; }
   }
 
-  svg {
+  .list svg {
     display: block;
     width: $venn-width;
     height: $venn-width / 2;
