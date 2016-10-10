@@ -26,7 +26,7 @@ const NGreenlets = 20
 function path_to(key, tokenOrNull) {
   switch (key) {
     case 'index': return appConfig.base_path
-    case 'share-image': return `${appConfig.base_path}/share/${encodeURIComponent(tokenOrNull)}.png`
+    case 'share-image': return `${appConfig.base_path}/share/${encodeURIComponent(tokenOrNull)}.jpg`
     default: throw new Error(`Our path_to() stub cannot handle the key: ${key}`)
   }
 }
@@ -80,10 +80,10 @@ function spawn(i) {
       }
     }
 
-    const png = {
-      body: tokenRenderer.renderPng(token.text, group.n, group.nClinton, group.nTrump),
+    const jpg = {
+      body: tokenRenderer.renderImage(token.text, group.n, group.nClinton, group.nTrump),
       headers: {
-        'Content-Type': 'image/png'
+        'Content-Type': 'image/jpeg'
       }
     }
 
@@ -91,7 +91,7 @@ function spawn(i) {
     // character for AWS. So we suffer: upload special characters as-is; when
     // linking to pages, do all the URLEncoding we want; AWS URLDecodes all URLs
     // before serving them.
-    uploadUntilSuccess(i, `${appConfig.base_path}/share/${token.text}.png`, png, () => {
+    uploadUntilSuccess(i, `${appConfig.base_path}/share/${token.text}.jpeg`, jpg, () => {
       uploadUntilSuccess(i, `${appConfig.base_path}/${token.text}`, page, () => {
         process.nextTick(runOneToken)
       })
