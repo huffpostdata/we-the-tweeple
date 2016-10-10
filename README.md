@@ -1,8 +1,9 @@
 ## Developing
 
 1. Install NodeJS >= 6.7.0 from https://nodejs.org/en/
-2. `npm install`
-3. `node generator/dev.js`
+2. Install `libjpeg-turbo-devel`, `cairo-devel` and `yasm`
+3. `npm install`
+4. `node generator/dev.js`
 
 Then browse to http://localhost:3000
 
