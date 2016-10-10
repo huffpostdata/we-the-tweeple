@@ -7,12 +7,22 @@ html lang="en"
 
     meta name="viewport" content="width=device-width, initial-scale=1"
 
-    meta name="description" content="TK ${data.model.token}"
+    meta name="description" content="${data.model.sentenceText()}"
+
+    meta property="og:type" content="article"
+    meta property="og:size_name" content="The Huffington Post"
+    meta property="og:url" content="${data.url_to('share-page', data.model.token)}"
+    meta property="og:description" content="${data.model.sentenceText()}"
+    meta property="og:title" content="We The Tweeple"
+    meta property="og:image" content="${data.url_to('share-image', data.model.token)}"
+    meta property="fb:app_id" content="46744042133"
 
     meta name="twitter:card" content="summary_large_image"
+    meta name="twitter:site" content="@HuffPostData"
     meta name="twitter:creator" content="@HuffPostData"
-    meta name="twitter:site" content="@huffpostdata"
-    meta name="twitter:image" content="${data.path_to('share-image', data.model.token)}"
+    meta name="twitter:title" content="We The Tweeple"
+    meta name="twitter:description" content="${data.model.sentenceText()}"
+    meta name="twitter:image" content="${data.url_to('share-image', data.model.sentenceText())}"
   body data-search-term="${data.model.token}" style="opacity: 0;"
     script
       ---

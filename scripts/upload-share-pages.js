@@ -69,7 +69,8 @@ function spawn(i) {
     const html = template.renderSync({
       path_to: path_to,
       model: {
-        token: token.text
+        token: token.text,
+        sentenceText: () => token.sentenceText()
       }
     })
 

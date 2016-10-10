@@ -1,11 +1,16 @@
 'use strict'
 
 module.exports = class Token {
-  constructor(token, nTotal, nClinton, nTrump, image) {
-    this.token = token
-    this.nTotal = nTotal
-    this.nClinton = nClinton
-    this.nTrump = nTrump
+  constructor(dbToken, image) {
+    this.dbToken = dbToken
+    this.token = dbToken.text
+    this.nTotal = dbToken.group.n
+    this.nClinton = dbToken.group.nClinton
+    this.nTrump = dbToken.group.nTrump
     this.image = image
+  }
+
+  sentenceText() {
+    return this.dbToken.sentenceText()
   }
 }

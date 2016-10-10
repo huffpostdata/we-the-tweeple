@@ -1,3 +1,11 @@
+var html_escape = require('./_html-escape');
+
+var formatInt = require('./_format-int');
+
+var nClintonTotal = 3103739; // TK adjust this -- num with bios
+var nTrumpTotal = 3926005; // TK adjust this -- num with bios
+var nBothTotal = 747171; // TK adjust this -- num with bios
+
 function Group(id, nClinton, nTrump, nBoth, nVariants) {
   this.id = id;
   this.nClinton = nClinton;
@@ -17,6 +25,68 @@ function Token(group, n, text) {
   this.foldedText = text.toLowerCase();
   this.groupN = this.group.n;
 }
+
+Token.prototype.sentenceData = function() {
+  var group = this.group;
+
+  if (group.nClinton === 0 || group.nTrump === 0) {
+    return {
+      winner: group.nClinton > 0 ? 'Clinton' : 'Trump',
+      loser: '',
+      winPercent: 0
+    };
+  } else {
+    var fClinton = group.nClinton / nClintonTotal;
+    var fTrump = group.nTrump / nTrumpTotal;
+    var winPercent = Math.round(100 * Math.abs(fClinton - fTrump) / Math.min(fClinton, fTrump));
+    if (winPercent === 0) {
+      return {
+        winner: '',
+        loser: '',
+        winPercent: 0
+      };
+    } else {
+      var winner = fClinton > fTrump ? 'Clinton' : 'Trump';
+      var loser = fClinton < fTrump ? 'Clinton' : 'Trump';
+
+      return {
+        winner: winner,
+        loser: loser,
+        winPercent: winPercent
+      };
+    }
+  }
+};
+
+Token.prototype.sentenceTemplate = function(data) {
+  if (data.winner === '') {
+    return 'Clinton and Trump followers use the phrase TOKEN in equal proportions in their Twitter bios.';
+  } else if (data.loser === '') {
+    return 'Only WINNER followers use the phrase TOKEN in their Twitter bios.';
+  } else {
+    return 'WINNER followers are PERCENT% more likely to use the phrase TOKEN in their Twitter bios than LOSER followers.';
+  }
+};
+
+Token.prototype.sentenceText = function() {
+  var data = this.sentenceData();
+
+  return this.sentenceTemplate(data)
+    .replace(/TOKEN/, '“' + this.text + '”')
+    .replace(/WINNER/, data.winner)
+    .replace(/LOSER/, data.loser)
+    .replace(/PERCENT/, formatInt(data.winPercent || 0));
+};
+
+Token.prototype.sentenceHtml = function() {
+  var data = this.sentenceData();
+
+  return '<h4 class="' + (data.winner.toLowerCase() || 'tie') + '">' + this.sentenceTemplate(data)
+    .replace(/TOKEN/, '<q>' + html_escape(this.text) + '</q>')
+    .replace(/WINNER/, '<strong class="winner">' + data.winner + '</strong>')
+    .replace(/LOSER/, '<strong class="loser">' + data.loser + '</strong>')
+    .replace(/PERCENT/, formatInt(data.winPercent || 0)) + '</h4>';
+};
 
 function Database(tsv) {
   var groups = [];
