@@ -238,7 +238,6 @@ function main() {
   }
 
   els.input.addEventListener('input', autocomplete);
-  els.input.addEventListener('focus', autocomplete); // typing something new...
   els.input.addEventListener('blur', showFirstAutocompleteIfEqual);
 
   // Use keyboard to navigate autocomplete entry
