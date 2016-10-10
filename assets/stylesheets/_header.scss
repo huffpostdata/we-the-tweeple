@@ -1,31 +1,21 @@
 header {
-  .desktop {
-    display: none;
-    @media (min-width: $min-desktop-width) { display: block; }
+  h1 { display: none; } // it's just for SEO
 
-    &::before {
-      content: '';
-      display: block;
-      height: 0;
-      padding-bottom: (100% * 1032 / 2048);
-      background-color: #caeaff;
-      background-image: asset-url('digest', 'images/header-desktop.jpg');
-      background-size: 100%;
-    }
+  &::before {
+    content: '';
+    display: block;
+    height: 0;
+    padding-bottom: (100% * 534 / 750);
+    background-color: #caeaff;
+    background-image: asset-url('digest', 'images/header-mobile.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
   }
 
-  .mobile {
-    display: block;
-    @media (min-width: $min-desktop-width) { display: none; }
-
+  @media (min-width: $min-desktop-width) {
     &::before {
-      content: '';
-      display: block;
-      height: 0;
-      padding-bottom: (100% * 534 / 750);
-      background-color: #caeaff;
-      background-image: asset-url('digest', 'images/header-mobile.jpg');
-      background-size: 100%;
+      padding-bottom: (100% * 1032 / 2500);
+      background-image: asset-url('digest', 'images/header-desktop.jpg');
     }
   }
 }
