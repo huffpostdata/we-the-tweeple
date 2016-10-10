@@ -91,7 +91,7 @@ function spawn(i) {
     // character for AWS. So we suffer: upload special characters as-is; when
     // linking to pages, do all the URLEncoding we want; AWS URLDecodes all URLs
     // before serving them.
-    uploadUntilSuccess(i, `${appConfig.base_path}/share/${token.text}.jpeg`, jpg, () => {
+    uploadUntilSuccess(i, `${appConfig.base_path}/share/${token.text}.jpg`, jpg, () => {
       uploadUntilSuccess(i, `${appConfig.base_path}/${token.text}`, page, () => {
         process.nextTick(runOneToken)
       })
