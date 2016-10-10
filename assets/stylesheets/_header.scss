@@ -1,21 +1,40 @@
 header {
   h1 { display: none; } // it's just for SEO
 
-  &::before {
-    content: '';
-    display: block;
-    height: 0;
-    padding-bottom: (100% * 534 / 750);
-    background-color: #caeaff;
-    background-image: asset-url('digest', 'images/header-mobile.jpg');
-    background-size: 100%;
-    background-repeat: no-repeat;
+  figure {
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    &::before {
+      content: '';
+      display: block;
+      height: 0;
+      padding-bottom: (100% * 534 / 750);
+      background-color: #caeaff;
+      background-image: asset-url('digest', 'images/header-mobile.jpg');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    @media (min-width: $min-desktop-width) {
+      &::before {
+        padding-bottom: (100% * 1032 / 2500);
+        background-image: asset-url('digest', 'images/header-desktop.jpg');
+      }
+    }
   }
 
-  @media (min-width: $min-desktop-width) {
-    &::before {
-      padding-bottom: (100% * 1032 / 2500);
-      background-image: asset-url('digest', 'images/header-desktop.jpg');
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .2;
+
+    &.highlight {
+      cursor: pointer;
     }
   }
 }

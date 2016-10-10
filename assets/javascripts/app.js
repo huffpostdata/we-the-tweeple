@@ -1,3 +1,4 @@
+var makeHeaderInteractive = require('./_header');
 var renderVenn = require('./_venn');
 var Database = require('./_database');
 var formatInt = require('./_format-int');
@@ -16,10 +17,8 @@ var database = new Database(''); // until we load
 function loadTsv(url, callback) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-    if (xhr.status === 200) {
+  xhr.onload = function() {
+    if (xhr.status === 200 || xhr.status === 304) {
       database = new Database(xhr.responseText);
       callback();
     } else {
@@ -283,6 +282,12 @@ function main() {
   }
   els.autocomplete.addEventListener('mousedown', selectAutocompleteFromEvent);
   els.autocomplete.addEventListener('touchstart', selectAutocompleteFromEvent);
+
+  makeHeaderInteractive(function(tokenText) {
+    els.input.value = tokenText;
+    autocomplete();
+    showMatch(autocompleteMatches[0]); // assume the search matches
+  });
 
   loadTsv(app_el.getAttribute('data-tsv-path'), function() {
     els.loading.parentNode.removeChild(els.loading);
