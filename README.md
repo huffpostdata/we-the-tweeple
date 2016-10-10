@@ -1,4 +1,4 @@
-## Developing
+# Developing
 
 1. Install NodeJS >= 6.7.0 from https://nodejs.org/en/
 2. Install `libjpeg-turbo-devel`, `cairo-devel` and `yasm`
@@ -7,7 +7,7 @@
 
 Then browse to http://localhost:3000
 
-### Updating our Google Docs
+## Updating our Google Docs
 
 If you're adding/removing docs, look to `config/google-docs.yml`.
 
@@ -16,7 +16,7 @@ Then run `npm run update-google-docs` to download newer data from Google Docs.
 You'll have to commit the newly-downloaded JSON to this repository to publish
 it.
 
-### Deploying
+# Deploying
 
 We'll automate this. But for now, here's how we deployed to production:
 
@@ -54,3 +54,17 @@ popd
 2. (Once per dev machine per project) Run `git remote add production ssh://rails@production-elections-utility-01.use1.huffpo.net/home/rails/SLUG.git`
 3. (Once per deploy) `git push production master`. You'll see the output in your console.
 
+## Deploying share cards
+
+We generate hundreds of thousands of share cards. It takes a while to generate
+and upload them all, so we don't do it every deploy. They basically never
+change.
+
+When you want to upload them (which you should do before _first_ deploy, and
+whenever correcting something in them), run this:
+
+```
+S3_BUCKET=data.huffingtonpost.com \
+  BASE_URL='http://data.huffingtonpost.com' \
+  node scripts/upload-share-pages.js
+```
