@@ -89,6 +89,11 @@ function main() {
           ].join('');
         }).join('')
         + '</ul>';
+
+      if (autocompleteMatches[0] === prefix || autocompleteMatches.length === 1) {
+        autocompleteIndex = 0;
+        els.autocomplete.querySelector('li').classList.add('hover');
+      }
     }
   }
 
@@ -121,10 +126,6 @@ function main() {
     return 0;
   }
 
-  function cancelAutocomplete() {
-    els.autocomplete.classList.add('input-empty');
-  }
-
   function showFirstAutocompleteIfEqual() {
     if (autocompleteMatches.length > 0 && autocompleteMatches[0].foldedText === els.input.value.toLowerCase()) {
       showMatch(autocompleteMatches[0]);
@@ -134,13 +135,14 @@ function main() {
   }
 
   function showMatch(matchOrNull) {
-    cancelAutocomplete();
-
     if (!matchOrNull) {
       window.history.replaceState({}, '', RootPath);
 
       if (els.result.parentNode !== null) els.resultContainer.removeChild(els.result);
     } else {
+      autocomplete(); // So when we blur, the list is correct
+      els.autocomplete.classList.add('input-empty');
+
       var token = matchOrNull;
       var group = token.group;
 
@@ -274,7 +276,7 @@ function main() {
   function selectAutocompleteFromEvent(ev) {
     ev.preventDefault();
     var index = findIndexOfAutocompleteNode(ev.target) || 0;
-    var match = autocompleteMatches[autocompleteIndex];
+    var match = autocompleteMatches[index];
     if (!match) return; // clicked on border or "No matches found"
     els.input.value = match.text;
     showMatch(match);
