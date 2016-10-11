@@ -61,7 +61,7 @@ function main() {
     } else if (autocompleteMatches.length === 0) {
       els.autocomplete.innerHTML = 'No matches found';
     } else {
-      var maxN = autocompleteMatches.reduce(function(s, m) { return Math.max(s, m.group.n); }, 0);
+      var maxN = autocompleteMatches.reduce(function(s, m) { return Math.max(s, m.group.nClinton, m.group.nTrump); }, 0);
 
       els.autocomplete.innerHTML = '<ul>'
         + autocompleteMatches.map(function(m) {
@@ -156,7 +156,7 @@ function main() {
         ].join('');
       }
 
-      var venn = renderVenn(group.n, group.nClinton, group.nTrump, group.nBoth);
+      var venn = renderVenn(Math.max(group.nClinton, group.nTrump), group.nClinton, group.nTrump, group.nBoth);
       var m = venn.measurements;
 
       var leftPercent = 100 - 25 * (2 + m.clinton.x + m.clinton.r);
@@ -179,7 +179,7 @@ function main() {
             '<em>', formatInt(group.nOnlyTrump), '</em> ',
             '<span>', (group.nOnlyTrump === 1 ? 'follows' : 'follow'), ' only Trump</span>',
           '</div>',
-          '<div class="both" style="width: 75%; left: ', (25 * (2 + m.x) - 37.5), '%; top: ', (50 * (1 + m.y)), '%;">',
+          '<div class="both" style="width: 100%; left: ', (25 * (2 + m.x) - 50), '%; top: ', (50 * (1 + m.y)), '%;">',
             '<em>', formatInt(group.nBoth), '</em>',
             '<span>', (group.nBoth === 1 ? 'follows' : 'follow'), ' both</span>',
           '</div>',

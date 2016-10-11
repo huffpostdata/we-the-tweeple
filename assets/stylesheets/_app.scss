@@ -120,18 +120,13 @@ div#app {
     $sentence-height: 8rem;
 
     // Use a hand-wavy number here. Each candidate needs 6rem of space for a
-    // label, but if we put 6rem here we'll have no space on iOS. We take
-    // advantage of the fact that the SVG never extends all the way to its
-    // left and right bounds.
-    //
-    // (If we had to do it all over, maybe we'd make the SVG a different
-    // aspect ratio. But I'm not convinced the math would be simpler.)
+    // label.
     //
     // Test this at 320px on:
     // * an all-Clinton word ("#HillYes")
     // * an all-Trump word ("#MAGA")
     // * a word with near-equal r and small overlap ("grandma's")
-    $svg-margin: 4.5rem;
+    $svg-margin: 6rem;
 
     &::before {
       // maintain a consistent aspect ratio
@@ -192,7 +187,7 @@ div#app {
         font-family: $body-font-family;
         font-weight: normal;
         font-size: 1.15rem;
-        line-height: 1.8;
+        line-height: 1.25;
 
         // Lines are ::before and ::after
         &::before {

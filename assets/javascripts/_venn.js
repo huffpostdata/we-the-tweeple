@@ -2,21 +2,19 @@
  * Returns measurements along a number line.
  *
  * The returned measurements scale from -1 to 1. A radius of 1 means the number
- * of followers is equal to `nPopulation`; if it's at position -1, that means
+ * of followers is equal to `nMax`; if it's at position -1, that means
  * all of those followers follow Clinton.
  *
  * In no order, all the assumptions you can make about the results:
  *
  * * When scaling, remember that a position of -1 and a radius of 1 will make
- *   the shape extend all the way to -2. In sum, the bounds of all shapes we
- *   can possibly return are (-2, -1) to (2, 1).
- * * It's impossible for both candidates to include the entire population and
- *   be disjoint sets. The maximum width of the X-axis for any _single_ return
- *   value is 2*sqrt(2). (That's when the disjoint sets each contain exactly
- *   half the population.)
+ *   the shape extend all the way to -2. In sum, the widest shape we can
+ *   possibly return has bounds (-2, -1) to (2, 1). (We get that for a phrase
+ *   like "grandma's", which has two equally-sized, nearly-disjoint sets of
+ *   followers.
  *
  * Parameters:
- *   nPopulation: focus population (e.g., "we're looking at 200 people")
+ *   nMax: max number (perhaps `Math.max(nClinton, nTrump)`)
  *   nClinton: number of Clinton followers
  *   nTrump: number of Trump followers
  *   nBoth: number of Clinton followers who are also Trump followers
@@ -40,9 +38,9 @@
  *       y: (Number maximum y where clinton and trump circles intersect, [0, 1])
  *     }
  */
-function measure(nPopulation, nClinton, nTrump, nBoth) {
-  var rClinton = Math.sqrt(nClinton / nPopulation);
-  var rTrump = Math.sqrt(nTrump / nPopulation);
+function measure(nMax, nClinton, nTrump, nBoth) {
+  var rClinton = Math.sqrt(nClinton / nMax);
+  var rTrump = Math.sqrt(nTrump / nMax);
 
   var aClinton = rClinton * rClinton * Math.PI;
   var aTrump = rTrump * rTrump * Math.PI;
@@ -197,7 +195,7 @@ function measure(nPopulation, nClinton, nTrump, nBoth) {
   };
 }
 
-function renderIntersection(m, className, nPopulation, nClinton, nTrump, nBoth) {
+function renderIntersection(m, className, nMax, nClinton, nTrump, nBoth) {
   if (nBoth === 0) {
     return '';
   } else if (nBoth === nClinton) {
@@ -223,7 +221,7 @@ function renderIntersection(m, className, nPopulation, nClinton, nTrump, nBoth) 
  * Returns a <svg> string with a Venn diagram sized according to the input.
  *
  * Parameters:
- *   nPopulation: focus population (e.g., "we're looking at 200 people")
+ *   nMax: max number (perhaps `Math.max(nClinton, nTrump)`)
  *   nClinton: number of Clinton followers
  *   nTrump: number of Trump followers
  *   nBoth: number of Clinton followers who are also Trump followers
@@ -235,11 +233,11 @@ function renderIntersection(m, className, nPopulation, nClinton, nTrump, nBoth) 
  *     svg: '<svg ...'
  *   }
  */
-function renderVenn(nPopulation, nClinton, nTrump, nBoth) {
-  var m = measure(nPopulation, nClinton, nTrump, nBoth);
+function renderVenn(nMax, nClinton, nTrump, nBoth) {
+  var m = measure(nMax, nClinton, nTrump, nBoth);
 
-  var bothOutline = renderIntersection(m, 'both-outline', nPopulation, nClinton, nTrump, nBoth);
-  var both = renderIntersection(m, 'both', nPopulation, nClinton, nTrump, nBoth);
+  var bothOutline = renderIntersection(m, 'both-outline', nMax, nClinton, nTrump, nBoth);
+  var both = renderIntersection(m, 'both', nMax, nClinton, nTrump, nBoth);
 
   var svg = [
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -1 4 2">',
