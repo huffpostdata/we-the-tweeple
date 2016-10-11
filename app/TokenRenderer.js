@@ -111,7 +111,7 @@ module.exports = class TokenRenderer {
     ctx.textBaseline = 'bottom'
     ctx.fillText(`${formatInt(group.n)} followers used`, this.width * 0.5, 94);
     ctx.textBaseline = 'top'
-    ctx.fillText(longText, this.width * 0.5, 110 + measurements.actualBoundingBoxAscent);
+    ctx.fillText(longText, this.width * 0.5, 114 + measurements.actualBoundingBoxAscent);
 
     ctx._setFont('normal', 'normal', 24, 'pt', 'Arial')
     ctx.textBaseline = 'middle' // From now on, we're ASCII
