@@ -20,12 +20,15 @@ module.exports = class Database {
     this.index.tokenDB = tokenDB
 
     this.tokens = [
-      'Adam', 'continue', 'Trump', '#MAGA', 'ابو', 'générale', 'R&B/Soul', '読書', 'पुर', 'Дизайн',
-      'RTs are not endorsements'
+      '#MAGA', '#HillYes',                                   // nClinton=0, nTrump=0
+      'ابو', 'générale', 'R&B/Soul', '読書', 'पुर', 'Дизайн', // Unicode in header
+      'RTs are not necessarily endorsements',                // Long string
+      'Trump 2016', 'Clinton for President',                 // nBoth=~nClinton, nBoth=~nTrump
+      'Adam',                                                // easy to remember ;)
+      "grandma's"                                            // very wide
     ].map(term => {
       const token = tokenDB.find(term)
-      const g = token.group
-      const image = tokenRenderer.renderImage(token.text, g.n, g.nClinton, g.nTrump)
+      const image = tokenRenderer.renderImage(token)
       const ret = new Token(token, image)
       return ret
     })
