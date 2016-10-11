@@ -26,6 +26,35 @@ function Token(group, n, text) {
   this.groupN = this.group.n;
 }
 
+/**
+ * Renders "similar spellings" HTML, or an empty String if `nVariants === 1`
+ */
+Token.prototype.variantsHtml = function() {
+  const group = this.group;
+
+  if (group.nVariants <= 1) return '';
+
+  var liHtmls = group.tokens
+    .filter(function(t) { return t !== this; })
+    .slice(0, 2)
+    .map(function(token) {
+      return '<li><q>' + html_escape(token.text) + '</q><span class="n">' + formatInt(token.n) + '</span></li>';
+    });
+  var nOther = group.nVariants - liHtmls.length - 1;
+  if (nOther > 0) {
+    if (nOther === 1) {
+      liHtmls.push('<li class="other">1 similar spelling</li>');
+    } else {
+      liHtmls.push('<li class="other">' + nOther + ' similar spellings</li>');
+    }
+  }
+  return [
+    '<div class="variants">',
+      'Includes <ul>', liHtmls.join(''), '</ul>',
+    '</div>'
+  ].join('');
+};
+
 Token.prototype.sentenceData = function() {
   var group = this.group;
 

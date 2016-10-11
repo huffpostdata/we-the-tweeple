@@ -133,29 +133,6 @@ function main() {
 
       window.history.replaceState({}, '', RootPath + '/' + encodeURIComponent(token.text));
 
-      var variantsHtml = '';
-      if (group.nVariants > 1) {
-        var liHtmls = group.tokens
-          .filter(function(t) { return t != token; })
-          .slice(0, 2)
-          .map(function(token) {
-            return '<li><q>' + html_escape(token.text) + '</q><span class="n">' + formatInt(token.n) + '</span></li>';
-          });
-        var nOther = group.nVariants - liHtmls.length - 1;
-        if (nOther > 0) {
-          if (nOther === 1) {
-            liHtmls.push('<li class="other">1 similar spelling</li>');
-          } else {
-            liHtmls.push('<li class="other">' + nOther + ' similar spellings</li>');
-          }
-        }
-        variantsHtml = [
-          '<div class="variants">',
-            'Includes <ul>', liHtmls.join(''), '</ul>',
-          '</div>'
-        ].join('');
-      }
-
       var venn = renderVenn(Math.max(group.nClinton, group.nTrump), group.nClinton, group.nTrump, group.nBoth);
       var m = venn.measurements;
 
@@ -164,7 +141,7 @@ function main() {
       var centerPercent = (leftPercent + 100 - rightPercent) / 2;
 
       els.result.innerHTML = [
-        variantsHtml,
+        token.variantsHtml(),
         '<figure class="venn-container" style="margin-left: ', (50 - centerPercent), '%; margin-right: ', (centerPercent - 50), '%;">',
           '<h3 style="left: ', leftPercent, '%; right: ', rightPercent, '%;">',
             '<strong>', formatInt(group.n), '</strong>',
