@@ -1,6 +1,7 @@
 (function() {
   var GOOGLE_ANALYTICS_ID = 'UA-61898491-1';
   var AUTHOR = 'Adam Hooper';
+  var SLUG = 'we-the-tweeple';
   var TAGS = 'we-the-tweeple';
 
   // Google Analytics
@@ -25,20 +26,21 @@
     b: 'b.huffingtonpost.com',
     h: location.hostname,
     p: {
-      "dL_ch": (isMobile ? "us.hpmghighln" : "us.hpmghighln_mb"),
-      "dL_dpt": "data",
-      "cobrand": "HuffPost",
-      "dL_blogID": "2",
-      "dL_cmsID": "hpo:5745c2d3e4b03ede44136eec",
-      "dL_author": AUTHOR,
-      "dL_tags": TAGS,
-      "dL_crtdt": "2016-07-13 13:00:00",
+      dL_ch: (isMobile ? "us.hpmghighln_mb" : "us.hpmghighln"),
+      dL_dpt: "data",
+      cobrand: "HuffPost",
+      dL_blogID: "2",
+      dL_cmsID: "hpo:" + SLUG,
+      dL_author: AUTHOR,
+      dL_tags: TAGS,
+      dL_crtdt: "2016-07-13 13:00:00",
+      renderingEngine: "huffpostdata-generator"
     }
   }
 
   function runOmni() {
     s_265.pfxID = 'hpo';
-    s_265.channel = (isMobile ? "us.hpmghighln" : "us.hpmghighln_mb");
+    s_265.channel = (isMobile ? "us.hpmghighln_mb" : "us.hpmghighln");
     s_265.linkInternalFilters = 'javascript:,huffingtonpost.com';
     s_265.prop16 = 'page';
     s_265.prop1 = 'data';

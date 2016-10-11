@@ -166,6 +166,8 @@ function main() {
       ].join('');
 
       els.resultContainer.appendChild(els.result);
+
+      if (window.hasOwnProperty('bN')) bN.ping('search', { search_terms: token.text });
     }
   }
 
