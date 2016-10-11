@@ -97,8 +97,8 @@ module.exports = class TokenRenderer {
     ctx.textBaseline = 'middle';
     ctx.fillStyle = 'white';
 
-    // Start with nbsp so RTL text (e.g., "ابو") is at the left
-    const longText = `\u00a0“${token.text}” in their Twitter bios`
+    // Start with LRM (\u200e) so RTL text (e.g., "ابو") is at the left
+    const longText = `\u200e“${token.text}” in their Twitter bios`
     const maxTextWidth = this.width * 0.7 // If we get too long, we'll make text shorter
     const ratio = maxTextWidth / ctx.measureText(longText).width
     let halfLeading = 40
