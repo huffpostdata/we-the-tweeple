@@ -15,10 +15,38 @@ const read_config = require('./read_config')
  */
 function mangleKey(s) {
   // decodeURIComponent() throws on malformed URL. We'll assume AWS doesn't.
-  // (TODO test this)
-  return s.replace(/%([0-9A-F][0-9A-F])/g, function(_, x) {
-    return String.fromCharCode(+('0x' + x));
-  });
+  return s
+    // Decode ASCII values, such as "#"
+    .replace(/%([0-7][0-9A-F])/g, (_, x) => String.fromCharCode(+('0x' + x)))
+
+    // Sorry, we gotta do a full UTF-8 decoding for S3 here :(
+    // Assume the input is valid UTF-8.
+    // https://en.wikipedia.org/wiki/UTF-8#Description
+    .replace(/%([C-D][0-9A-F])%([0-9A-F][0-9A-F])/g, (_, x1, x2) => {
+      const c = ((+`0x${x1}` & 0b00011111) << 6) | ((+`0x${x2}` & 0b00111111))
+      return String.fromCodePoint(c)
+    })
+
+    // 3-byte UTF-8
+    .replace(/%(E[0-9A-F])%([0-9A-F]{2})%([0-9A-F]{2})/g, (_, x1, x2, x3) => {
+      const c = (
+        ((+`0x${x1}` & 0b00001111) << 12) |
+        ((+`0x${x2}` & 0b00111111) << 6) |
+        (+`0x${x3}` & 0b00111111)
+      )
+      return String.fromCodePoint(c)
+    })
+
+    // 4-byte UTF-8
+    .replace(/%(F[0-9A-F])%([0-9A-F]{2})%([0-9A-F]{2})%([0-9A-F]{2})/g, (_, x1, x2, x3, x4) => {
+      const c = (
+        ((+`0x${x1}` & 0b00000111) << 18) |
+        ((+`0x${x2}` & 0b00111111) << 12) |
+        ((+`0x${x3}` & 0b00111111) << 6) |
+        (+`0x${x4}` & 0b00111111)
+      )
+      return String.fromCodePoint(c)
+    })
 }
 
 class AWS {
