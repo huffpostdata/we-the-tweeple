@@ -69,7 +69,7 @@ function main() {
             '<li><a href="#!', encodeURIComponent(m.text), '">',
               '<span class="token"><mark>', html_escape(m.text.slice(0, prefix.length)), '</mark>', m.text.slice(prefix.length), '</span>',
               '<span class="n">', formatInt(m.groupN), '</span>',
-              renderVenn(maxN, m.group.nClinton, m.group.nTrump, m.group.nBoth).svg,
+              renderVenn(maxN, m).svg,
             '</a></li>'
           ].join('');
         }).join('')
@@ -136,32 +136,9 @@ function main() {
       var venn = renderVenn(Math.max(group.nClinton, group.nTrump), group.nClinton, group.nTrump, group.nBoth);
       var m = venn.measurements;
 
-      var leftPercent = 100 - 25 * (2 + m.clinton.x + m.clinton.r);
-      var rightPercent = 100 - 25 * (2 + m.trump.x + m.trump.r);
-      var centerPercent = (leftPercent + 100 - rightPercent) / 2;
-
-      function annotate(n, person) {
-        return '<em>' + formatInt(n) + '</em> <span>' + (n === 1 ? 'follows' : 'follow') + ' ' + person + '</span>';
-      }
-
       els.result.innerHTML = [
         token.variantsHtml(),
-        '<figure class="venn-container" style="margin-left: ', (50 - centerPercent), '%; margin-right: ', (centerPercent - 50), '%;">',
-          '<h3 style="left: ', leftPercent, '%; right: ', rightPercent, '%;">',
-            '<strong>', formatInt(group.n), '</strong>',
-            '<span>followers used <q>', html_escape(token.text), '</q> in their Twitter bios</span>',
-          '</h3>',
-          venn.svg,
-          '<div class="only-clinton" style="right: ', (100 - leftPercent), '%;">',
-            annotate(group.nOnlyClinton, 'only Clinton'),
-          '</div>',
-          '<div class="only-trump" style="left: ', (100 - rightPercent), '%;">',
-            annotate(group.nOnlyTrump, 'only Trump'),
-          '</div>',
-          '<div class="both" style="width: 100%; left: ', (25 * (2 + m.x) - 50), '%; top: ', (50 * (1 + m.y)), '%;">',
-            annotate(group.nBoth, 'both'),
-          '</div>',
-        '</figure>',
+        venn.html,
         token.sentenceHtml()
       ].join('');
 

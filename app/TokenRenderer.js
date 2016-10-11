@@ -3,7 +3,7 @@
 // Set FONTCONFIG_PATH so we look for _our_ fonts, not system fonts
 // (on production, there _are_ no system fonts)
 const path = require('path');
-process.env.FONTCONFIG_PATH = path.resolve(__dirname, '../fonts');
+process.env.FONTCONFIG_PATH = path.resolve(__dirname, '../raw-assets/fonts');
 
 const fs = require('fs');
 const os = require('os');
@@ -94,25 +94,29 @@ module.exports = class TokenRenderer {
 
     ctx._setFont('900', 'normal', maxFontSize, 'pt', 'Proxima Nova Condensed')
     ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
     ctx.fillStyle = 'white';
 
     // Start with LRM (\u200e) so RTL text (e.g., "ابو") is at the left
     const longText = `\u200e“${token.text}” in their Twitter bios`
     const maxTextWidth = this.width * 0.7 // If we get too long, we'll make text shorter
-    const ratio = maxTextWidth / ctx.measureText(longText).width
-    let halfLeading = 40
+    ctx.textBaseline = 'top'
+    const measurements = ctx.measureText(longText)
+    const ratio = maxTextWidth / measurements.width
     if (ratio < 1) {
       ctx._setFont('900', 'normal', maxFontSize * ratio, 'pt', 'Proxima Nova Condensed')
-      halfLeading = halfLeading * ratio
     }
 
-    ctx.fillText(`${formatInt(group.n)} followers used`, this.width * 0.5, 100 - halfLeading);
-    ctx.fillText(longText, this.width * 0.5, 100 + halfLeading);
+    // Fiddle constantly with baseline. Arabic text's baseline is above most
+    // of each character so if we tried to render "middle" that would be icky.
+    ctx.textBaseline = 'bottom'
+    ctx.fillText(`${formatInt(group.n)} followers used`, this.width * 0.5, 94);
+    ctx.textBaseline = 'top'
+    ctx.fillText(longText, this.width * 0.5, 110 + measurements.actualBoundingBoxAscent);
 
     ctx._setFont('normal', 'normal', 24, 'pt', 'Arial')
+    ctx.textBaseline = 'middle' // From now on, we're ASCII
 
-    const venn = renderVenn(Math.max(group.nClinton, group.nTrump), group.nClinton, group.nTrump, group.nBoth)
+    const venn = renderVenn(Math.max(group.nClinton, group.nTrump), token)
     const m = venn.measurements // 4 units wide, 2 units tall, center is 0,0
 
     const mult = 225 // ~1000 units wide, ~500 units tall

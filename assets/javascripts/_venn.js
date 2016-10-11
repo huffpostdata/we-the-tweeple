@@ -1,3 +1,6 @@
+const formatInt = require('./_format-int')
+const html_escape = require('./_html-escape')
+
 /**
  * Returns measurements along a number line.
  *
@@ -217,6 +220,52 @@ function renderIntersection(m, className, nMax, nClinton, nTrump, nBoth) {
   }
 }
 
+function renderSvg(m, nMax, nClinton, nTrump, nBoth) {
+  var bothOutline = renderIntersection(m, 'both-outline', nMax, nClinton, nTrump, nBoth);
+  var both = renderIntersection(m, 'both', nMax, nClinton, nTrump, nBoth);
+
+  return [
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -1 4 2">',
+      '<circle class="clinton" cx="', -m.clinton.x, '" cy="0" r="', m.clinton.r, '"/>',
+      '<circle class="trump" cx="', m.trump.x, '" cy="0" r="', m.trump.r, '"/>',
+      bothOutline,
+      both,
+    '</svg>'
+  ].join('');
+}
+
+function annotate(n, person) {
+  return '<em>' + formatInt(n) + '</em> <span>' + (n === 1 ? 'follows' : 'follow') + ' ' + person + '</span>';
+}
+
+function renderHtml(token, measurements, svg) {
+  const m = measurements
+  const group = token.group
+
+  var leftPercent = 100 - 25 * (2 + m.clinton.x + m.clinton.r);
+  var rightPercent = 100 - 25 * (2 + m.trump.x + m.trump.r);
+  var centerPercent = (leftPercent + 100 - rightPercent) / 2;
+
+  return [
+    '<figure class="venn-container" style="margin-left: ', (50 - centerPercent), '%; margin-right: ', (centerPercent - 50), '%;">',
+      '<h3 style="left: ', leftPercent, '%; right: ', rightPercent, '%;">',
+        '<strong>', formatInt(group.n), '</strong>',
+        '<span>followers used <q>', html_escape(token.text), '</q> in their Twitter bios</span>',
+      '</h3>',
+      svg,
+      '<div class="only-clinton" style="right: ', (100 - leftPercent), '%;">',
+        annotate(group.nOnlyClinton, 'only Clinton'),
+      '</div>',
+      '<div class="only-trump" style="left: ', (100 - rightPercent), '%;">',
+        annotate(group.nOnlyTrump, 'only Trump'),
+      '</div>',
+      '<div class="both" style="width: 100%; left: ', (25 * (2 + m.x) - 50), '%; top: ', (50 * (1 + m.y)), '%;">',
+        annotate(group.nBoth, 'both'),
+      '</div>',
+    '</figure>'
+  ].join('');
+}
+
 /**
  * Returns a <svg> string with a Venn diagram sized according to the input.
  *
@@ -230,27 +279,20 @@ function renderIntersection(m, className, nMax, nClinton, nTrump, nBoth) {
  *
  *   {
  *     measurements: { ... },
- *     svg: '<svg ...'
+ *     svg: '<svg ...',
+ *     html: '<figure ...'
  *   }
  */
-function renderVenn(nMax, nClinton, nTrump, nBoth) {
-  var m = measure(nMax, nClinton, nTrump, nBoth);
-
-  var bothOutline = renderIntersection(m, 'both-outline', nMax, nClinton, nTrump, nBoth);
-  var both = renderIntersection(m, 'both', nMax, nClinton, nTrump, nBoth);
-
-  var svg = [
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -1 4 2">',
-      '<circle class="clinton" cx="', -m.clinton.x, '" cy="0" r="', m.clinton.r, '"/>',
-      '<circle class="trump" cx="', m.trump.x, '" cy="0" r="', m.trump.r, '"/>',
-      bothOutline,
-      both,
-    '</svg>'
-  ].join('');
+function renderVenn(nMax, token) {
+  const group = token.group
+  var m = measure(nMax, group.nClinton, group.nTrump, group.nBoth);
+  const svg = renderSvg(m, nMax, group.nClinton, group.nTrump, group.nBoth)
+  const html = renderHtml(token, m, svg)
 
   return {
     measurements: m,
-    svg: svg
+    svg: svg,
+    html: html
   };
 }
 

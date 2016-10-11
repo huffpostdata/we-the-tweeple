@@ -77,7 +77,7 @@ class Helpers {
         text: token.text,
         nClinton: formatInt(g.nClinton),
         nTrump: formatInt(g.nTrump),
-        vennSvg: renderVenn(maxN, g.nClinton, g.nTrump, g.nBoth).svg
+        vennSvg: renderVenn(maxN, token).svg
       }
     }
 
