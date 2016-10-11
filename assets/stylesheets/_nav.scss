@@ -2,7 +2,7 @@ nav {
   background: $nav-background;
   color: $nav-color;
   font-family: $nav-font-family;
-  padding: .5rem 0;
+  padding: .5rem;
   height: 2rem;
   display: -webkit-flex;
   display: flex;
@@ -11,84 +11,22 @@ nav {
   -webkit-justify-content:  space-between;
   justify-content:  space-between;
 
-  a {
+  a.home {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
     font-size: 0; // We show image, not text
     line-height: 0; // Also because we show image, not text
-    display: inline-block;
-  }
-
-  .nav-logo {
-    padding-left: 1rem;
-    line-height: 0; // So that logo image is vertically centered
-    flex: 1 1 auto;
-
-        .hechinger-logo-desktop{
-      top: 2%;
-      height: 30px;
-      display: block;
-      height: 1rem;
-      max-height: 100%;
-      width: auto;
-      margin-top: 5px;
-      padding-left: 1rem;
-      margin-left: 1rem;
-      border-left: 1px solid white;
-
-      @media (max-width: 851px) {
-        height: .67rem;
-        margin-top: -23px;      }
-
-         @media (max-width: 420px) {
-        height: .6rem;
-        margin-top: -23px;   
-        padding-left: .5rem;
-      margin-left: .5rem;
-      border-left: none;
-    }
-}
-
-
-  .logo-desktop {
-    top: 2%;
-      height: 30px;
-      display: block;
-      height: 1rem;
-      max-height: 100%;
-      width: auto;
-      margin-top: 10px;
-    }
-
-
-
-
-    img {
-      display: block;
-      height: 1rem;
-      max-height: 100%;
-      width: auto;
-      padding-top: 0rem;
-      @media (max-width: 851px) {
-      height: 30px;
-      padding-top: .1rem;
-    }
-
-    @media (max-width: 370px) {
-      height: 20px;
-      padding-top: .4rem;
-    }
-
-    }
-
+    background: asset-url('digest', 'images/hplogo.svg');
+    background-size: 100%;
   }
 
   .share-buttons {
     padding-top: .1rem;
-    padding-right: 1rem;
     line-height: 1.7rem;
     button {
       background: #181818;
-      margin-right: 10px;
+      margin-left: .5rem;
     }
   }
-
 }
