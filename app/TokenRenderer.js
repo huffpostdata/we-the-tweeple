@@ -161,7 +161,7 @@ module.exports = class TokenRenderer {
 
     // Clinton label
     const xClinton = xMid - margin - mult * (m.clinton.x + m.clinton.r)
-    ctx._setFont('900', 'normal', 45, 'pt', 'Proxima Nova Condensed')
+    ctx._setFont('900', 'normal', 54, 'pt', 'Proxima Nova Condensed')
     ctx.textAlign = 'right'
     ctx.fillStyle = '#4c7de0'
     ctx.fillText(formatInt(group.nClinton), xClinton, yMid - 50)
@@ -171,7 +171,7 @@ module.exports = class TokenRenderer {
 
     // Trump label
     const xTrump = xMid + margin + mult * (m.trump.x + m.trump.r)
-    ctx._setFont('900', 'normal', 45, 'pt', 'Proxima Nova Condensed')
+    ctx._setFont('900', 'normal', 54, 'pt', 'Proxima Nova Condensed')
     ctx.textAlign = 'left'
     ctx.fillStyle = '#e52426'
     ctx.fillText(formatInt(group.nTrump), xTrump, yMid - 50)
@@ -182,7 +182,7 @@ module.exports = class TokenRenderer {
     // Both label
     const xBoth = xMid + mult * Math.min(Math.max(-m.clinton.x, m.x), m.trump.x)
     const yBoth = yMid + mult * Math.max(m.clinton.r, m.trump.r)
-    ctx._setFont('900', 'normal', 45, 'pt', 'Proxima Nova Condensed')
+    ctx._setFont('900', 'normal', 54, 'pt', 'Proxima Nova Condensed')
     ctx.textAlign = 'center'
     ctx.fillStyle = '#9959ba'
     ctx.fillText(formatInt(group.nTrump), xBoth, yBoth + 70)
