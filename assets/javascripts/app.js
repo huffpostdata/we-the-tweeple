@@ -133,7 +133,7 @@ function main() {
 
       window.history.replaceState({}, '', RootPath + '/' + encodeURIComponent(token.text));
 
-      var venn = renderVenn(Math.max(group.nClinton, group.nTrump), group.nClinton, group.nTrump, group.nBoth);
+      var venn = renderVenn(Math.max(group.nClinton, group.nTrump), token);
       var m = venn.measurements;
 
       els.result.innerHTML = [
