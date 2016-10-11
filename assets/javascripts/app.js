@@ -140,6 +140,10 @@ function main() {
       var rightPercent = 100 - 25 * (2 + m.trump.x + m.trump.r);
       var centerPercent = (leftPercent + 100 - rightPercent) / 2;
 
+      function annotate(n, person) {
+        return '<em>' + formatInt(n) + '</em> <span>' + (n === 1 ? 'follows' : 'follow') + ' ' + person + '</span>';
+      }
+
       els.result.innerHTML = [
         token.variantsHtml(),
         '<figure class="venn-container" style="margin-left: ', (50 - centerPercent), '%; margin-right: ', (centerPercent - 50), '%;">',
@@ -149,16 +153,13 @@ function main() {
           '</h3>',
           venn.svg,
           '<div class="only-clinton" style="right: ', (100 - leftPercent), '%;">',
-            '<em>', formatInt(group.nOnlyClinton), '</em> ',
-            '<span>', (group.nOnlyClinton === 1 ? 'follows' : 'follow'), ' only Clinton</span>',
+            annotate(group.nOnlyClinton, 'only Clinton'),
           '</div>',
           '<div class="only-trump" style="left: ', (100 - rightPercent), '%;">',
-            '<em>', formatInt(group.nOnlyTrump), '</em> ',
-            '<span>', (group.nOnlyTrump === 1 ? 'follows' : 'follow'), ' only Trump</span>',
+            annotate(group.nOnlyTrump, 'only Trump'),
           '</div>',
           '<div class="both" style="width: 100%; left: ', (25 * (2 + m.x) - 50), '%; top: ', (50 * (1 + m.y)), '%;">',
-            '<em>', formatInt(group.nBoth), '</em>',
-            '<span>', (group.nBoth === 1 ? 'follows' : 'follow'), ' both</span>',
+            annotate(group.nBoth, 'both'),
           '</div>',
         '</figure>',
         token.sentenceHtml()
