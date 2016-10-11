@@ -124,44 +124,44 @@ module.exports = class TokenRenderer {
     const yMid = this.height / 2 + 80
 
     // Clinton circle
+    ctx.strokeStyle = 'white'
+    ctx.lineWidth = 16 // half will be overwritten by ctx.fill()
+    ctx.beginPath()
+    ctx.arc(xMid - mult * m.clinton.x, yMid, mult * m.clinton.r, 0, 2 * Math.PI)
+    ctx.closePath()
+    ctx.stroke() // border
+    // copy-pasted...
     ctx.fillStyle = '#4c7de0'
     ctx.beginPath()
-    ctx.arc(
-      xMid - mult * m.clinton.x,
-      yMid,
-      mult * m.clinton.r,
-      0, 2 * Math.PI
-    )
+    ctx.arc(xMid - mult * m.clinton.x, yMid, mult * m.clinton.r, 0, 2 * Math.PI)
     ctx.closePath()
-    ctx.fill()
+    ctx.fill() // circle
 
     // Trump circle
     ctx.fillStyle = '#e52426'
     ctx.beginPath()
-    ctx.arc(
-      xMid + mult * m.trump.x,
-      yMid,
-      mult * m.trump.r,
-      0, 2 * Math.PI
-    )
+    ctx.arc(xMid + mult * m.trump.x, yMid, mult * m.trump.r, 0, 2 * Math.PI)
     ctx.closePath()
-    ctx.fill()
+    ctx.stroke() // border
+    ctx.beginPath()
+    ctx.arc(xMid + mult * m.trump.x, yMid, mult * m.trump.r, 0, 2 * Math.PI)
+    ctx.closePath()
+    ctx.fill() // circle
 
     // "Both" shape
     // 1. "Both" outline (white):
     ctx.strokeStyle = 'white'
-    ctx.lineWidth = 16 // half will be overwritten by ctx.fill()
     drawIntersection(ctx, xMid, yMid, mult, m)
-    ctx.stroke()
+    ctx.stroke() // border
     ctx.fillStyle = '#9959ba'
     drawIntersection(ctx, xMid, yMid, mult, m)
-    ctx.fill()
+    ctx.fill() // shape
 
     const margin = 15
 
     // Clinton label
     const xClinton = xMid - margin - mult * (m.clinton.x + m.clinton.r)
-    ctx._setFont('normal', 'italic', 45, 'pt', 'Arial')
+    ctx._setFont('900', 'normal', 45, 'pt', 'Proxima Nova Condensed')
     ctx.textAlign = 'right'
     ctx.fillStyle = '#4c7de0'
     ctx.fillText(formatInt(group.nClinton), xClinton, yMid - 50)
@@ -171,7 +171,7 @@ module.exports = class TokenRenderer {
 
     // Trump label
     const xTrump = xMid + margin + mult * (m.trump.x + m.trump.r)
-    ctx._setFont('normal', 'italic', 45, 'pt', 'Arial')
+    ctx._setFont('900', 'normal', 45, 'pt', 'Proxima Nova Condensed')
     ctx.textAlign = 'left'
     ctx.fillStyle = '#e52426'
     ctx.fillText(formatInt(group.nTrump), xTrump, yMid - 50)
@@ -182,7 +182,7 @@ module.exports = class TokenRenderer {
     // Both label
     const xBoth = xMid + mult * Math.min(Math.max(-m.clinton.x, m.x), m.trump.x)
     const yBoth = yMid + mult * Math.max(m.clinton.r, m.trump.r)
-    ctx._setFont('normal', 'italic', 45, 'pt', 'Arial')
+    ctx._setFont('900', 'normal', 45, 'pt', 'Proxima Nova Condensed')
     ctx.textAlign = 'center'
     ctx.fillStyle = '#9959ba'
     ctx.fillText(formatInt(group.nTrump), xBoth, yBoth + 70)
@@ -191,8 +191,8 @@ module.exports = class TokenRenderer {
 
     // Both _line_
     const yBothLine = yMid + mult * (m.x === 0 ? m.y : Math.min(m.clinton.r, m.trump.r))
-    ctx.strokeStyle = '#ccc'
-    ctx.lineWidth = 4
+    ctx.strokeStyle = 'white'
+    ctx.lineWidth = 3
     ctx.beginPath()
     ctx.moveTo(xBoth, yBoth + 40)
     ctx.lineTo(xBoth, yBothLine + 8)
