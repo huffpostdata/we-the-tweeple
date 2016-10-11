@@ -99,14 +99,16 @@ module.exports = class TokenRenderer {
 
     // Start with nbsp so RTL text (e.g., "ابو") is at the left
     const longText = `\u00a0“${token.text}” in their Twitter bios`
-    const maxTextWidth = this.width * 0.7
+    const maxTextWidth = this.width * 0.7 // If we get too long, we'll make text shorter
     const ratio = maxTextWidth / ctx.measureText(longText).width
+    let halfLeading = 40
     if (ratio < 1) {
       ctx._setFont('900', 'normal', maxFontSize * ratio, 'pt', 'Proxima Nova Condensed')
+      halfLeading = halfLeading * ratio
     }
 
-    ctx.fillText(`${formatInt(group.n)} followers used`, this.width * 0.5, 60);
-    ctx.fillText(longText, this.width * 0.5, 140);
+    ctx.fillText(`${formatInt(group.n)} followers used`, this.width * 0.5, 100 - halfLeading);
+    ctx.fillText(longText, this.width * 0.5, 100 + halfLeading);
 
     ctx._setFont('normal', 'normal', 24, 'pt', 'Arial')
 
