@@ -18,9 +18,9 @@ function Group(id, nClinton, nTrump, nBoth, nVariants) {
   this.tokens = [];
 }
 
-function Token(group, n, text) {
+function Token(group, positionInGroup, text) {
   this.group = group;
-  this.n = n;
+  this.positionInGroup = positionInGroup;
   this.text = text;
   this.foldedText = text.toLowerCase();
   this.groupN = this.group.n;
@@ -38,7 +38,7 @@ Token.prototype.variantsHtml = function() {
     .filter(function(t) { return t !== this; })
     .slice(0, 2)
     .map(function(token) {
-      return '<li><q>' + html_escape(token.text) + '</q><span class="n">' + formatInt(token.n) + '</span></li>';
+      return '<li><q>' + html_escape(token.text) + '</q></li>';
     });
   var nOther = group.nVariants - liHtmls.length - 1;
   if (nOther > 0) {
@@ -121,7 +121,7 @@ function Database(tsv) {
   var groups = [];
   var tokens = [];
 
-  var groupRe = /(\d+)\t(\d+)\t(\d+)\t(\d+)\n((?:\d+\t[^\t\n]+\n)+)/g;
+  var groupRe = /(\d+)\t(\d+)\t(\d+)\t(\d+)\n((?:[^\t\n]+\n)+)/g;
   var id = 0;
   while (true) {
     var m = groupRe.exec(tsv);
@@ -131,14 +131,9 @@ function Database(tsv) {
     var group = new Group(id, +m[1], +m[2], +m[3], +m[4]);
     groups.push(group);
 
-    var tokensString = m[5];
-
-    var tokenRe = /(\d+)\t([^\t\n]+)\n/g;
-    while (true) {
-      var m2 = tokenRe.exec(tokensString);
-      if (m2 === null) break;
-
-      var token = new Token(group, +m2[1], m2[2]);
+    var tokenTexts = m[5].slice(0, m[5].length - 1).split('\n')
+    for (var i = 0; i < tokenTexts.length; i++) {
+      var token = new Token(group, i, tokenTexts[i]);
       group.tokens.push(token);
       tokens.push(token);
     }
@@ -199,7 +194,7 @@ Database.prototype.prefixSearch = function(prefix, n) {
   matches.sort(function(a, b) {
     if (a.foldedText === foldedPrefix) return -1;
     if (b.foldedText === foldedPrefix) return 1;
-    return (b.groupN - a.groupN) || (b.n - a.n) || a.foldedText.localeCompare(b.foldedText);
+    return (b.groupN - a.groupN) || (a.positionInGroup - b.positionInGroup) || a.foldedText.localeCompare(b.foldedText);
   });
 
   // Pick the top N matches.

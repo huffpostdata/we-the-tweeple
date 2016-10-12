@@ -12,7 +12,7 @@ module.exports = class Database {
   constructor() {
     const google_docs = new GoogleDocs(read_config('google-docs'))
 
-    const tsv = fs.readFileSync(`${__dirname}/../assets/data/clinton-trump-token-counts-truncated.tsv`, 'utf-8')
+    const tsv = fs.readFileSync(`${__dirname}/../assets/data/group-tokens.tsv`, 'utf-8')
     const tokenDB = new TokenDB(tsv)
     const tokenRenderer = new TokenRenderer()
 
@@ -21,11 +21,11 @@ module.exports = class Database {
 
     this.tokens = [
       '#MAGA', '#HillYes',                                   // nClinton=0, nTrump=0
-      'ابو', 'générale', 'R&B/Soul', '読書', 'पुर', 'Дизайн', // Unicode in header
+      'ابو', 'générale', 'R&B/Soul', '読書', 'घर', 'Дизайн', // Unicode in header
       'RTs are not necessarily endorsements',                // Long string
       'Trump 2016', 'Clinton for President',                 // nBoth=~nClinton, nBoth=~nTrump
       'Adam',                                                // easy to remember ;)
-      "grandma's"                                            // very wide
+      "my grandma"                                           // very wide
     ].map(term => {
       const token = tokenDB.find(term)
       const image = tokenRenderer.renderImage(token)
