@@ -75,7 +75,7 @@ function main() {
         }).join('')
         + '</ul>';
 
-      if (autocompleteMatches[0] === prefix || autocompleteMatches.length === 1) {
+      if (autocompleteMatches[0].foldedText === prefix.toLowerCase() || autocompleteMatches.length === 1) {
         autocompleteIndex = 0;
         els.autocomplete.querySelector('li').classList.add('hover');
       }
