@@ -22,6 +22,12 @@ function Token(group, positionInGroup, text) {
   this.group = group;
   this.positionInGroup = positionInGroup;
   this.text = text;
+  // It would be great to handle accents and such, but JavaScript's intl support
+  // is too spotty. For instance, String.prototype.normalize() doesn't exist on
+  // IE11. And Intl.Collator doesn't let us extract a collation "key" that would
+  // precompute the hard parts and let us compare strings quickly.
+  //
+  // this.foldedText is our super-simple collation key.
   this.foldedText = text.toLowerCase();
   this.groupN = this.group.n;
 }
