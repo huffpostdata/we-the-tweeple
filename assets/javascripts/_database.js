@@ -114,7 +114,9 @@ Token.prototype.sentenceHtml = function() {
     .replace(/TOKEN/, '<q>' + html_escape(this.text) + '</q>')
     .replace(/WINNER/, '<strong class="winner">' + data.winner + '</strong>')
     .replace(/LOSER/, '<strong class="loser">' + data.loser + '</strong>')
-    .replace(/PERCENT/, formatInt(data.winPercent || 0)) + '</h4>';
+    .replace(/PERCENT/, formatInt(data.winPercent || 0))
+    + ' <a class="methodology" href="/2016/we-the-tweeple/methodology">methodology »</a>'
+    + '</h4>';
 };
 
 function Database(tsv) {

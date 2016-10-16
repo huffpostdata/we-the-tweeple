@@ -192,11 +192,6 @@ function main() {
   }
   els.autocomplete.addEventListener('mousedown', selectAutocompleteFromEvent);
   els.autocomplete.addEventListener('touchstart', selectAutocompleteFromEvent);
-  els.resultContainer.addEventListener('mousedown', function(ev) {
-    ev.preventDefault();
-    els.input.focus();
-    els.input.select();
-  });
 
   makeHeaderInteractive(function(tokenText) {
     els.input.value = tokenText;

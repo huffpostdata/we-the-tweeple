@@ -1,8 +1,10 @@
 body.methodology {
   .venn-container-outer {
-    margin-top: $h3-height + $strong-height + $h3-lines-height;
+    margin-top: 3rem + $h3-height + $strong-height + $h3-lines-height;
     margin-bottom: $both-height;
     position: relative;
+    border-left: 6rem solid $background;
+    border-right: 6rem solid $background;
   }
 
   h1 {
