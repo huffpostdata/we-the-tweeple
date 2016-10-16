@@ -112,13 +112,6 @@ div#app {
     position: relative;
     overflow: hidden;
 
-    $variants-height: 2.5rem;
-    $strong-height: 2.5rem;
-    $h3-height: 2.5rem; // does not include $strong-height
-    $h3-lines-height: 1rem;
-    $both-height: 3rem;
-    $sentence-height: 8rem;
-
     // Use a hand-wavy number here. Each candidate needs 6rem of space for a
     // label.
     //
@@ -164,123 +157,6 @@ div#app {
       left: 0;
       right: 0;
       top: $variants-height + $strong-height + $h3-height + $h3-lines-height;
-
-      svg {
-        // the SVG will set the height of the <figure>
-        display: block;
-      }
-
-      h3 {
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-direction: column;
-        flex-direction: column;
-        -webkit-justify-content: center;
-        justify-content: center;
-        position: absolute;
-        text-align: center;
-        top: -$strong-height - $h3-height - $h3-lines-height - .5rem;
-        box-sizing: border-box;
-        height: $strong-height + $h3-height + $h3-lines-height + .5rem;
-        padding-bottom: .5rem;
-        margin: 0 -6rem;
-        font-family: $body-font-family;
-        font-weight: normal;
-        font-size: 1.15rem;
-        line-height: 1.25;
-
-        // Lines are ::before and ::after
-        &::before {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          height: $h3-lines-height / 2;
-          left: 6rem;
-          right: 6rem;
-          border: 1px solid $very-muted-color;
-          border-bottom: 0;
-        }
-
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: $h3-lines-height / 2;
-          height: $h3-lines-height / 2;
-          left: 50%;
-          width: 0;
-          margin-left: -.5px;
-          border-left: 1px solid $very-muted-color;
-        }
-
-        strong {
-          display: block;
-          font-family: $header-font-family;
-          font-weight: bold;
-          font-size: 2rem;
-          line-height: $strong-height;
-        }
-
-        q {
-          font-weight: bold;
-        }
-      }
-
-      div {
-        position: absolute;
-        font-size: 1rem;
-        line-height: 1.33333333;
-        font-weight: bold;
-
-        em {
-          display: block;
-          font-weight: normal;
-        }
-
-        &.only-clinton {
-          top: 50%;
-          margin-top: -2rem;
-          width: 5.5rem;
-          padding-right: .5rem;
-          color: $color-democrat;
-          text-align: right;
-        }
-
-        &.only-trump {
-          top: 50%;
-          margin-top: -2rem;
-          width: 5.5rem;
-          padding-left: .5rem;
-          color: $color-republican;
-          text-align: left;
-        }
-
-        &.both {
-          bottom: -3rem;
-          color: $color-both;
-          text-align: center;
-
-          display: -webkit-flex;
-          display: flex;
-          -webkit-flex-direction: column;
-          flex-direction: column;
-          -webkit-justify-content: flex-end;
-          justify-content: flex-end;
-          -webkit-align-items: center;
-          align-items: center;
-
-          em, span { display: block; }
-
-          &::before {
-            content: '';
-            width: 1px;
-            margin: 2px 0 2px -.5px;
-            background: $very-muted-color;
-            display: block;
-            -webkit-flex: 1 1 auto;
-            
-          }
-        }
-      }
     }
 
     .empty, .loading {

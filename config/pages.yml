@@ -10,6 +10,13 @@ share-page:
   path: :token
   collection: tokens
 
+# HACK: "methodology" is a regular token, so it has a regular share page.
+# However, we want to put special text and meta on the "methodology" page
+# instead of presenting the regular search interface. So we put it _after_
+# `share-page` in this config file, and it will overwrite it.
+methodology:
+  model: methodology
+
 share-image:
   path: share/:token.jpg
   collection: tokens

@@ -1,0 +1,410 @@
+[
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Hed: Methodology",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Dek: How we let you search millions of Twitter bios",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Author: By ",
+        "underline": true
+      },
+      {
+        "text": "Adam Hooper",
+        "href": "http://www.huffingtonpost.com/author/adamhooper"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Author: With files from ",
+        "underline": true
+      },
+      {
+        "text": "Allison Fenichel",
+        "href": "http://www.huffingtonpost.com/author/allison-fenichel"
+      },
+      {
+        "text": " ",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Social-Image: header-desktop.jpg",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Twitter-author: @HuffPostData",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Date-published: Friday, Oct. 21, 2016 12:16 P.M. EDT",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "vennHtml(`methodology`)",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "h1",
+    "texts": [
+      {
+        "text": "Methodology"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "To build this story, we tackled two problems. First, we organized millions of Twitter users’ profiles. Second, we found meaning."
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "TK insert follower counts"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Organizing the profile information took weeks:"
+      }
+    ]
+  },
+  {
+    "type": "ol",
+    "blocks": [
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "We downloaded every follower ID using Twitter’s "
+          },
+          {
+            "text": "API",
+            "href": "https://dev.twitter.com/rest/public"
+          },
+          {
+            "text": ". From the follower IDs, we downloaded each public Twitter profile. We began on Oct. TK and finished on Oct. TK. (We assume the vast majority of Twitter followers didn’t edit their bios during our download.)"
+          }
+        ]
+      },
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "We "
+          },
+          {
+            "text": "tokenized",
+            "href": "https://en.wikipedia.org/wiki/Tokenization_(lexical_analysis)"
+          },
+          {
+            "text": " each user’s bio, to turn it into a sequence of "
+          },
+          {
+            "text": "tokens",
+            "italic": true
+          },
+          {
+            "text": ". (“Working full time” becomes “Working”, “full”, “time”.)"
+          }
+        ]
+      },
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "We "
+          },
+          {
+            "text": "stemmed",
+            "href": "https://en.wikipedia.org/wiki/Stemming"
+          },
+          {
+            "text": " each token, so that different spellings of the same word can be counted together. (“Working” becomes “work”.)"
+          }
+        ]
+      },
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "We counted how many Clinton and/or Trump followers wrote each stemmed token (e.g., “work”). Then we did the same for each pair of stemmed tokens (e.g., “work full”), each trio of stemmed tokens (“work full time”), and so on up to each sequence of 10 stemmed tokens. We call these sequences of stemmed tokens "
+          },
+          {
+            "text": "groups",
+            "italic": true
+          },
+          {
+            "text": ". We publish these "
+          },
+          {
+            "text": "group",
+            "italic": true
+          },
+          {
+            "text": " counts in our "
+          },
+          {
+            "text": "Venn diagrams",
+            "href": "https://en.wikipedia.org/wiki/Venn_diagram"
+          },
+          {
+            "text": ". (“Working full time” and “work full time” are both counted in the “work full time” Venn diagram.)"
+          }
+        ]
+      },
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "The search interface works on un-stemmed words, so you can search for “working full time”). To build our search interface, we collected each "
+          },
+          {
+            "text": "variant",
+            "italic": true
+          },
+          {
+            "text": " of each group — that is, each unique sequence of characters, including punctuation and whitespace, from before we tokenized and stemmed."
+          }
+        ]
+      },
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "We kept only the "
+          },
+          {
+            "text": "variants",
+            "italic": true
+          },
+          {
+            "text": " more than 100 followers wrote. This was case-insensitive: if some followers wrote “lgbt” and others wrote “LGBT”, we counted both sets of followers as “LGBT”. We kept only the "
+          },
+          {
+            "text": "groups",
+            "italic": true
+          },
+          {
+            "text": " for which we kept at least one variant."
+          }
+        ]
+      },
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "For each "
+          },
+          {
+            "text": "group",
+            "italic": true
+          },
+          {
+            "text": ", we output the number of Clinton followers, the number of Trump followers, the total number of variants (including the ones we didn’t keep), and the exact variants we kept. You can download our "
+          },
+          {
+            "text": "link_to_asset(`database`, `digest`, `data/group-tokens.tsv`)",
+            "underline": true
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "Finally, we built the website’s search interface. It loads that database and lets you search for "
+          },
+          {
+            "text": "variants",
+            "italic": true
+          },
+          {
+            "text": ". From the variant it finds the "
+          },
+          {
+            "text": "group",
+            "italic": true
+          },
+          {
+            "text": ", and it displays that group’s Venn diagram."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "To find meaning — and the terms we highlighted in the text of our story — we used the economics concept of an "
+      },
+      {
+        "text": "index",
+        "href": "https://en.wikipedia.org/wiki/Index_(economics)"
+      },
+      {
+        "text": ". For each "
+      },
+      {
+        "text": "group",
+        "italic": true
+      },
+      {
+        "text": ", we calculated:"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "(number of Clinton followers who use the term ÷ total number of Clinton followers) ÷ (number of Trump followers who use the term ÷ total number of Trump followers)",
+        "italic": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "When this formula gives a high result, we say a term “over-indexes” among Clinton followers. We also examined terms that over-index among Trump followers."
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "A term can over-index among Clinton followers even the number of Trump followers who use it is higher. That’s because the total number of Trump followers is greater than the total number of Clinton followers."
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "The sentence below each Venn diagram describes this over-indexing: The followers who over-index are "
+      },
+      {
+        "text": "(index - 1) × 100%",
+        "italic": true
+      },
+      {
+        "text": " more likely to use a term than the followers who under-index."
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "We have published all our source code:"
+      }
+    ]
+  },
+  {
+    "type": "ul",
+    "blocks": [
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "tweep-followers downloads large numbers of Twitter followers’ profile information."
+          }
+        ]
+      },
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "twittok builds a database of "
+          },
+          {
+            "text": "groups",
+            "italic": true
+          },
+          {
+            "text": " and their "
+          },
+          {
+            "text": "variants",
+            "italic": true
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "li",
+        "texts": [
+          {
+            "text": "we-the-tweeple is this website."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Back to the "
+      },
+      {
+        "text": "link_to(`search tool »`,`index`)",
+        "underline": true
+      }
+    ]
+  }
+]

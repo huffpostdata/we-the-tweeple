@@ -3,6 +3,7 @@
 const PageContext = require('../generator/PageContext')
 const renderVenn = require('../assets/javascripts/_venn')
 const formatInt = require('../assets/javascripts/_format-int')
+const htmlEscape = require('../assets/javascripts/_html-escape')
 
 function extend_context(context, locals) {
   const new_locals = Object.assign({}, context.locals, locals)
@@ -16,6 +17,14 @@ class Helpers {
 
   partial(name) {
     return this.context.render_template(name, this.context)
+  }
+
+  link_to(text, key, ...args) {
+    return `<a href="${htmlEscape(this.context.path_to(key, ...args))}">${htmlEscape(text)}</a>`
+  }
+
+  link_to_asset(text, type, key, ...args) {
+    return `<a href="${htmlEscape(this.context.path_to_asset(type, key, ...args))}">${htmlEscape(text)}</a>`
   }
 
   float_right_image(name, caption, options) {
@@ -89,6 +98,17 @@ class Helpers {
       nQuarter: formatInt(Math.round(maxN / 4))
     }
     return this.context.render_template('_term-table', data)
+  }
+
+  vennHtml(term) {
+    const token = this.context.model.tokenDB.find(term)
+    if (!token) throw new Error(`venn_html() could not find token "${term}"`)
+
+    const group = token.group
+
+    const maxN = Math.max(group.nClinton, group.nTrump)
+
+    return `<div class="venn-container-outer">${renderVenn(maxN, token).html}</div>`
   }
 }
 

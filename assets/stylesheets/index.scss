@@ -14,6 +14,7 @@
 @import '_wide-image.scss';
 
 @import '_article.scss';
+@import '_venn.scss'; // HACK: includes variables we use in _app and _methodology
 @import '_app.scss';
-@import '_venn.scss';
 @import '_term-table.scss';
+@import '_methodology.scss';

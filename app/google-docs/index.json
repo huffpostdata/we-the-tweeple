@@ -115,7 +115,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "What word did you pick? TKTKTKTKTKTKTKTKTKTKTKT"
+        "text": "What word did you pick? Was it “pantsuit”? Clinton followers are 184 percent more likely to use that term in their Twitter bio than Trump followers. Perhaps you picked “Ferrari”? Trump followers are 74 percent more likely to use that flashy vehicle to identify themselves. How about Beyonce? Clinton followers are 283 percent more likely to have the Queen Bey in their bio. "
       }
     ]
   },
@@ -123,7 +123,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "The Huffington Post downloaded the Twitter bios of the six million people who follow Hillary Clinton and Donald Trump. That’s six million 160-character potential voters telling the world their parental status, their professional and personal accomplishments, their hobbies, their niche interests, their favorite quote, their worst nightmare, all nicely synopsized with the occasional comma or hashtag. In other words six million micro autobiographies that may tell us a thing or two about who supports Clinton and Trump."
+        "text": " ///Pick three and compare and contrast the results. "
       }
     ]
   },
@@ -131,7 +131,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Clinton and Trump Twitter bios paint a familiar picture of America, that of the deeply divided nation pundits tell us make up of red states and blue states, a place where specific cultural signifiers are reliable indicators of a person’s politics. "
+        "text": "TRANSITION SENTENCE HERE. The Huffington Post downloaded the Twitter bios for people who follow Hillary Clinton and Donald Trump. That’s 6 million, 160-character tiny self-portraits of potential voters. Some bios are pithy one-word descriptors, but most paint a story of parental status, professional and personal accomplishments, hobbies, niche interests, a favorite bible quote, or the type of car they drive. Together they tell the tale of a deeply divided nation, one made up of red states and blue states, a place where specific cultural signifiers are reliable indicators of a person’s politics. "
       }
     ]
   },
@@ -139,36 +139,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "METHODOLOGY: Then, we broke down each Twitter bio into its composite words, made a searchable database, and voila: the world can search, for example, for how many Trump followers have "
-      },
-      {
-        "text": "term(`Harry Potter`)",
-        "underline": true
-      },
-      {
-        "text": " in their Twitter bio, (answer: TK) compared to Clinton followers (answer: TK), or "
-      },
-      {
-        "text": "term(`beer`)",
-        "underline": true
-      },
-      {
-        "text": " (TK for Trump or TK for Clinton), or "
-      },
-      {
-        "text": "term(`#whitegenocide`)",
-        "underline": true
-      },
-      {
-        "text": " (TK for Trump and TK for Clinton). "
-      }
-    ]
-  },
-  {
-    "type": "p",
-    "texts": [
-      {
-        "text": "A big caveat: a Trump or Clinton follower does not a Trump or Clinton voter make. In other words, this is in no way a scientific data set, and we’re not here to make big new proclamations about THE AMERICAN VOTER. "
+        "text": "A big caveat: a Trump or Clinton follower does not a Trump or Clinton voter make. In other words, this is in no way a scientific data set, and we’re not here to make big new proclamations about THE AMERICAN VOTER. BUT TKTKTKTKTKTK."
       }
     ]
   },
@@ -177,6 +148,14 @@
     "texts": [
       {
         "text": "Take religion and guns -- the two things Barack Obama once accused rural, conservative voters in Pennsylvania of clinging to. Although Obama apologized for the remark, [polls show] he wasn’t necessarily wrong."
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "To be clear these are not, Tweets. We’d loved to have done that, but the digital bandwidth required to download that dataset for any given period of time would power a large Western country. "
       }
     ]
   },

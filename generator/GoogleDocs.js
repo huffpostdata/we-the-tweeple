@@ -197,7 +197,12 @@ class GoogleDoc {
   // convert them to smart quotes.
   _render_code(marked_up_code, page_context) {
     const code = `page_context.helpers.${marked_up_code}`
-    return eval(code)
+    try {
+      return eval(code)
+    } catch (e) {
+      console.warn(`Could not evaluate code: ${code}: ${e.stack}`)
+      throw e
+    }
   }
 }
 

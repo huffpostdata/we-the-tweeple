@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+var meta=data.model.metadata
+
+html lang="en"
+  head
+    meta charset="utf-8"
+    title - ${data.model.metadata.title}
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    link rel="stylesheet" href="${data.path_to_asset('scss', 'stylesheets/index.css')}"
+    $!{data.helpers.partial('_social-meta')}
+  body.methodology
+    $!{data.helpers.partial('_nav')}
+
+    article
+      $!{data.model.render(data)}
+
+      if(data.model.endnotes_html)
+        footer.endnotes
+          $!{data.model.endnotes_html}
+
+      .comments
+        .fb-comments data-width="100%"
+
+    $!{data.render_template('_footer', data)}
+
+    script src="${data.path_to_asset('digest', 'javascripts/social.js')}"
+    script src="${data.path_to_asset('digest', 'javascripts/stats.js')}"
