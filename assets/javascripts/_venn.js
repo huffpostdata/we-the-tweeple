@@ -225,7 +225,7 @@ function renderSvg(m, nMax, nClinton, nTrump, nBoth) {
   var both = renderIntersection(m, 'both', nMax, nClinton, nTrump, nBoth);
 
   return [
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -1 4 2">',
+    '<svg class="venn" xmlns="http://www.w3.org/2000/svg" viewBox="-2 -1 4 2">',
       '<circle class="clinton" cx="', -m.clinton.x, '" cy="0" r="', m.clinton.r, '"/>',
       '<circle class="trump" cx="', m.trump.x, '" cy="0" r="', m.trump.r, '"/>',
       bothOutline,

@@ -1,6 +1,10 @@
 #app data-tsv-path="${data.path_to_asset('digest', 'data/group-tokens.tsv')}"
   .search
     input name="q" id="q" autocomplete="off" type="text" placeholder="Type a word…"
+    svg.progress xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+      circle.bg cx="10" cy="10" r="10"
+      path d="M10,10v-10v10Z"
+      circle.fg cx="10" cy="10" r="7"
     .autocomplete.input-empty
     .result
       <!-- only the last element will be visible -->

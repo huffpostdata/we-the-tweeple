@@ -7,17 +7,42 @@ var formatInt = require('./_format-int');
 
 var RootPath = '/2016/we-the-tweeple';  // XXX autocomplete this?
 
-var database = new Database(''); // until we load
+var database = new Database(); // until we load
+
+function progressPathD(fraction) {
+  var x = 10 + 10 * Math.sin(2 * Math.PI * fraction);
+  var y = 10 - 10 * Math.cos(2 * Math.PI * fraction);
+  var largeArcFlag = fraction >= 0.5 ? '1' : '0';
+  return 'M10,10V0A 10,10 0 ' +  largeArcFlag + ',1 ' + x + ',' + y + 'Z';
+}
 
 /**
  * Sets `database`, then calls `callback(err)`.
  */
-function loadTsv(url, callback) {
+function loadTsv(url, progressSvg, progressPath, callback) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
+  var pos = 0;
+
+  xhr.onprogress = function(ev) {
+    var partialTsv = xhr.responseText.slice(pos);
+    database.addPartialTsv(xhr.responseText.slice(pos));
+    pos += partialTsv.length;
+
+    // We can't calculate the byte length: Content-Length is gzipped. So we
+    // need to know beforehand how long the file is. Number of groups is a
+    // good measure.
+    //
+    var NGroups = 103125; // TK set nGroups dynamically in the DB by putting it in the file header
+
+    var fraction = database.groups.length / NGroups;
+    progressPath.setAttribute('d', progressPathD(fraction));
+  };
+
   xhr.onload = function() {
     if (xhr.status === 200 || xhr.status === 304) {
-      database = new Database(xhr.responseText);
+      database.addPartialTsv(xhr.responseText.slice(pos), true);
+      progressSvg.parentNode.removeChild(progressSvg);
       callback();
     } else {
       callback(new Error("Invalid status code from server: " + xhr.status));
@@ -36,7 +61,9 @@ function main() {
     resultContainer: app_el.querySelector('.result'),
     emptyResult: app_el.querySelector('.result .empty'),
     loading: app_el.querySelector('.loading'),
-    result: document.createElement('div')
+    result: document.createElement('div'),
+    progressSvg: app_el.querySelector('svg.progress'),
+    progressPath: app_el.querySelector('svg.progress path')
   };
   els.result.className = 'hit';
 
@@ -199,7 +226,7 @@ function main() {
     showMatch(autocompleteMatches[0]); // assume the search matches
   });
 
-  loadTsv(app_el.getAttribute('data-tsv-path'), function() {
+  loadTsv(app_el.getAttribute('data-tsv-path'), els.progressSvg, els.progressPath, function() {
     els.loading.parentNode.removeChild(els.loading);
 
     makeStoryDiagrams(database);

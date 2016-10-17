@@ -16,6 +16,18 @@ div#app {
   display: flex;
   position: relative;
 
+  svg.progress {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    width: 3rem;
+    height: 3rem;
+
+    circle.bg { stroke: none; fill: $very-very-muted-color; }
+    circle.fg { stroke: none; fill: $background; }
+    path { stroke: none; fill: $very-muted-color; }
+  }
+
   .search {
     width: 100%;
   }
@@ -98,7 +110,7 @@ div#app {
       color: $color;
     }
 
-    svg {
+    svg.venn {
       display: block;
       height: 2rem;
       margin-top: -.5rem;

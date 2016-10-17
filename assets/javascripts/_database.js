@@ -126,18 +126,38 @@ Token.prototype.sentenceHtml = function() {
 };
 
 function Database(tsv) {
-  var groups = [];
-  var tokens = [];
+  this.groups = [];
+  this.tokens = [];
+  this.maxNgramSize = 0;
+  this._endOfLastTsv = '';
+}
+
+/**
+ * Adds more TSV data.
+ *
+ * Params:
+ * * tsv: some of the TSV data. Since we don't know whether the final group is
+ *        complete, it will be buffered until the next data comes in.
+ * * isLastPart: if true, the caller promises that the final group is complete.
+ */
+Database.prototype.addPartialTsv = function(tsv, isLastPart) {
+  tsv = this._endOfLastTsv + tsv
+
+  var tokens = []; // This chunk's round of tokens
 
   var groupRe = /(\d+)\t(\d+)\t(\d+)\t(\d+)\n((?:[^\t\n]+\n)+)/g;
   var id = 0;
   while (true) {
     var m = groupRe.exec(tsv);
     if (m === null) break;
+    if (!isLastPart && tsv.indexOf('\t', groupRe.lastIndex) === -1) {
+      // There's no group after this one, so we don't want to process it.
+      break;
+    }
 
     id += 1;
     var group = new Group(id, +m[1], +m[2], +m[3], +m[4]);
-    groups.push(group);
+    this.groups.push(group);
 
     var tokenTexts = m[5].slice(0, m[5].length - 1).split('\n')
     for (var i = 0; i < tokenTexts.length; i++) {
@@ -145,14 +165,38 @@ function Database(tsv) {
       group.tokens.push(token);
       tokens.push(token);
     }
+
+    var lastIndex = groupRe.lastIndex;
   }
 
+  this._endOfLastTsv = tsv.slice(lastIndex);
+
+  // Merge the new tokens into this.tokens.
+  //
+  // Since we know this.tokens is sorted, it's quick to sort just the new stuff
+  // and then merge.
   tokens.sort(function(a, b) {
     return a.foldedText < b.foldedText ? -1 : 1; // Assume a.text != b.text, ever
   });
 
-  this.groups = groups;
-  this.tokens = tokens;
+  var nTokens = tokens.length + this.tokens.length;
+  var mergedTokens = new Array(nTokens);
+  for (var i = 0, j = 0, k = 0; k < nTokens; k++) {
+    if (i === this.tokens.length) {
+      mergedTokens[k] = tokens[j];
+      j += 1;
+    } else if (j === tokens.length) {
+      mergedTokens[k] = this.tokens[i];
+      i += 1;
+    } else if (this.tokens[i].foldedText < tokens[j].foldedText) {
+      mergedTokens[k] = this.tokens[i];
+      i += 1;
+    } else {
+      mergedTokens[k] = tokens[j];
+      j += 1;
+    }
+  }
+  this.tokens = mergedTokens;
 }
 
 /**

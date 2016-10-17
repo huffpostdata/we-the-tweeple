@@ -5,7 +5,7 @@ $h3-lines-height: 1rem;
 $both-height: 3rem;
 $sentence-height: 13rem; // way higher than we need -- assumes we want whitespace below it
 
-svg {
+svg.venn {
   circle.clinton { fill: $color-democrat; }
   circle.trump { fill: $color-republican; }
   path.both-outline, circle.both-outline {

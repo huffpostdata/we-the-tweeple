@@ -1,9 +1,9 @@
 'use strict'
 
-const compression = require('compression')
 const express = require('express')
 const http = require('http')
 const morgan = require('morgan')
+const zlib = require('zlib')
 
 const App = require('./App')
 
@@ -24,7 +24,6 @@ App.build_output_from_scratch((error, output) => {
 
   const app = express()
   app.use(morgan('short'))
-  app.use(compression())
   app.get(/.*/, (req, res) => {
     if (error) {
       res.set('Content-Type', 'text/plain; charset=utf-8')
@@ -41,7 +40,13 @@ App.build_output_from_scratch((error, output) => {
         res.status(302).send()
       } else {
         res.set(data.headers)
-        res.status(200).send(data.body)
+        // Compress inline. We can't use compression() middleware, because it
+        // doesn't set Content-Length. We want to mimic our Edgecast server,
+        // which _does_ set Content-Length.
+        const compressedData = zlib.gzipSync(data.body)
+        res.set('Content-Encoding', 'gzip')
+        res.set('Content-Length', compressedData.length)
+        res.status(200).send(compressedData)
       }
     }
   })
