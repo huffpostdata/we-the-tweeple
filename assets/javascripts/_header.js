@@ -1,5 +1,9 @@
 var header = document.querySelector('header');
 
+// Our UTFGrid has a different aspect ratio than our main image.
+var ImageW = 4000;
+var ImageH = 1032;
+
 function makeHeaderInteractive(utfgrid, clickFunc) {
   var grid = utfgrid.grid;
   var width = grid[0].length;
@@ -16,9 +20,19 @@ function makeHeaderInteractive(utfgrid, clickFunc) {
   var charToImageData = {}; // cache: { x, y, width, height, ImageData }
   var currentChar = ' ';
 
+  function positionCanvas() {
+    var imageW = canvas.offsetHeight * width / height;
+    canvas.style.marginLeft = (-0.5 * imageW) + 'px';
+  }
+  positionCanvas();
+  window.addEventListener('resize', positionCanvas);
+
   function evToChar(ev) {
-    var x = Math.round(ev.offsetX / ev.target.offsetWidth * width);
-    var y = Math.round(ev.offsetY / ev.target.offsetHeight * height);
+    var canvasH = ev.target.offsetHeight;
+    var canvasW = ev.target.offsetWidth;
+
+    var y = Math.round(ev.offsetY * height / canvasH);
+    var x = Math.round(ev.offsetX * width / canvasW);
 
     if (x < 0) x = 0;
     if (x >= width) x = width - 1;
@@ -112,8 +126,8 @@ function makeHeaderInteractive(utfgrid, clickFunc) {
     }
   }
 
-  header.addEventListener('mousemove', maybeHover);
-  header.addEventListener('click', maybeSearch);
+  canvas.addEventListener('mousemove', maybeHover);
+  canvas.addEventListener('click', maybeSearch);
 }
 
 /**

@@ -5,6 +5,7 @@ header {
     margin: 0;
     padding: 0;
     position: relative;
+    overflow: hidden; // the <canvas> will overflow
 
     &::before {
       content: '';
@@ -30,10 +31,10 @@ header {
 
   canvas {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    bottom: 0;
+    left: 50%; // marginLeft be set in CSS
+    width: auto;
+    height: 100% * (1032 / 1050);
     opacity: .2;
 
     &.highlight {
