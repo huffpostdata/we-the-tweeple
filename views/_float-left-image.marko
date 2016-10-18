@@ -1,9 +1,0 @@
-.float-left-image
-	<if(data.name == 'PLACEHOLDER')>
-		<img src="http://placehold.it/150x150">
-	</if>
-	<else>
-  	img src="${data.path_to_asset('digest', 'images/' + data.name)}" alt=""
-  </else>
-
-	<p class="caption">${data.caption}</p>
