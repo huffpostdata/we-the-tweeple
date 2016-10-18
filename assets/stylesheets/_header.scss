@@ -11,7 +11,7 @@ header {
       display: block;
       height: 0;
       padding-bottom: (100% * 534 / 750);
-      background-color: #caeaff;
+      background-color: #72c4ff;
       background-image: asset-url('digest', 'images/header-mobile.jpg');
       background-size: 100%;
       background-repeat: no-repeat;
@@ -19,8 +19,11 @@ header {
 
     @media (min-width: $min-desktop-width) {
       &::before {
-        padding-bottom: (100% * 1032 / 2500);
+        padding-bottom: 40rem;
         background-image: asset-url('digest', 'images/header-desktop.jpg');
+        background-repeat: no-repeat;
+        background-position: bottom center;
+        background-size: auto 100%;
       }
     }
   }
