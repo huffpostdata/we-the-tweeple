@@ -59,11 +59,10 @@ function uploadUntilSuccess(childNum, key, page, callback) {
     }
 
     aws.upload_page(key, page)
-      .catch((err) => {
+      .then(callback, (err) => {
         console.warn(`[${childNum}] ${err.stack}`)
         process.nextTick(tryOnce)
       })
-      .then(callback)
   }
 
   tryOnce()
