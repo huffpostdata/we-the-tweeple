@@ -36,6 +36,12 @@ popupEl.addEventListener('click', function(ev) {
   }
 });
 
+document.addEventListener('keydown', function(ev) {
+  if (ev.keyCode === 27) {
+    popupEl.classList.remove('show');
+  }
+});
+
 document.querySelector('article').addEventListener('click', function(ev) {
   var node = ev.target;
   if (node.tagName !== 'KBD') return; // user didn't click a token
