@@ -115,7 +115,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Never before has Twitter played such a prominent role in an election. If Clinton or Trump wants to say something, react to news in real time -- even if it's at 3 a.m. -- they don't need to coordinate a press conference. They just need to tap that little blue bird. And in a blink of an eye, they’ve reached millions.  "
+        "text": "Never before has Twitter played such a prominent role in an election. If Clinton or Trump wants to say something or react to news in real time -- even if it's at 3 a.m. -- they don't need to coordinate a press conference. They just need to tap that little blue bird. And in a blink of an eye, they’ve reached millions.  "
       }
     ]
   },
@@ -123,7 +123,15 @@
     "type": "p",
     "texts": [
       {
-        "text": "The Huffington Post wanted to find out more about the people who follow the candidates. We hoped their 160-character bios might reveal a thing or two about political identity. And so we downloaded the Twitter bios for people who follow either Hillary Clinton and Donald Trump. That ended up being about 8 million, 160-character tiny self-portraits.  (Curious about how we did this? Read our "
+        "text": "The Huffington Post wanted to find out more about the people who follow the candidates. We hoped their 160-character bios might reveal a thing or two about political identity. Not everyone fills out their Twitter bio, but for those who do, it’s a way to describe themselves in a sort of digital calling card. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "We downloaded the Twitter bios for people who follow either Hillary Clinton and Donald Trump. That ended up being about 8 million, 160-character tiny self-portraits. (Curious about how we did this? Read our "
       },
       {
         "text": "link_to(`methodology`, `methodology`)",
@@ -138,7 +146,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Mostly the bios paint a story of biography; parental status, professional and personal accomplishments, hobbies, niche interests, a favorite bible quote, or the type of car they drive. "
+        "text": "Mostly the bios paint a story of biography: parental status, professional and personal accomplishments, hobbies, niche interests, a favorite bible quote, or the type of car they drive. "
       }
     ]
   },
@@ -146,7 +154,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Unsurprisingly, the bios seem to tell the tale of a divided nation, where a single word, like "
+        "text": "Unsurprisingly, the bios suggest a divided nation, where a single word, like "
       },
       {
         "text": "term(`NASCAR`)",
@@ -168,7 +176,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "(TK sentence about “click a highlighted word to see its counts”)"
+        "text": "CODE GOES HERE Click a highlighted term (or one of the birds above) to compare Clinton and Trump followers."
       }
     ]
   },
@@ -191,7 +199,7 @@
         "underline": true
       },
       {
-        "text": ", meaning Second Amendment, pops up in the bios of "
+        "text": ", meaning Second Amendment, popped up in the bios of "
       },
       {
         "text": "termCount(`#2A`, `trump`)",
@@ -212,7 +220,7 @@
         "underline": true
       },
       {
-        "text": ", a Greek phrase meaning “come and take [them],” attributed to Spartan King Leonidas when the Persian army told him and his army to lay down their weapons. The phrase, adopted by gun rights advocates as a rallying cry against gun control, is in the Twitter bios of "
+        "text": ", a Greek phrase meaning “come and take [them],” attributed to Spartan King Leonidas when the Persian army told him and his army to lay down their weapons. The phrase, adopted by gun rights advocates as a rallying cry against gun control, was in the Twitter bios of "
       },
       {
         "text": "termCount(`#MolonLabe`, `trump`)",
@@ -314,7 +322,7 @@
         "underline": true
       },
       {
-        "text": " (“Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go”). Clinton followers by comparison weren’t all that biblical, at least in the literaray sense of the word."
+        "text": " (“Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go”). Clinton followers by comparison weren’t all that biblical."
       }
     ]
   },
@@ -322,14 +330,14 @@
     "type": "p",
     "texts": [
       {
-        "text": "Similarly, Trump followers tend to use more coded language and internet slang in their Twitter bios. Over "
+        "text": "Now let’s look at the more coded language, or acronyms, that people used in their bios. Exactly "
       },
       {
         "text": "termCount(`#LNYHBT`, `trump`)",
         "underline": true
       },
       {
-        "text": " have "
+        "text": " Trump followers had "
       },
       {
         "text": "term(`#LNYHBT`)",
@@ -343,28 +351,36 @@
         "href": "http://www.seanhannitystore.com"
       },
       {
-        "text": ".) Nearly "
+        "text": ".) "
       },
       {
         "text": "termCount(`#TGDN`, `trump`)",
         "underline": true
       },
       {
-        "text": " Trump followers have "
+        "text": " "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Trump followers also had "
       },
       {
         "text": "term(`#TGDN`)",
         "underline": true
       },
       {
-        "text": " in their bios, an acronym for Twitter Gulag Defense Network, a coalition of conservative Twitter users who follow each other on Twitter, boosting their number of followers so their accounts are less likely to be suspended for posting offensive and inappropriate content. Nearly "
+        "text": " in their bios, an acronym for Twitter Gulag Defense Network, a coalition of conservative Twitter users who follow each other on Twitter, boosting their number of followers so their accounts are less likely to be suspended for posting offensive and inappropriate content. And "
       },
       {
         "text": "termCount(`shitpost`, `trump`)",
         "underline": true
       },
       {
-        "text": " Trump followers have "
+        "text": " Trump followers had "
       },
       {
         "text": "term(`shitpost`)",
@@ -408,7 +424,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Trump followers are very ‘Merica. They love nationalistic phrases in their bios, including "
+        "text": "Trump followers were very ‘Merica. They used nationalistic phrases in their bios, including "
       },
       {
         "text": "term(`Proud American`)",
@@ -443,7 +459,7 @@
         "underline": true
       },
       {
-        "text": ". They identify as "
+        "text": ". They identified as "
       },
       {
         "text": "term(`father`)",
@@ -493,7 +509,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "But despite their apparent wholesomeness in patriotism and parental status, Trump followers simultaneously use more curse words in their bios, including "
+        "text": "But despite their apparent wholesomeness in patriotism and parental status, Trump followers were more likely to use more curse words in their bios, including "
       },
       {
         "text": "term(`fuck`)",
@@ -536,7 +552,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "And while Trump followers more often have big ol’ state schools in their bios, including "
+        "text": "And while Trump followers more often had big ol’ state schools in their bios, including "
       },
       {
         "text": "term(`Roll Tide`)",
@@ -550,7 +566,7 @@
         "underline": true
       },
       {
-        "text": " and so forth, Clinton followers are a little more ivory tower, listing universities like "
+        "text": " and so forth, Clinton followers were a little more ivory tower, listing universities like "
       },
       {
         "text": "term(`Harvard`)",
@@ -581,7 +597,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Clinton followers are more bookish, using terms like "
+        "text": "Clinton followers were more bookish, using terms like "
       },
       {
         "text": "term(`bookworm`)",
@@ -616,7 +632,7 @@
         "underline": true
       },
       {
-        "text": ". A lot of them identify as "
+        "text": ". A lot of them identified as "
       },
       {
         "text": "term(`professor`)",
@@ -630,7 +646,7 @@
         "underline": true
       },
       {
-        "text": "s. They use terms like "
+        "text": "s. They used terms like "
       },
       {
         "text": "term(`tree hugger`)",
@@ -687,7 +703,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "And while Clinton followers more often identify with pop culture, branding themselves "
+        "text": "And while Clinton followers more often identified with pop culture, branding themselves "
       },
       {
         "text": "term(`Belieber`)",
@@ -729,7 +745,7 @@
         "underline": true
       },
       {
-        "text": ", Trump followers more often identify themselves with sports, more often using "
+        "text": ", Trump followers more often identified themselves with sports, using "
       },
       {
         "text": "term(`baseball`)",
@@ -818,7 +834,14 @@
     "type": "p",
     "texts": [
       {
-        "text": "“Father knows best,” Lakoff wrote in a blog post for The Huffington Post about the Strict Father model. “He knows right from wrong and has the ultimate authority to make sure his children and his spouse do what he says, which is taken to be what is right.”  "
+        "text": "“Father knows best,” Lakoff wrote in a blog "
+      },
+      {
+        "text": "post",
+        "href": "http://www.huffingtonpost.com/george-lakoff/understanding-trump_b_11144938.html"
+      },
+      {
+        "text": " for The Huffington Post in July about the Strict Father model. “He knows right from wrong and has the ultimate authority to make sure his children and his spouse do what he says, which is taken to be what is right.”  "
       }
     ]
   },
@@ -842,7 +865,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Trump, Lakoff says, represents the ultimate strict father. Problems are dealt with simply, directly, and without nuance. That’s why it’s easy for Trump to say, “Build a wall” as a solution for stopping immigrants. Or the cure for gun violence is to arm the victim. Terrorism? Ban Muslims and destroy ISIS. Easy-peasy-lemon-squeezy. "
+        "text": "Trump, Lakoff says, represents the ultimate strict father. Problems are dealt with simply, directly, and without nuance. That’s why it’s easy for Trump to say, “Build a wall” as a solution for stopping immigrants. Or that the cure for gun violence is to arm the victim. Terrorism? Ban Muslims and destroy ISIS. Easy-peasy-lemon-squeezy. "
       }
     ]
   },
@@ -850,7 +873,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "In the Nurturant Parent model, there aren’t as strict rules or hierarchies. Discipline isn’t emphasized as much as respect and compassion. That’s why progressives, like Clinton, are often derided as “feel-good” or “bleeding heart” liberals. They want to join the Peace Corps. They want to stand up for human rights. It’s not the refugee’s fault that they’re a refugee. It’s not the homeless person’s fault that their homeless. Drug addiction isn’t a lapse in will -- it’s a treatable illness. "
+        "text": "In the Nurturant Parent model, there aren’t as many strict rules or hierarchies. Discipline isn’t emphasized as much as respect and compassion. That’s why progressives, like Clinton, are often derided as “feel-good” or “bleeding heart” liberals. They want to join the Peace Corps. They want to stand up for human rights. It’s not the refugee’s fault that they’re a refugee. It’s not the homeless person’s fault that their homeless. Drug addiction isn’t a lapse in will or the result of a lack of discipline -- it’s a treatable illness. "
       }
     ]
   },
@@ -866,15 +889,21 @@
     "type": "p",
     "texts": [
       {
-        "text": "In We The Tweeple, Lakoff’s model comes to life. Here we have 8 million portraits of political people, many falling into "
-      }
-    ]
-  },
-  {
-    "type": "p",
-    "texts": [
+        "text": "In We The Tweeple, Lakoff’s model seems to come to life. Here we have 8 million portraits of political gawkers, all following two wildly different politicians, a “Strict "
+      },
       {
-        "text": "Lakoff’s model makes sense when looking at We The Tweeple. Here we have 8 million portraits of political people, collectively falling into models of mother and models of father, democrats or republicans, all followers of a democracy that’s here because of a deep human need for freedom. Freedom of will. Freedom of the pursuit of happiness. Freedom to describe yourself however you like.  "
+        "text": "term(`Father`)",
+        "underline": true
+      },
+      {
+        "text": "” in Trump and a “Nurturing "
+      },
+      {
+        "text": "term(`Mother`)",
+        "underline": true
+      },
+      {
+        "text": "” in Clinton, if you will, all describing themselves through a lens of politics, whether they know it or not. "
       }
     ]
   }
