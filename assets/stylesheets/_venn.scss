@@ -1,9 +1,10 @@
-$variants-height: 2.5rem;
+$variants-height: 3.5rem;
 $strong-height: 2.5rem;
 $h3-height: 3.5rem; // does not include $strong-height
 $h3-lines-height: 1rem;
 $both-height: 3rem;
-$sentence-height: 13rem; // way higher than we need -- assumes we want whitespace below it
+$sentence-height: 12rem; // way higher than we need -- assumes we want whitespace below it
+$share-height: 5rem;
 
 svg.venn {
   circle.clinton { fill: $color-democrat; }

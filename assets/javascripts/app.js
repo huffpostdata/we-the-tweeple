@@ -168,7 +168,8 @@ function main() {
       els.result.innerHTML = [
         token.variantsHtml(),
         venn.html,
-        token.sentenceHtml()
+        token.sentenceHtml(),
+        '<div class="buttons"><button class="bN facebook-share"></button><button class="bN twitter-share"></button></div>',
       ].join('');
 
       els.resultContainer.appendChild(els.result);
