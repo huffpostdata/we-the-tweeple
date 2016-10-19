@@ -68,6 +68,15 @@
     "type": "p",
     "texts": [
       {
+        "text": "Suggested-tweet: Search the bios of 8 million Clinton and Trump Twitter followers.",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
         "text": "Date-published: Wednesday, Oct. 19, 2016 3:16 P.M. EDT",
         "underline": true
       }
@@ -94,7 +103,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "The Huffington Post wanted to find out more about the people who follow the candidates. We hoped their 160-character bios might reveal a thing or two about political identity. Not everyone fills out their Twitter bio, but for those who do, it’s a way to describe themselves in a sort of digital calling card. "
+        "text": "The Huffington Post wanted to find out more about the people who follow the candidates. We hoped their 160-character bios might reveal a thing or two about political identity. Not everyone fills out their Twitter bio, but for those who do it acts as a sort of digital calling card."
       }
     ]
   },
