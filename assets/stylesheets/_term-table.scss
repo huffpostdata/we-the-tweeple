@@ -39,7 +39,9 @@
 
     .unit {
       display: inline-block;
+      width: 5rem; // helps with centering
       padding-right: 1rem;
+      text-align: right;
     }
 
     svg {
@@ -107,8 +109,6 @@
     background: none;
     line-height: 1.5rem;
     font-family: inherit;
-    &::before { content: '“'; }
-    &::after { content: '”'; }
   }
 
   .list svg {
@@ -180,4 +180,8 @@
   li:hover .tooltip {
     display: block;
   }
+}
+
+.term-table + p {
+  margin-top: 1.5rem;
 }
