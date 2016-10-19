@@ -10,7 +10,8 @@ const TokenRenderer = require('../app/TokenRenderer')
 const Database = require('../assets/javascripts/_database')
 const read_config = require('../generator/read_config')
 
-const database = new Database(fs.readFileSync(`${__dirname}/../assets/data/clinton-trump-token-counts-truncated.tsv`, 'utf-8'))
+const database = new Database()
+database.addPartialTxt(fs.readFileSync(`${__dirname}/../assets/data/group-tokens.txt`, 'utf-8'), true)
 const tokenRenderer = new TokenRenderer()
 
 const appConfig = read_config('app')
@@ -23,12 +24,26 @@ const nTokens = tokensToUpload.length
 
 const NGreenlets = 20
 
+if (!process.env.BASE_URL) {
+  throw new Error(`You must set a BASE_URL environment variable`)
+}
+if (!process.env.S3_BUCKET) {
+  throw new Error(`You must set an S3_BUCKET environment variable`)
+}
+
+const BaseUrl = process.env.BASE_URL
+
 function path_to(key, tokenOrNull) {
   switch (key) {
     case 'index': return appConfig.base_path
     case 'share-image': return `${appConfig.base_path}/share/${encodeURIComponent(tokenOrNull)}.jpg`
+    case 'share-page': return `${appConfig.base_path}/${encodeURIComponent(tokenOrNull)}`
     default: throw new Error(`Our path_to() stub cannot handle the key: ${key}`)
   }
+}
+
+function url_to(key, tokenOrNull) {
+  return `${BaseUrl}${path_to(key, tokenOrNull)}`
 }
 
 /**
@@ -68,6 +83,7 @@ function spawn(i) {
     console.log(`[${i}] Uploading token ${tokenNum}/${nTokens}: ${token.text}...`)
     const html = template.renderSync({
       path_to: path_to,
+      url_to: url_to,
       model: {
         token: token.text,
         sentenceText: () => token.sentenceText()
@@ -82,7 +98,7 @@ function spawn(i) {
     }
 
     const jpg = {
-      body: tokenRenderer.renderImage(token.text, group.n, group.nClinton, group.nTrump),
+      body: tokenRenderer.renderImage(token),
       headers: {
         'Content-Type': 'image/jpeg'
       }
