@@ -51,7 +51,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Social-Image: header-desktop.jpg",
+        "text": "Social-Image: http://data.huffingtonpost.com/2016/we-the-tweeple/share/methodology.jpg",
         "underline": true
       }
     ]
@@ -359,7 +359,11 @@
         "type": "li",
         "texts": [
           {
-            "text": "tweep-followers downloads large numbers of Twitter followers’ profile information."
+            "text": "tweep-followers",
+            "href": "https://github.com/huffpostdata/tweep-followers"
+          },
+          {
+            "text": " downloads large numbers of Twitter followers’ profile information."
           }
         ]
       },
@@ -367,7 +371,11 @@
         "type": "li",
         "texts": [
           {
-            "text": "twittok builds a database of "
+            "text": "twittok",
+            "href": "https://github.com/huffpostdata/twittok"
+          },
+          {
+            "text": " builds a database of "
           },
           {
             "text": "groups",
@@ -389,7 +397,11 @@
         "type": "li",
         "texts": [
           {
-            "text": "we-the-tweeple is this website."
+            "text": "we-the-tweeple",
+            "href": "https://github.com/huffpostdata/we-the-tweeple"
+          },
+          {
+            "text": " is this website."
           }
         ]
       }
