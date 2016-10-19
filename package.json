@@ -14,7 +14,7 @@
   "dependencies": {
     "aws-sdk": "^2.3.5",
     "browser-pack": "^6.0.1",
-    "canvas": "adamhooper/node-canvas#toBuffer-raw",
+    "canvas": "^1.6.0",
     "csv-parse": "^1.0.4",
     "glob": "^7.0.5",
     "jpeg-turbo": "^0.4.0",
