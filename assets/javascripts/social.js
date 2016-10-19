@@ -77,6 +77,7 @@
 
       var a = document.createElement('a');
       a.setAttribute('href', href);
+      a.setAttribute('target', '_blank');
       twttr.ready(function() { a.click(); });
     }
   });
