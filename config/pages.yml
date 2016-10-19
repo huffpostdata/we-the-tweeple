@@ -2,6 +2,10 @@ index:
   path: _root
   model: index
 
+'':
+  path: ''
+  redirect: index
+
 # HACK: for share-page and share-image, we don't actually render all the tokens
 # each time we run ./serve.js -- that would take way too long. Instead, we
 # _pretend_ these are all being generated: we call
