@@ -19,7 +19,7 @@ function progressPathD(fraction) {
 /**
  * Sets `database`, then calls `callback(err)`.
  */
-function loadTsv(url, progressSvg, progressPath, callback) {
+function loadTsv(url, progressSvg, progressPath, onProgress, onDone) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
   var pos = 0;
@@ -36,15 +36,17 @@ function loadTsv(url, progressSvg, progressPath, callback) {
 
     var fraction = database.groups.length / database.nGroups;
     progressPath.setAttribute('d', progressPathD(fraction));
+    onProgress();
   };
 
   xhr.onload = function() {
     if (xhr.status === 200 || xhr.status === 304) {
       database.addPartialTxt(xhr.responseText.slice(pos), true);
       progressSvg.parentNode.removeChild(progressSvg);
-      callback();
+      onProgress();
+      onDone();
     } else {
-      callback(new Error("Invalid status code from server: " + xhr.status));
+      onDone(new Error("Invalid status code from server: " + xhr.status));
     }
   };
   xhr.send();
@@ -62,7 +64,8 @@ function main() {
     loading: app_el.querySelector('.loading'),
     result: document.createElement('div'),
     progressSvg: app_el.querySelector('svg.progress'),
-    progressPath: app_el.querySelector('svg.progress path')
+    progressPath: app_el.querySelector('svg.progress path'),
+    bird: app_el.querySelector('span.bird')
   };
   els.result.className = 'hit';
 
@@ -219,26 +222,34 @@ function main() {
   els.autocomplete.addEventListener('mousedown', selectAutocompleteFromEvent);
   els.autocomplete.addEventListener('touchstart', selectAutocompleteFromEvent);
 
+  els.bird.addEventListener('click', function() {
+    els.input.value = 'bird';
+    autocomplete();
+    showMatch(autocompleteMatches[0]); // assume the search matches
+  });
+
   makeHeaderInteractive(function(tokenText) {
     els.input.value = tokenText;
     autocomplete();
     showMatch(autocompleteMatches[0]); // assume the search matches
   });
 
+  if (document.body.hasAttribute('data-search-term')) {
+    els.input.value = document.body.getAttribute('data-search-term');
+  }
+
+  makeStoryDiagrams(database);
+
   loadTsv(app_el.getAttribute('data-tsv-path'), els.progressSvg, els.progressPath, function() {
-    els.loading.parentNode.removeChild(els.loading);
-
-    makeStoryDiagrams(database);
-
-    // FIXME here be races...
-    if (document.body.hasAttribute('data-search-term')) {
-      els.input.value = document.body.getAttribute('data-search-term');
-      autocomplete();
-      showMatch(autocompleteMatches[0]); // Assume the search matches
-    } else {
-      // The user typed while the page was loading
-      autocomplete();
+    // Try to show the word, even before loading finishes. This usually works
+    // because most shares are of unigrams.
+    autocomplete();
+    if (els.input !== document.activeElement) {
+      showMatch(autocompleteMatches[0]); // may be undefined
     }
+  }, function(err) {
+    console.log(err); // TK show error
+    els.loading.parentNode.removeChild(els.loading);
   });
 }
 
