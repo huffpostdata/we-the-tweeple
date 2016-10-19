@@ -28,6 +28,7 @@
       height: 3rem;
       font-size: 3rem; // for &times;
       background-color: $background;
+      cursor: pointer;
 
       &.close {
         border: none;
