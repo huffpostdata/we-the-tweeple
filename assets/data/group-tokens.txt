@@ -2,7 +2,7 @@ n: 18686752
 nClinton: 9588452
 nTrump: 12294584
 nBoth: 3196284
-nWithBio: 18686752
+nWithBio: 7972079
 nClintonWithBio: 4232803
 nTrumpWithBio: 5078544
 nBothWithBio: 1339268
