@@ -1,6 +1,7 @@
 'use strict'
 
 const S3 = new (require('aws-sdk').S3)()
+const zlib = require('zlib')
 const read_config = require('./read_config')
 
 /**
@@ -54,6 +55,23 @@ class AWS {
     this.config = config
   }
 
+  upload(params) {
+    const mangledParams = Object.assign({}, params)
+
+    // Our EdgeCast auto-gzips anything smaller than 1MB. Other stuff we should
+    // gzip manually.
+    // TODO maybe just gzip everything manually? It's hard to find a browser
+    // that doesn't Accept-Encoding: gzip.
+    if (mangledParams.Body.length > 1000000) {
+      mangledParams.Body = zlib.gzipSync(mangledParams.Body)
+      mangledParams.ContentEncoding = 'gzip'
+    }
+
+    console.log(`PUT s3://${params.Bucket}/${params.Key} ${params.ContentType} ${params.CacheControl} [${mangledParams.ContentEncoding || 'uncompressed'}]`)
+
+    return S3.putObject(mangledParams).promise()
+  }
+
   // Returns a Promise
   upload_asset(key, asset) {
     const params = this.build_params({
@@ -61,8 +79,7 @@ class AWS {
       Body: asset.data,
       ContentType: asset.content_type
     }, asset.max_age)
-    console.log(`PUT s3://${params.Bucket}/${params.Key} ${params.ContentType} ${asset.max_age}`)
-    return S3.putObject(params).promise()
+    return upload(params)
   }
 
   upload_assets(assets) {
@@ -90,8 +107,7 @@ class AWS {
       Body: page.body,
       ContentType: page.headers['Content-Type']
     }, max_age)
-    console.log(`PUT s3://${params.Bucket}/${params.Key} ${params.ContentType} ${max_age}`)
-    return S3.putObject(params).promise()
+    return upload(params);
   }
 
   upload_pages(pages) {
