@@ -236,7 +236,8 @@ function main() {
   els.autocomplete.addEventListener('mousedown', selectAutocompleteFromEvent);
   els.autocomplete.addEventListener('touchstart', selectAutocompleteFromEvent);
 
-  els.bird.addEventListener('click', function() {
+  els.bird.addEventListener('click', function(ev) {
+    ev.preventDefault(); // This is a <label> so the default is to focus, which autocompletes
     els.input.value = 'bird';
     refreshAutocompleteHtml();
     showMatch(autocompleteMatches[0]); // assume the search matches
