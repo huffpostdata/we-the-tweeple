@@ -2,8 +2,8 @@ index:
   path: _root
   model: index
 
-'':
-  path: ''
+s3-trailing-slash-redirect:
+  path: index
   redirect: index
 
 # HACK: for share-page and share-image, we don't actually render all the tokens
