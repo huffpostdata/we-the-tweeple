@@ -1,6 +1,31 @@
 article {
   line-height: 1.8;
 
+  p.click-prompt {
+    text-align: center;
+    font-size: .85rem;
+
+    span {
+      display: inline-block;
+      padding: 0 .5rem;
+
+      &::before {
+        content: '';
+        font-size: 0;
+        line-height: 0;
+        display: inline-block;
+        height: 1.25rem;
+        width: 1.25rem * 18.261/24.999;
+        margin-top: .25rem;
+        margin-right: .5rem;
+        background: asset-as-url('digest', 'images/hover-icon.svg');
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+    }
+  }
+
   footer.endnotes {
     margin-top: 3rem;
     @include full-width();
@@ -20,7 +45,7 @@ article {
   }
 
   kbd {
-    font-family: inherit;
+    font: inherit;
     cursor: pointer;
     background: $highlight-background;
     //background-repeat: repeat-x;

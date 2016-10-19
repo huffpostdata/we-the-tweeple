@@ -118,6 +118,10 @@ class Helpers {
     const group = token.group
     return formatInt(group['n' + person[0].toUpperCase() + person.slice(1)])
   }
+
+  clickPrompt(text) {
+    return `<p class="click-prompt"><span>${htmlEscape(text)}</span></p>`
+  }
 }
 
 module.exports = Helpers

@@ -252,7 +252,7 @@ function main() {
       showMatch(autocompleteMatches[0]); // may be undefined
     }
   }, function(err) {
-    console.log(err); // TK show error
+    if (err) console.log(err); // TK show error
     els.loading.parentNode.removeChild(els.loading);
   });
 }
