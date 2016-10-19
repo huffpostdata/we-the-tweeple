@@ -26,22 +26,21 @@ function loadTsv(url, progressSvg, progressPath, callback) {
 
   xhr.onprogress = function(ev) {
     var partialTsv = xhr.responseText.slice(pos);
-    database.addPartialTsv(xhr.responseText.slice(pos));
+    database.addPartialTxt(xhr.responseText.slice(pos));
     pos += partialTsv.length;
 
     // We can't calculate the byte length: Content-Length is gzipped. So we
     // need to know beforehand how long the file is. Number of groups is a
     // good measure.
     //
-    var NGroups = 103125; // TK set nGroups dynamically in the DB by putting it in the file header
 
-    var fraction = database.groups.length / NGroups;
+    var fraction = database.groups.length / database.nGroups;
     progressPath.setAttribute('d', progressPathD(fraction));
   };
 
   xhr.onload = function() {
     if (xhr.status === 200 || xhr.status === 304) {
-      database.addPartialTsv(xhr.responseText.slice(pos), true);
+      database.addPartialTxt(xhr.responseText.slice(pos), true);
       progressSvg.parentNode.removeChild(progressSvg);
       callback();
     } else {

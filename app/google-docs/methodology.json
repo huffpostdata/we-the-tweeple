@@ -250,7 +250,7 @@
             "text": ", we output the number of Clinton followers, the number of Trump followers, the total number of variants (including the ones we didn’t keep), and the exact variants we kept. You can download our "
           },
           {
-            "text": "link_to_asset(`database`, `digest`, `data/group-tokens.tsv`)",
+            "text": "link_to_asset(`database`, `digest`, `data/group-tokens.txt`)",
             "underline": true
           },
           {

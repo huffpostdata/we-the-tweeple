@@ -2,11 +2,8 @@ var html_escape = require('./_html-escape');
 
 var formatInt = require('./_format-int');
 
-var nClintonTotal = 3103739; // TK adjust this -- num with bios
-var nTrumpTotal = 3926005; // TK adjust this -- num with bios
-var nBothTotal = 747171; // TK adjust this -- num with bios
-
-function Group(id, nClinton, nTrump, nBoth, nVariants) {
+function Group(database, id, nClinton, nTrump, nBoth, nVariants) {
+  this.database = database;
   this.id = id;
   this.nClinton = nClinton;
   this.nTrump = nTrump;
@@ -71,8 +68,8 @@ Token.prototype.sentenceData = function() {
       winPercent: 0
     };
   } else {
-    var fClinton = group.nClinton / nClintonTotal;
-    var fTrump = group.nTrump / nTrumpTotal;
+    var fClinton = group.nClinton / group.database.nClintonWithBio;
+    var fTrump = group.nTrump / group.database.nTrumpWithBio;
     var winPercent = Math.round(100 * Math.abs(fClinton - fTrump) / Math.min(fClinton, fTrump));
     if (winPercent === 0) {
       return {
@@ -125,38 +122,67 @@ Token.prototype.sentenceHtml = function() {
     + '</h4>';
 };
 
-function Database(tsv) {
+function Database() {
+  this.nGroups = 128794; // TODO would be nice not to hard-code this
+  // (In the meantime: `grep -c $'\t' group-tokens.txt`)
   this.groups = [];
   this.tokens = [];
   this.maxNgramSize = 0;
-  this._endOfLastTsv = '';
+  this._endOfLastTxt = '';
+  this._doneWithHeader = false;
 }
 
 /**
- * Adds more TSV data.
+ * Adds more data.
  *
  * Params:
- * * tsv: some of the TSV data. Since we don't know whether the final group is
+ * * txt: some of the text data. Since we don't know whether the final group is
  *        complete, it will be buffered until the next data comes in.
  * * isLastPart: if true, the caller promises that the final group is complete.
  */
-Database.prototype.addPartialTsv = function(tsv, isLastPart) {
-  tsv = this._endOfLastTsv + tsv
+Database.prototype.addPartialTxt = function(txt, isLastPart) {
+  txt = this._endOfLastTxt + txt
+
+  // There's no point in parsing a tiny portion of the database. Also, the
+  // regexes for the header expect a minimum length.
+  if (!isLastPart && txt.length < 10000) {
+    this._endOfLastTxt = txt;
+    return;
+  }
+
+  var lastIndex = 0;
+
+  if (!this._doneWithHeader) {
+    // "header" is a few lines that look like: "n: \d+\nnClinton: \d+\n...".
+    // We write these straight to this.n, this.nClinton, etc.
+    var headerRe = /(\w+): (\d+)\n/g;
+    while (true) {
+      var headerM = headerRe.exec(txt);
+      if (headerM === null) {
+        this._doneWithHeader = true;
+        txt = txt.slice(lastIndex);
+        lastIndex = 0;
+        break;
+      } else {
+        this[headerM[1]] = +headerM[2];
+      }
+    }
+  }
 
   var tokens = []; // This chunk's round of tokens
 
   var groupRe = /(\d+)\t(\d+)\t(\d+)\t(\d+)\n((?:[^\t\n]+\n)+)/g;
   var id = 0;
   while (true) {
-    var m = groupRe.exec(tsv);
+    var m = groupRe.exec(txt);
     if (m === null) break;
-    if (!isLastPart && tsv.indexOf('\t', groupRe.lastIndex) === -1) {
+    if (!isLastPart && txt.indexOf('\t', groupRe.lastIndex) === -1) {
       // There's no group after this one, so we don't want to process it.
       break;
     }
 
     id += 1;
-    var group = new Group(id, +m[1], +m[2], +m[3], +m[4]);
+    var group = new Group(this, id, +m[1], +m[2], +m[3], +m[4]);
     this.groups.push(group);
 
     var tokenTexts = m[5].slice(0, m[5].length - 1).split('\n')
@@ -166,10 +192,10 @@ Database.prototype.addPartialTsv = function(tsv, isLastPart) {
       tokens.push(token);
     }
 
-    var lastIndex = groupRe.lastIndex;
+    lastIndex = groupRe.lastIndex;
   }
 
-  this._endOfLastTsv = tsv.slice(lastIndex);
+  this._endOfLastTxt = txt.slice(lastIndex);
 
   // Merge the new tokens into this.tokens.
   //

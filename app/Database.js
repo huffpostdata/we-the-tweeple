@@ -12,9 +12,9 @@ module.exports = class Database {
   constructor() {
     const google_docs = new GoogleDocs(read_config('google-docs'))
 
-    const tsv = fs.readFileSync(`${__dirname}/../assets/data/group-tokens.tsv`, 'utf-8')
+    const txt = fs.readFileSync(`${__dirname}/../assets/data/group-tokens.txt`, 'utf-8')
     const tokenDB = new TokenDB()
-    tokenDB.addPartialTsv(tsv, true)
+    tokenDB.addPartialTxt(txt, true)
     const tokenRenderer = new TokenRenderer()
 
     this.index = google_docs.load('index')

@@ -12,5 +12,5 @@ digest:
     pattern: images/**/*.{png,jpg,gif,svg,ico}
     max_age: 8640000000
   -
-    pattern: data/**/*.{tsv,json}
+    pattern: data/**/*.{txt,json}
     max_age: 600000
