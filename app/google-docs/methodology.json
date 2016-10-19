@@ -95,6 +95,29 @@
     "type": "p",
     "texts": [
       {
+        "text": "By ",
+        "italic": true
+      },
+      {
+        "text": "Adam Hooper",
+        "italic": true,
+        "href": "http://www.huffingtonpost.com/author/adamhooper"
+      },
+      {
+        "text": " and ",
+        "italic": true
+      },
+      {
+        "text": "Allison Fenichel",
+        "italic": true,
+        "href": "http://www.huffingtonpost.com/author/allison-fenichel"
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
         "text": "To build this story, we tackled two problems. First, we organized millions of users’ profiles into a special format built for searching. Second, we looked for words that stood out."
       }
     ]
