@@ -8,6 +8,8 @@ body[data-search-term] {
 div#app {
   @include page-width();
 
+  a.methodology { white-space: nowrap; }
+
   span.only-desktop { display: none; }
   @media (min-width: $min-desktop-width) { span.only-desktop { display: inline; } }
 
