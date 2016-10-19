@@ -63,7 +63,7 @@ div#app {
 
   input {
     display: block;
-    font-size: 2rem;
+    font-size: 1.6rem;
     line-height: 3rem;
     padding: .5rem 1rem;
     margin: 0;
@@ -113,7 +113,8 @@ div#app {
       display: block;
       display: -webkit-flex;
       display: flex;
-      height: 1rem;
+      font-size: .9rem;
+      min-height: 1rem;
       line-height: 1rem;
       padding: .5rem 1rem;
       text-decoration: none;
@@ -144,6 +145,7 @@ div#app {
       display: block;
       height: 2rem;
       margin-top: -.5rem;
+      margin-bottom: -.5rem;
       width: 4rem;
       -webkit-flex: 0 0 auto;
       flex: 0 0 auto;
