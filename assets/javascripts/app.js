@@ -72,18 +72,10 @@ function main() {
   var autocompleteMatches = [];
   var autocompleteIndex = -1;
 
-  function autocomplete(prefix) {
-    showMatch(null);
-
+  function refreshAutocompleteHtml() {
     var prefix = els.input.value;
     autocompleteMatches = (prefix === '') ? [] : database.prefixSearch(prefix, NMatchesToDisplay);
     autocompleteIndex = -1; // so "down" goes to 0
-
-    els.autocomplete.className = [
-      'autocomplete',
-      (prefix === '' ? 'input-empty' : ''),
-      (autocompleteMatches.length === 0 ? 'no-results' : 'has-results')
-    ].join(' ');
 
     if (prefix === '') { // empty search
       els.autocomplete.innerHTML = '';
@@ -109,6 +101,18 @@ function main() {
         els.autocomplete.querySelector('li').classList.add('hover');
       }
     }
+  }
+
+  function autocomplete() {
+    refreshAutocompleteHtml();
+
+    var prefix = els.input.value;
+
+    els.autocomplete.className = [
+      'autocomplete',
+      (prefix === '' ? 'input-empty' : ''),
+      (autocompleteMatches.length === 0 ? 'no-results' : 'has-results')
+    ].join(' ');
   }
 
   function setWrappedAutocompleteIndex(index) {
@@ -141,6 +145,7 @@ function main() {
   }
 
   function showFirstAutocompleteIfEqual() {
+    refreshAutocompleteHtml();
     if (autocompleteMatches.length > 0 && autocompleteMatches[0].foldedText === els.input.value.toLowerCase()) {
       showMatch(autocompleteMatches[0]);
     } else {
@@ -148,15 +153,22 @@ function main() {
     }
   }
 
+  function onBlur() {
+    showFirstAutocompleteIfEqual();
+  }
+
+  var lastMatch = null;
   function showMatch(matchOrNull) {
+    els.autocomplete.classList.add('input-empty');
+
+    if (lastMatch == matchOrNull) return;
+    lastMatch = matchOrNull;
+
     if (!matchOrNull) {
       window.history.replaceState({}, '', RootPath);
 
       if (els.result.parentNode !== null) els.resultContainer.removeChild(els.result);
     } else {
-      autocomplete(); // So when we blur, the list is correct
-      els.autocomplete.classList.add('input-empty');
-
       var token = matchOrNull;
       var group = token.group;
 
@@ -179,7 +191,8 @@ function main() {
   }
 
   els.input.addEventListener('input', autocomplete);
-  els.input.addEventListener('blur', showFirstAutocompleteIfEqual);
+  els.input.addEventListener('focus', autocomplete);
+  els.input.addEventListener('blur', onBlur);
 
   // Use keyboard to navigate autocomplete entry
   els.input.addEventListener('keydown', function(ev) {
@@ -225,13 +238,13 @@ function main() {
 
   els.bird.addEventListener('click', function() {
     els.input.value = 'bird';
-    autocomplete();
+    refreshAutocompleteHtml();
     showMatch(autocompleteMatches[0]); // assume the search matches
   });
 
   makeHeaderInteractive(function(tokenText) {
     els.input.value = tokenText;
-    autocomplete();
+    refreshAutocompleteHtml();
     showMatch(autocompleteMatches[0]); // assume the search matches
   });
 
@@ -241,14 +254,14 @@ function main() {
 
   makeStoryDiagrams(database, function(token) {
     els.input.value = token.text;
-    autocomplete();
+    refreshAutocompleteHtml();
     showMatch(autocompleteMatches[0]);
   });
 
   loadTsv(app_el.getAttribute('data-tsv-path'), els.progressSvg, els.progressPath, function() {
     // Try to show the word, even before loading finishes. This usually works
     // because most shares are of unigrams.
-    autocomplete();
+    refreshAutocompleteHtml();
     if (els.input !== document.activeElement) {
       showMatch(autocompleteMatches[0]); // may be undefined
     }
