@@ -33,12 +33,15 @@ function Token(group, positionInGroup, text) {
  * Renders "similar spellings" HTML, or an empty String if `nVariants === 1`
  */
 Token.prototype.variantsHtml = function() {
-  const group = this.group;
+  var _this = this;
+  var group = this.group;
+
+  var nToWord = [ 'no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine' ];
 
   if (group.nVariants <= 1) return '';
 
   var liHtmls = group.tokens
-    .filter(function(t) { return t !== this; })
+    .filter(function(t) { return t !== _this; })
     .slice(0, 2)
     .map(function(token) {
       return '<li><q>' + html_escape(token.text) + '</q></li>';
@@ -48,7 +51,7 @@ Token.prototype.variantsHtml = function() {
     if (nOther === 1) {
       liHtmls.push('<li class="other">1 similar spelling</li>');
     } else {
-      liHtmls.push('<li class="other">' + nOther + ' similar spellings</li>');
+      liHtmls.push('<li class="other">' + (nToWord[nOther] || String(nOther)) + ' similar spellings</li>');
     }
   }
   return [
