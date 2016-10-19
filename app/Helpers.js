@@ -110,6 +110,14 @@ class Helpers {
 
     return `<div class="venn-container-outer">${renderVenn(maxN, token).html}</div>`
   }
+
+  termCount(term, person) {
+    const token = this.context.model.tokenDB.find(term)
+    if (!token) throw new Error(`termCount() could not find token "${term}"`)
+
+    const group = token.group
+    return formatInt(group['n' + person[0].toUpperCase() + person.slice(1)])
+  }
 }
 
 module.exports = Helpers

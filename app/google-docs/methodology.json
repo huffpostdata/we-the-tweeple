@@ -95,7 +95,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "To build this story, we tackled two problems. First, we organized millions of Twitter users’ profiles. Second, we found meaning."
+        "text": "To build this story, we tackled two problems. First, we organized millions users’ profiles into a special format built for searching. Second, we found meaning."
       }
     ]
   },
@@ -103,7 +103,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "TK insert follower counts"
+        "text": "We examined the 18,686,752 Twitter users who followed Trump or Clinton at the time of our analysis. Of those, 7,972,079 users wrote bios: 4,232,803 Clinton followers and 5,078,544 Trump followers. There’s an overlap of 1,339,268 users with bios who follow both Clinton and Trump."
       }
     ]
   },
@@ -129,7 +129,7 @@
             "href": "https://dev.twitter.com/rest/public"
           },
           {
-            "text": ". From the follower IDs, we downloaded each public Twitter profile. We began on Oct. TK and finished on Oct. TK. (We assume the vast majority of Twitter followers didn’t edit their bios during our download.)"
+            "text": ". (A follower ID is like a username, except smaller.) From the follower IDs, we downloaded each public Twitter profile. We began on Oct. 10 and finished on Oct. 18. (We assume the vast majority of Twitter followers didn’t edit their bios during our download.) "
           }
         ]
       },
@@ -247,7 +247,7 @@
             "italic": true
           },
           {
-            "text": ", we output the number of Clinton followers, the number of Trump followers, the total number of variants (including the ones we didn’t keep), and the exact variants we kept. You can download our "
+            "text": ", we saved the number of Clinton followers, the number of Trump followers, the total number of variants (including the ones we didn’t keep), and the exact variants we kept. You can download our "
           },
           {
             "text": "link_to_asset(`database`, `digest`, `data/group-tokens.txt`)",
@@ -262,7 +262,7 @@
         "type": "li",
         "texts": [
           {
-            "text": "Finally, we built the website’s search interface. It loads that database and lets you search for "
+            "text": "Finally, we built the web site’s search interface. It loads that database and lets you search for "
           },
           {
             "text": "variants",
