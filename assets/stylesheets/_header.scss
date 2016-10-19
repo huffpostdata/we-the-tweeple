@@ -68,6 +68,11 @@ header {
 
   canvas {
     position: absolute;
+    display: none;
+
+    @media (min-width: $min-desktop-width) {
+      display: block;
+    }
     bottom: 0;
     left: 50%; // marginLeft be set in CSS
     width: auto;
