@@ -12,7 +12,9 @@ div#app {
   @media (min-width: $min-desktop-width) { span.only-desktop { display: inline; } }
 
   span.only-desktop.bird {
-    display: block;
+    @media (min-width: $min-desktop-width) {
+      display: block;
+    }
     width: 8rem;
     height: 8rem;
     margin: 2rem auto 0;
@@ -178,6 +180,12 @@ div#app {
       border-left: $svg-margin solid $background;
       border-right: $svg-margin solid $background;
       background: $background;
+    }
+
+    label {
+      // On mobile, the content width is narrow indeed within that border
+      margin-left: -$svg-margin;
+      margin-right: -$svg-margin;
     }
 
     .variants {

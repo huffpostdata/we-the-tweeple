@@ -1,6 +1,24 @@
 header {
   h1 { display: none; } // it's just for SEO
 
+  h2 {
+    font-family: $header-font-family;
+    font-size: 1.2rem;
+    text-align: center;
+    line-height: 1.5;
+    padding-top: 1rem;
+    z-index: 1;
+
+    @media (min-width: $min-desktop-width) {
+      position: absolute;
+      top: 28rem;
+      padding-top: 0;
+      width: $page-width / 2;
+      left: 50%;
+      margin-left: -$page-width / 4;
+    }
+  }
+
   figure {
     margin: 0;
     padding: 0;
