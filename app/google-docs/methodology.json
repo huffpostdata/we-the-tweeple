@@ -12,7 +12,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Dek: How we let you search millions of Twitter bios",
+        "text": "Dek: How we let you search 8 million Twitter bios",
         "underline": true
       }
     ]
@@ -95,7 +95,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "To build this story, we tackled two problems. First, we organized millions users’ profiles into a special format built for searching. Second, we found meaning."
+        "text": "To build this story, we tackled two problems. First, we organized millions of users’ profiles into a special format built for searching. Second, we looked for words that stood out."
       }
     ]
   },
@@ -129,7 +129,7 @@
             "href": "https://dev.twitter.com/rest/public"
           },
           {
-            "text": ". (A follower ID is like a username, except smaller.) From the follower IDs, we downloaded each public Twitter profile. We began on Oct. 10 and finished on Oct. 18. (We assume the vast majority of Twitter followers didn’t edit their bios during our download.) "
+            "text": ". (A follower ID is like a username, except shorter.) From the follower IDs, we downloaded each public Twitter profile. We began on Oct. 10 and finished on Oct. 18. (We assume the vast majority of Twitter followers didn’t edit their bios during our download.) "
           }
         ]
       },
@@ -144,7 +144,7 @@
             "href": "https://en.wikipedia.org/wiki/Tokenization_(lexical_analysis)"
           },
           {
-            "text": " each user’s bio, to turn it into a sequence of "
+            "text": " each user’s bio, turning each string of text into a sequence of "
           },
           {
             "text": "tokens",
@@ -166,7 +166,7 @@
             "href": "https://en.wikipedia.org/wiki/Stemming"
           },
           {
-            "text": " each token, so that different spellings of the same word can be counted together. (“Working” becomes “work”.)"
+            "text": " each token so that different spellings of the same word could be counted together. (“Working” becomes “work”.)"
           }
         ]
       },
@@ -174,14 +174,14 @@
         "type": "li",
         "texts": [
           {
-            "text": "We counted how many Clinton and/or Trump followers wrote each stemmed token (e.g., “work”). Then we did the same for each pair of stemmed tokens (e.g., “work full”), each trio of stemmed tokens (“work full time”), and so on up to each sequence of 10 stemmed tokens. We call these sequences of stemmed tokens "
+            "text": "We counted how many Clinton and/or Trump followers wrote each stemmed token (e.g., “work”). Then we did the same for each pair of stemmed tokens (e.g., “work full”), each trio of stemmed tokens (“work full time”), and so on, up to each sequence of 10 stemmed tokens. We called these sequences of stemmed tokens "
           },
           {
             "text": "groups",
             "italic": true
           },
           {
-            "text": ". We publish these "
+            "text": ". We published these "
           },
           {
             "text": "group",
@@ -195,7 +195,7 @@
             "href": "https://en.wikipedia.org/wiki/Venn_diagram"
           },
           {
-            "text": ". (“Working full time” and “work full time” are both counted in the “work full time” Venn diagram.)"
+            "text": ". (So, “working full time” and “work full time” are both counted in the “work full time” Venn diagram.)"
           }
         ]
       },
@@ -203,14 +203,14 @@
         "type": "li",
         "texts": [
           {
-            "text": "The search interface works on un-stemmed words, so you can search for “working full time”). To build our search interface, we collected each "
+            "text": "The search interface incorporates un-stemmed words, so if you search for “working full time,” you’ll get the same result. To build our search interface, we collected each "
           },
           {
-            "text": "variant",
+            "text": "variant ",
             "italic": true
           },
           {
-            "text": " of each group — that is, each unique sequence of characters, including punctuation and whitespace, from before we tokenized and stemmed."
+            "text": "of each group — that is, each unique sequence of characters, including punctuation and spacing — before we tokenized and stemmed the terms."
           }
         ]
       },
@@ -218,21 +218,28 @@
         "type": "li",
         "texts": [
           {
-            "text": "We kept only the "
+            "text": "We discarded the "
           },
           {
             "text": "variants",
             "italic": true
           },
           {
-            "text": " more than 100 followers wrote. This was case-insensitive: if some followers wrote “lgbt” and others wrote “LGBT”, we counted both sets of followers as “LGBT”. We kept only the "
+            "text": " that appeared in fewer than 100 bios, to preserve followers’ anonymity. This was case-insensitive: if some followers wrote “lgbt” and others wrote “LGBT”, we counted both sets of followers as “LGBT.” We discarded the "
           },
           {
             "text": "groups",
             "italic": true
           },
           {
-            "text": " for which we kept at least one variant."
+            "text": " that had no "
+          },
+          {
+            "text": "variants",
+            "italic": true
+          },
+          {
+            "text": " left."
           }
         ]
       },
@@ -262,7 +269,7 @@
         "type": "li",
         "texts": [
           {
-            "text": "Finally, we built the web site’s search interface. It loads that database and lets you search for "
+            "text": "Finally, we built the website’s search interface. It loads that database and lets you search for "
           },
           {
             "text": "variants",
@@ -276,7 +283,7 @@
             "italic": true
           },
           {
-            "text": ", and it displays that group’s Venn diagram."
+            "text": " and it displays that group’s Venn diagram."
           }
         ]
       }
@@ -286,7 +293,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "To find meaning — and the terms we highlighted in the text of our story — we used the economics concept of an "
+        "text": "To find words that stood out — the terms we highlighted in the text of our story — we used the economics concept of an "
       },
       {
         "text": "index",
@@ -325,7 +332,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "A term can over-index among Clinton followers even the number of Trump followers who use it is higher. That’s because the total number of Trump followers is greater than the total number of Clinton followers."
+        "text": "A term can over-index among Clinton followers even when the number of Trump followers who use it is higher. That’s because the total number of Trump followers is greater than the total number of Clinton followers."
       }
     ]
   },

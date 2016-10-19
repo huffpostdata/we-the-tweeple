@@ -14,6 +14,9 @@ html lang="en"
     article
       $!{data.model.render(data)}
 
+      footer.endnotes
+        $!{data.model.endnotes_html}
+
       .comments
         .fb-comments data-width="100%"
 

@@ -238,7 +238,11 @@ function main() {
     els.input.value = document.body.getAttribute('data-search-term');
   }
 
-  makeStoryDiagrams(database);
+  makeStoryDiagrams(database, function(token) {
+    els.input.value = token.text;
+    autocomplete();
+    showMatch(autocompleteMatches[0]);
+  });
 
   loadTsv(app_el.getAttribute('data-tsv-path'), els.progressSvg, els.progressPath, function() {
     // Try to show the word, even before loading finishes. This usually works

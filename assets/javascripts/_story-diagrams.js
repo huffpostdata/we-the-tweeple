@@ -1,7 +1,12 @@
 let database = null;
+let onFocusToken = null;
 
-function makeStoryDiagrams(newDatabase) {
+function makeStoryDiagrams(newDatabase, newOnFocusToken) {
   database = newDatabase;
+  onFocusToken = newOnFocusToken;
+}
+
+function focusOnToken(token, el) {
 }
 
 document.querySelector('article').addEventListener('click', function(ev) {
@@ -13,7 +18,7 @@ document.querySelector('article').addEventListener('click', function(ev) {
   var token = database.find(node.textContent);
   if (token === null) return; // typo in article -- don't crash
 
-  console.log('Focus on token', token);
+  onFocusToken(token);
 });
 
 module.exports = makeStoryDiagrams;

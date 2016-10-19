@@ -1,6 +1,24 @@
 article {
   line-height: 1.8;
 
+  footer.endnotes {
+    margin-top: 3rem;
+    @include full-width();
+    font-size: .85rem;
+    color: $color;
+    background: $very-very-muted-color;
+
+    p {
+      @include page-width();
+      margin-top: .85rem;
+      margin-bottom: .85rem;
+    }
+  }
+
+  .comments {
+    margin-top: 3rem;
+  }
+
   kbd {
     font-family: inherit;
     cursor: pointer;

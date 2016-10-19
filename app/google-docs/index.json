@@ -12,7 +12,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Dek: Search the bios of 8 million Clinton and Trump Twitter followers",
+        "text": "Dek: Compare Beyoncé with NASCAR. Search the bios of 8 million Clinton and Trump Twitter followers.",
         "underline": true
       }
     ]
@@ -29,49 +29,12 @@
         "href": "http://www.huffingtonpost.com/author/christopher-mathias"
       },
       {
-        "text": ", ",
-        "underline": true
-      },
-      {
-        "text": "Allison Fenichel",
-        "href": "http://www.huffingtonpost.com/author/allison-fenichel"
-      },
-      {
         "text": " and ",
         "underline": true
       },
       {
         "text": "Adam Hooper",
         "href": "http://www.huffingtonpost.com/author/adamhooper"
-      }
-    ]
-  },
-  {
-    "type": "p",
-    "texts": [
-      {
-        "text": "Author: Design by ",
-        "underline": true
-      },
-      {
-        "text": "Alissa Scheller",
-        "href": "http://www.huffingtonpost.com/author/alissa-scheller"
-      },
-      {
-        "text": ", ",
-        "underline": true
-      },
-      {
-        "text": "Jonathan Shin",
-        "href": "http://www.huffingtonpost.com/author/jonathan-shin"
-      },
-      {
-        "text": " and ",
-        "underline": true
-      },
-      {
-        "text": "Troy Dunham",
-        "href": "http://www.huffingtonpost.com/author/troy-dunham"
       }
     ]
   },
@@ -97,7 +60,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Date-published: Tuesday, Oct. 11, 2016 12:16 P.M. EDT",
+        "text": "Date-published: Wednesday, Oct. 19, 2016 3:16 P.M. EDT",
         "underline": true
       }
     ]
@@ -115,7 +78,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Never before has Twitter played such a prominent role in an election. If Clinton or Trump wants to say something or react to news in real time -- even if it's at 3 a.m. -- they don't need to coordinate a press conference. They just need to tap that little blue bird. And in a blink of an eye, they’ve reached millions.  "
+        "text": "Never before has Twitter played such a prominent role in an election. If Clinton or Trump wants to say something or react to news — even if it's at 3 a.m. — they don't need to coordinate a press conference. They just need to tap that little blue bird. And in a blink of an eye, they’ve reached millions.  "
       }
     ]
   },
@@ -131,7 +94,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "We downloaded the Twitter bios for people who follow either Hillary Clinton and Donald Trump. That ended up being about 8 million, 160-character tiny self-portraits. (Curious about how we did this? Read our "
+        "text": "We downloaded the Twitter bios for people who follow either Hillary Clinton or Donald Trump. That ended up being about 8 million tiny 160-character self-portraits. (Curious about how we did this? Read our "
       },
       {
         "text": "link_to(`methodology`, `methodology`)",
@@ -146,15 +109,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Mostly the bios paint a story of biography: parental status, professional and personal accomplishments, hobbies, niche interests, a favorite bible quote, or the type of car they drive. "
-      }
-    ]
-  },
-  {
-    "type": "p",
-    "texts": [
-      {
-        "text": "Unsurprisingly, the bios suggest a divided nation, where a single word, like "
+        "text": "Mostly the profiles paint a story of identity: parental status, professional and personal accomplishments, hobbies, niche interests, a favorite Bible quote or the type of car someone drives. The bios suggest a divided nation, where a single word, like "
       },
       {
         "text": "term(`NASCAR`)",
@@ -168,7 +123,7 @@
         "underline": true
       },
       {
-        "text": ", immediately tells you about a person’s politics."
+        "text": ", reveals a person’s politics."
       }
     ]
   },
@@ -176,7 +131,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "CODE GOES HERE Click a highlighted term (or one of the birds above) to compare Clinton and Trump followers."
+        "text": "CODE GOES HERE Click a highlighted term to compare Clinton and Trump followers."
       }
     ]
   },
@@ -184,7 +139,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "A big caveat: a Trump or Clinton follower does not a Trump or Clinton voter make. In other words, this is not a scientific data set, and we’re not here to make big new proclamations about the American Voter. Mostly we’re just trying to scratch the itch of curiosity. Who is more likely to be a follower of Trump? Of Clinton? "
+        "text": "A big caveat: a Trump or Clinton follower does not a Trump or Clinton supporter make. In other words, this is not a scientific data set, and we’re not here to make big new proclamations about the American Voter. Mostly we’re just trying to scratch the itch of curiosity. Who is more likely to be a follower of Trump? Of Clinton? "
       }
     ]
   },
@@ -192,7 +147,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Take guns and religion, often associated with the right-wing. "
+        "text": "Take guns and religion, often associated with the right wing. "
       },
       {
         "text": "term(`#2A`)",
@@ -220,14 +175,14 @@
         "underline": true
       },
       {
-        "text": ", a Greek phrase meaning “come and take [them],” attributed to Spartan King Leonidas when the Persian army told him and his army to lay down their weapons. The phrase, adopted by gun rights advocates as a rallying cry against gun control, was in the Twitter bios of "
+        "text": ", a Greek phrase meaning “come and take [them],” which, legend has it, was the Spartan king Leonidas’ response when the Persian army told him and his army to lay down their weapons. The phrase, adopted by gun rights advocates as a rallying cry against gun control, was in the Twitter bios of "
       },
       {
         "text": "termCount(`#MolonLabe`, `trump`)",
         "underline": true
       },
       {
-        "text": " Trump followers, and in the the bios just "
+        "text": " Trump followers and in the the bios of just "
       },
       {
         "text": "termCount(`#MolonLabe`, `clinton`)",
@@ -242,7 +197,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "term_table({ title: `Religion and Guns`, trump: [ `Christian`, `Christ`, `God`, `#2A`, `#MolonLabe` ] })",
+        "text": "term_table({ title: `Religion and Guns`, trump: [ `God`, `Christian`, `Christ`, `psalm`, `NRA`, `#2A` ] })",
         "underline": true
       }
     ]
@@ -251,7 +206,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "And as for religion, Trump followers made up a large majority of the Twitter bios we downloaded referencing Christianity. "
+        "text": "As for religion, Trump followers made up a large majority of the Twitter bios we downloaded that referenced Christianity. Some "
       },
       {
         "text": "termCount(`Christian`, `trump`)",
@@ -280,7 +235,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Also prominent among Trump followers’ bios were Bible verses: "
+        "text": "Also prominent in Trump followers’ bios were Bible verses: "
       },
       {
         "text": "term(`Psalm 23:4`)",
@@ -304,11 +259,11 @@
         "text": ", "
       },
       {
-        "text": "term(`Roman 1:16`)",
+        "text": "term(`Romans 1:16`)",
         "underline": true
       },
       {
-        "text": ",  "
+        "text": ", "
       },
       {
         "text": "term(`Luke 1:37`)",
@@ -322,7 +277,7 @@
         "underline": true
       },
       {
-        "text": " (“Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go”). Clinton followers by comparison weren’t all that biblical."
+        "text": " (“Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go”). Clinton followers, by comparison, were less biblically inclined."
       }
     ]
   },
@@ -373,7 +328,7 @@
         "underline": true
       },
       {
-        "text": " in their bios, an acronym for Twitter Gulag Defense Network, a coalition of conservative Twitter users who follow each other on Twitter, boosting their number of followers so their accounts are less likely to be suspended for posting offensive and inappropriate content. And "
+        "text": " in their bios, an acronym for Twitter Gulag Defense Network, a coalition of conservative Twitter users who follow each other on Twitter, boosting their number of followers so each account is less likely to be suspended for posting offensive and inappropriate content. And "
       },
       {
         "text": "termCount(`shitpost`, `trump`)",
@@ -416,7 +371,7 @@
         "underline": true
       },
       {
-        "text": ", for Returned Peace Corps Volunteer, living up to the cliché that Democrats really are bleeding-heart liberals.  "
+        "text": ", for Returned Peace Corps Volunteer, living up to the cliché that Democrats really are bleeding-heart liberals."
       }
     ]
   },
@@ -501,7 +456,7 @@
         "underline": true
       },
       {
-        "text": ", however, is more frequent in Clinton follower bios.) "
+        "text": ", however, was more frequent in Clinton followers’ bios.) "
       }
     ]
   },
@@ -509,7 +464,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "But despite their apparent wholesomeness in patriotism and parental status, Trump followers were more likely to use more curse words in their bios, including "
+        "text": "But despite the apparent wholesomeness of their patriotism and parental status, Trump followers were more likely to use curse words in their bios, including "
       },
       {
         "text": "term(`fuck`)",
@@ -530,7 +485,7 @@
         "underline": true
       },
       {
-        "text": " and typically-misogynistic terms like "
+        "text": " and misogynistic terms like "
       },
       {
         "text": "term(`cunt`)",
@@ -580,7 +535,7 @@
         "underline": true
       },
       {
-        "text": ", confirming in a grossly generalized way that Democrats are also elitists.  "
+        "text": " — confirming in a grossly generalized way that Democrats are also elitists."
       }
     ]
   },
@@ -588,7 +543,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "term_table({ title: `Universities`, clinton: [ `Harvard`, `Columbia`, `Georgetown`, `American University`, `Northwestern` ], trump: [ `Roll Tide`, `Penn State`, `LSU`, `FSU` ] })",
+        "text": "term_table({ title: `Universities`, clinton: [ `Columbia`, `Harvard`, `Georgetown`, `American University`, `Northwestern` ], trump: [ `Roll Tide`, `Penn State`, `LSU`, `FSU` ] })",
         "underline": true
       }
     ]
@@ -642,7 +597,7 @@
         "text": "s or as having "
       },
       {
-        "text": "term(`PHD`)",
+        "text": "term(`PhD`)",
         "underline": true
       },
       {
@@ -703,6 +658,15 @@
     "type": "p",
     "texts": [
       {
+        "text": "term_table({ title: `Nerds and Jocks`, clinton: [ `writer`, `book`, `professor`, `librarian`, `bibliophile` ], trump: [ `football`, `baseball`, `soccer`, `basketball`, `wrestling` ] })",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
         "text": "And while Clinton followers more often identified with pop culture, branding themselves "
       },
       {
@@ -720,7 +684,7 @@
         "text": ", "
       },
       {
-        "text": "term(`Arianna Grande`)",
+        "text": "term(`Ariana Grande`)",
         "underline": true
       },
       {
@@ -738,14 +702,14 @@
         "underline": true
       },
       {
-        "text": ", and the show "
+        "text": " and the show "
       },
       {
         "text": "term(`Dr. Who`)",
         "underline": true
       },
       {
-        "text": ", Trump followers more often identified themselves with sports, using "
+        "text": ", Trump followers more often identified with sports, using "
       },
       {
         "text": "term(`baseball`)",
@@ -794,7 +758,7 @@
         "underline": true
       },
       {
-        "text": " in their bios. "
+        "text": " in their bios."
       }
     ]
   },
@@ -802,7 +766,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "So, what to make of all of this? "
+        "text": "So, what do we make of all of this? "
       }
     ]
   },
@@ -810,7 +774,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "In the 1990s a linguist at the University of California Berkeley named George Lakoff wanted to know why certain beliefs are often grouped together. For example, what does being a pro-life Christian have to do with owning guns? Or patriotism and nationalism? Or small government? "
+        "text": "In the 1990s, a linguist at the University of California, Berkeley named George Lakoff wanted to know why certain beliefs are often grouped together. For example, what does being a pro-life Christian have to do with owning guns? Or patriotism and nationalism? Or small government? "
       }
     ]
   },
@@ -818,7 +782,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Here’s what Lakoff came up with: people’s politics line up with how they view family. Whereas progressives believe in what Lakoff calls the “The Nurturant Parent” family, conservatives believe in the “Strict Father.” "
+        "text": "Here’s what Lakoff came up with: people’s politics line up with how they view family. Whereas progressives believe in what Lakoff calls the “nurturant parent” family, conservatives believe in the “strict father.”"
       }
     ]
   },
@@ -834,14 +798,14 @@
     "type": "p",
     "texts": [
       {
-        "text": "“Father knows best,” Lakoff wrote in a blog "
+        "text": "“Father knows best,” Lakoff wrote in a "
       },
       {
-        "text": "post",
+        "text": "blog",
         "href": "http://www.huffingtonpost.com/george-lakoff/understanding-trump_b_11144938.html"
       },
       {
-        "text": " for The Huffington Post in July about the Strict Father model. “He knows right from wrong and has the ultimate authority to make sure his children and his spouse do what he says, which is taken to be what is right.”  "
+        "text": " for The Huffington Post in July, explaining the “strict father” model. “He knows right from wrong and has the ultimate authority to make sure his children and his spouse do what he says, which is taken to be what is right.”"
       }
     ]
   },
@@ -849,7 +813,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "And in the strict father worldview, there’s a deep respect for social hierarchies in which “those who have traditionally dominated should dominate,” Lakoff wrote. God is above man. Man above nature. Rich above the poor. Western culture above other cultures. Christians above non-Christians. And America above other countries. "
+        "text": "And in the “strict father” worldview, there’s a deep respect for social hierarchies in which “those who have traditionally dominated should dominate,” Lakoff wrote. God is above man. Man above nature. Rich above the poor. Western culture above other cultures. Christians above non-Christians. And America above other countries. "
       }
     ]
   },
@@ -857,7 +821,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "In other words, it’s why conservatives are seemingly more religious and nationalistic. "
+        "text": "In other words, the theory explains why conservatives are seemingly more religious and nationalistic. "
       }
     ]
   },
@@ -865,7 +829,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "Trump, Lakoff says, represents the ultimate strict father. Problems are dealt with simply, directly, and without nuance. That’s why it’s easy for Trump to say, “Build a wall” as a solution for stopping immigrants. Or that the cure for gun violence is to arm the victim. Terrorism? Ban Muslims and destroy ISIS. Easy-peasy-lemon-squeezy. "
+        "text": "Trump, Lakoff says, represents the ultimate strict father. Problems are dealt with simply, directly and without nuance. That’s why it’s easy for Trump to say “build a wall” as a solution for stopping immigrants. Or that the cure for gun violence is to arm the victim. Terrorism? Ban Muslims and destroy ISIS. Easy-peasy-lemon-squeezy. "
       }
     ]
   },
@@ -873,7 +837,7 @@
     "type": "p",
     "texts": [
       {
-        "text": "In the Nurturant Parent model, there aren’t as many strict rules or hierarchies. Discipline isn’t emphasized as much as respect and compassion. That’s why progressives, like Clinton, are often derided as “feel-good” or “bleeding heart” liberals. They want to join the Peace Corps. They want to stand up for human rights. It’s not the refugee’s fault that they’re a refugee. It’s not the homeless person’s fault that their homeless. Drug addiction isn’t a lapse in will or the result of a lack of discipline -- it’s a treatable illness. "
+        "text": "In the “nurturant parent” model, there aren’t as many strict rules or hierarchies. Discipline isn’t emphasized as much as respect and compassion. That’s why progressives, like Clinton, are often derided as “feel-good” or “bleeding-heart” liberals. They want to join the Peace Corps. They want to stand up for human rights. It’s not the refugee’s fault that they’re a refugee. It’s not the homeless person’s fault that they’re homeless. Drug addiction isn’t a lapse in willpower or the result of a lack of discipline -- it’s a treatable illness. "
       }
     ]
   },
@@ -889,21 +853,123 @@
     "type": "p",
     "texts": [
       {
-        "text": "In We The Tweeple, Lakoff’s model seems to come to life. Here we have 8 million portraits of political gawkers, all following two wildly different politicians, a “Strict "
+        "text": "In We The Tweeple, Lakoff’s model seems to come to life. Here we have 8 million portraits of political gawkers, all following two wildly different politicians, a “strict "
       },
       {
-        "text": "term(`Father`)",
+        "text": "term(`father`)",
         "underline": true
       },
       {
-        "text": "” in Trump and a “Nurturing "
+        "text": "” in Trump and a “nurturing "
       },
       {
-        "text": "term(`Mother`)",
+        "text": "term(`mother`)",
         "underline": true
       },
       {
         "text": "” in Clinton, if you will, all describing themselves through a lens of politics, whether they know it or not. "
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Endnote: Story by ",
+        "underline": true
+      },
+      {
+        "text": "Christopher Mathias",
+        "href": "http://www.huffingtonpost.com/author/christopher-mathias"
+      },
+      {
+        "text": ", national reporter.",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Endnote: Concept and production by ",
+        "underline": true
+      },
+      {
+        "text": "Adam Hooper",
+        "href": "http://www.huffingtonpost.com/author/adamhooper"
+      },
+      {
+        "text": ", news applications developer.",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Endnote: Additional data analysis by ",
+        "underline": true
+      },
+      {
+        "text": "Allison Fenichel",
+        "href": "http://www.huffingtonpost.com/author/allison-fenichel"
+      },
+      {
+        "text": ", data scientist.",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Endnote: Visual direction by ",
+        "underline": true
+      },
+      {
+        "text": "Alissa Scheller",
+        "href": "http://www.huffingtonpost.com/author/alissa-scheller"
+      },
+      {
+        "text": ", visuals editor.",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Endnote: Additional design by ",
+        "underline": true
+      },
+      {
+        "text": "Jonathan Shin",
+        "href": "http://www.huffingtonpost.com/author/jonathan-shin"
+      },
+      {
+        "text": ", interactive designer.",
+        "underline": true
+      }
+    ]
+  },
+  {
+    "type": "p",
+    "texts": [
+      {
+        "text": "Endnote: Header design by ",
+        "underline": true
+      },
+      {
+        "text": "Troy Dunham",
+        "href": "http://www.huffingtonpost.com/author/troy-dunham"
+      },
+      {
+        "text": ", art director.",
+        "underline": true
       }
     ]
   }

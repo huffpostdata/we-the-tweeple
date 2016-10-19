@@ -32,6 +32,10 @@ $min-desktop-width: 640px;
   @include with-width($page-width);
 }
 
+@mixin full-width() {
+  @include with-width(100%);
+}
+
 html, body {
   height: 100%;
 }
