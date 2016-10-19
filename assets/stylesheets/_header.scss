@@ -23,6 +23,7 @@ header {
     padding-top: 1rem;
     font-size: .85rem;
     text-align: center;
+    color: $color;
 
     @media (min-width: $min-desktop-width) {
       position: absolute;
@@ -32,7 +33,7 @@ header {
       width: 100%;
 
       a {
-        color: $muted-color;
+        color: $color;
       }
     }
   }
