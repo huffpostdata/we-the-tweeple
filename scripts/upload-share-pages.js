@@ -75,6 +75,8 @@ function uploadUntilSuccess(childNum, key, page, callback) {
  */
 function spawn(i) {
   function runOneToken(callback) {
+    if (tokensToUpload.length === 0) return; // "greenlet" dies
+
     const token = tokensToUpload.shift()
     const tokenNum = nTokens - tokensToUpload.length
     const group = token.group
