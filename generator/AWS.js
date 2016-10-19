@@ -79,7 +79,7 @@ class AWS {
       Body: asset.data,
       ContentType: asset.content_type
     }, asset.max_age)
-    return upload(params)
+    return this.upload(params)
   }
 
   upload_assets(assets) {
@@ -107,7 +107,7 @@ class AWS {
       Body: page.body,
       ContentType: page.headers['Content-Type']
     }, max_age)
-    return upload(params);
+    return this.upload(params);
   }
 
   upload_pages(pages) {
