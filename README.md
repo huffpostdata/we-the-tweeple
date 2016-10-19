@@ -51,7 +51,7 @@ S3_BUCKET=data.huffingtonpost.com \
 popd
 ```
   3. `chmod +x ~/SLUG.git/hooks/post-receive`
-2. (Once per dev machine per project) Run `git remote add production ssh://rails@production-elections-utility-01.use1.huffpo.net/home/rails/SLUG.git`
+2. (Once per dev machine per project) Run `git remote add production ssh://[MACHINE]/path/to/SLUG.git`
 3. (Once per deploy) `git push production master`. You'll see the output in your console.
 
 ## Deploying share cards
