@@ -3,7 +3,7 @@ header {
 
   h2 {
     font-family: $header-font-family;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     text-align: center;
     line-height: 1.5;
     padding-top: 1rem;
@@ -11,11 +11,11 @@ header {
 
     @media (min-width: $min-desktop-width) {
       position: absolute;
-      top: 28rem;
+      top: 27.5rem;
       padding-top: 0;
-      width: $page-width / 2;
+      width: $page-width / 1.8;
       left: 50%;
-      margin-left: -$page-width / 4;
+      margin-left: -$page-width / 3.6;
     }
   }
 
