@@ -7,6 +7,7 @@ $sentence-height: 12rem; // way higher than we need -- assumes we want whitespac
 $share-height: 5rem;
 
 svg.venn {
+  width: 100%;
   circle.clinton { fill: $color-democrat; }
   circle.trump { fill: $color-republican; }
   path.both-outline, circle.both-outline {
@@ -130,8 +131,6 @@ figure.venn-container {
         margin: 2px 0 2px -.5px;
         background: $very-muted-color;
         display: block;
-        -webkit-flex: 1 1 auto;
-        
       }
     }
   }
