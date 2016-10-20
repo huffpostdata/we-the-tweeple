@@ -43,20 +43,6 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  flex-direction: column;
-}
-
-nav, footer {
-  -webkit-flex: 0 0 auto;
-  flex: 0 0 auto;
-}
-
-article {
-  -webkit-flex: 1 0 auto;
-  flex: 1 0 auto;
 }
 
 article {
@@ -66,38 +52,4 @@ article {
   &>*.full-width {
     @include with-width(100%);
   }
-}
-
-
-.button {
-    margin: 50px auto 100px auto;
-    font-family: "Source Sans Pro", Arial, sans-serif;
-    font-size: 17px;
-    text-transform: uppercase;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center;
-}
-
-.button a {
-    padding: 20px;
-    width: 200px;
-    border: 2px white solid;
-    text-decoration: none;
-    color: #fff;
-    background-color: #0e2128;
-}
-
-.button a:hover {
-    padding: 20px;
-    width: 200px;
-    border: 2px white solid;
-    text-decoration: none;
-    background-color: #fff;
-    color: #0e2128;
-    -webkit-transition: background 0.2s linear;
-    -moz-transition: background 0.2s linear;
-    -ms-transition: background 0.2s linear;
-    -o-transition: background 0.2s linear;
-    transition: background 0.2s linear;
 }
