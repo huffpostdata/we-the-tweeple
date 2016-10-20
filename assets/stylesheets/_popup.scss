@@ -26,12 +26,12 @@
       display: inline-block;
       width: 3rem;
       height: 3rem;
-      font-size: 3rem; // for &times;
       background-color: $background;
       cursor: pointer;
 
       &.close {
         border: none;
+        font-size: 3rem; // for &times;
       }
 
       &.facebook-share::before {

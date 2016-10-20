@@ -19,8 +19,8 @@ function focusOnToken(token, el) {
   popupEl.innerHTML = [
     '<div class="popup-inner">',
       '<div class="buttons">',
-        '<button class="bN facebook-share"></button>',
-        '<button class="bN twitter-share"></button>',
+        '<button class="bN facebook-share">Share on Facebook</button>',
+        '<button class="bN twitter-share">Share on Twitter</button>',
         '<div class="space"></div>',
         '<button class="close">×</button>',
       '</div>',

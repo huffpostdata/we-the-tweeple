@@ -181,7 +181,7 @@ function main() {
         token.variantsHtml(),
         venn.html,
         token.sentenceHtml(),
-        '<div class="buttons"><button class="bN facebook-share"></button><button class="bN twitter-share"></button></div>',
+        '<div class="buttons"><button class="bN facebook-share">Share on Facebook</button><button class="bN twitter-share">Share on Twitter</button></div>',
       ].join('');
 
       els.resultContainer.appendChild(els.result);
