@@ -75,10 +75,21 @@
       var encoded_url = encodeURIComponent(url);
       var href = 'https://twitter.com/intent/tweet?text=' + encoded_text + '&url=' + encoded_url;
 
-      var a = document.createElement('a');
-      a.setAttribute('href', href);
-      a.setAttribute('target', '_blank');
-      twttr.ready(function() { a.click(); });
+
+      // "Limited Dependencies" at https://dev.twitter.com/web/intents
+      var width = 550, height = 420, winWidth = screen.width, winHeight = screen.height;
+      var left = Math.round((winWidth / 2) - (width / 2));
+      var top = 0;
+
+      if (winHeight > height) {
+        top = Math.round((winHeight / 2) - (height / 2));
+      }
+
+      window.open(
+        href,
+        'intent',
+        'scrollbars=yes,resizable=yes,toolbar=no,location=yes,width=' + width + ',height=' + height + ',left=' + left + ',top=' + top
+      );
     }
   });
 }());
