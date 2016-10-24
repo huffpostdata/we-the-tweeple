@@ -36,7 +36,7 @@ const BaseUrl = process.env.BASE_URL
 function path_to(key, tokenOrNull) {
   switch (key) {
     case 'index': return appConfig.base_path
-    case 'share-image': return `${appConfig.base_path}/share/${encodeURIComponent(tokenOrNull)}.jpg`
+    case 'share-image': return `${appConfig.base_path}/share/${encodeURIComponent(tokenOrNull)}.jpg?2`
     case 'share-page': return `${appConfig.base_path}/${encodeURIComponent(tokenOrNull)}`
     default: throw new Error(`Our path_to() stub cannot handle the key: ${key}`)
   }
