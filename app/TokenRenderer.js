@@ -185,7 +185,7 @@ module.exports = class TokenRenderer {
     ctx._setFont('900', 'normal', 54, 'pt', 'Proxima Nova Condensed')
     ctx.textAlign = 'center'
     ctx.fillStyle = '#9959ba'
-    ctx.fillText(formatInt(group.nTrump), xBoth, yBoth + 66)
+    ctx.fillText(formatInt(group.nBoth), xBoth, yBoth + 66)
     ctx._setFont('normal', 'normal', 45, 'pt', 'Arial')
     ctx.fillText('follow both', xBoth, yBoth + 120)
 
