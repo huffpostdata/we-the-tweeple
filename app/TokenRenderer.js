@@ -164,7 +164,7 @@ module.exports = class TokenRenderer {
     ctx._setFont('900', 'normal', 54, 'pt', 'Proxima Nova Condensed')
     ctx.textAlign = 'right'
     ctx.fillStyle = '#4c7de0'
-    ctx.fillText(formatInt(group.nClinton), xClinton, yMid - 54)
+    ctx.fillText(formatInt(group.nClinton - group.nBoth), xClinton, yMid - 54)
     ctx._setFont('normal', 'normal', 45, 'pt', 'Arial')
     ctx.fillText('follow only', xClinton, yMid)
     ctx.fillText('Clinton', xClinton, yMid + 50)
@@ -174,7 +174,7 @@ module.exports = class TokenRenderer {
     ctx._setFont('900', 'normal', 54, 'pt', 'Proxima Nova Condensed')
     ctx.textAlign = 'left'
     ctx.fillStyle = '#e52426'
-    ctx.fillText(formatInt(group.nTrump), xTrump, yMid - 54)
+    ctx.fillText(formatInt(group.nTrump - group.nBoth), xTrump, yMid - 54)
     ctx._setFont('normal', 'normal', 45, 'pt', 'Arial')
     ctx.fillText('follow only', xTrump, yMid)
     ctx.fillText('Trump', xTrump, yMid + 50)
