@@ -19,7 +19,7 @@ header {
     }
   }
 
-  .authors {
+  .authors, .published-at {
     padding-top: 1rem;
     font-size: .85rem;
     text-align: center;
@@ -28,6 +28,9 @@ header {
     @media (min-width: $min-desktop-width) {
       position: absolute;
       top: 38.5rem;
+      &.published-at {
+        top: 37rem;
+      }
       padding-top: 0;
       left: 0;
       width: 100%;
