@@ -1,6 +1,10 @@
 (function() {
   var GOOGLE_ANALYTICS_ID = 'UA-61898491-1';
+  var OMNITURE_ACCOUNT = 'aolhuffpostpolitics,aolsvc';
+  var CHANNEL = 'us.hpmgpol';
+  var COMSCORE_KW = 'politics';
   var AUTHOR = 'Adam Hooper';
+  var SOURCE = 'original_content';
   var SLUG = 'we-the-tweeple';
   var TAGS = 'we-the-tweeple';
 
@@ -16,7 +20,6 @@
     ga('send', 'pageview');
   }());
 
-
   //CMS entry
   //https://us.edit.huffpost.net/cms/entry/5785558de4b0867123dec44d/settings
   //http://www.huffingtonpost.com/entry/presumed-innocent-found-dead_us_5785558de4b0867123dec44d?qrn8idgkmii5jc3di
@@ -26,7 +29,7 @@
     b: 'b.huffingtonpost.com',
     h: location.hostname,
     p: {
-      dL_ch: (isMobile ? "us.hpmghighln_mb" : "us.hpmghighln"),
+      dL_ch: CHANNEL + isMobile ? '_mb' : '',
       dL_dpt: "data",
       cobrand: "HuffPost",
       dL_blogID: "2",
@@ -38,20 +41,19 @@
     }
   }
 
-  function runOmni() {
+  window.runOmni = function runOmni() {
     s_265.pfxID = 'hpo';
-    s_265.channel = (isMobile ? "us.hpmghighln_mb" : "us.hpmghighln");
+    s_265.channel = CHANNEL + isMobile ? '_mb' : '';
     s_265.linkInternalFilters = 'javascript:,huffingtonpost.com';
-    s_265.prop16 = 'page';
-    s_265.prop1 = 'data';
-    s_265.prop62 = 'video_novideo'; // As per Andrea Wright, 2016-03-17
-    s_265.prop65 = 'ap'; // The main source of election-2016 data is Associated Press
+    s_265.prop16 = 'news';
+    s_265.prop1 = 'custom';
+    s_265.prop65 = SOURCE;
     s_265.pageName = "" + document.title;
     s_265.prop12 = "" + document.URL.split('?')[0];
     s_265.t();
   }
 
-  s_265_account = "aolhuffposthighline,aolsvc";
+  s_265_account = OMNITURE_ACCOUNT;
 
   (function(d){
     var head = d.getElementsByTagName('head')[0];
@@ -121,7 +123,7 @@
   runNielson();
 
   function runComscore() {
-    var kw = isMobile ? 'mobile_politics' : 'politics';
+    var kw = (isMobile ? 'mobile_' : '') + COMSCORE_KW;
 
     COMSCORE.beacon({
       c1: 2,
