@@ -29,7 +29,7 @@
     b: 'b.huffingtonpost.com',
     h: location.hostname,
     p: {
-      dL_ch: CHANNEL + isMobile ? '_mb' : '',
+      dL_ch: CHANNEL + (isMobile ? '_mb' : ''),
       dL_dpt: "data",
       cobrand: "HuffPost",
       dL_blogID: "2",
@@ -43,13 +43,15 @@
 
   window.runOmni = function runOmni() {
     s_265.pfxID = 'hpo';
-    s_265.channel = CHANNEL + isMobile ? '_mb' : '';
+    s_265.channel = CHANNEL + (isMobile ? '_mb' : '');
     s_265.linkInternalFilters = 'javascript:,huffingtonpost.com';
-    s_265.prop16 = 'news';
-    s_265.prop1 = 'custom';
-    s_265.prop65 = SOURCE;
     s_265.pageName = "" + document.title;
+    s_265.prop1 = 'custom';
     s_265.prop12 = "" + document.URL.split('?')[0];
+    s_265.prop16 = 'news';
+    s_265.prop54 = 'no_cms';
+    s_265.prop62 = 'video_novideo';
+    s_265.prop65 = SOURCE;
     s_265.t();
   }
 
