@@ -3,7 +3,7 @@ nav {
   width: 100%;
   box-sizing: border-box;
   height: 3rem;
-  z-index: 1;
+  z-index: 10;
   padding: .5rem;
   display: -webkit-flex;
   display: flex;
@@ -11,33 +11,33 @@ nav {
   align-items: stretch;
   -webkit-justify-content:  space-between;
   justify-content:  space-between;
-  background: $color;
+  background-color: $color;
 
   @media (min-width: $min-desktop-width) {
     position: absolute;
     top: 0;
     left: 0;
-    background: transparent;
+    background: $color;
   }
 
   a.home {
-    $aspect-ratio-wide: 329/20;
-    $aspect-ratio-narrow: 92.834/12.764;
+    $aspect-ratio-wide: 502/64;
+    $aspect-ratio-narrow: 502/64;
 
     display: inline-block;
     font-size: 0; // We show image, not text
     line-height: 0; // Also because we show image, not text
-    padding: .25rem 0 .25rem .15rem; // padding on the left because the image isn't flush
+    padding: .25rem 0 .25rem .25rem; // padding on the left because the image isn't flush
     height: 1.4rem;
     width: $aspect-ratio-narrow * 1.4rem;
-    background-image: asset-url('digest', 'images/hp-logo-narrow.svg');
+    background-image: asset-url('digest', 'images/hp-logo.svg');
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center center;
 
     @media (min-width: $min-desktop-width) {
       width: $aspect-ratio-wide * 1.4rem;
-      background-image: asset-url('digest', 'images/hp-logo-wide.svg');
+      background-image: asset-url('digest', 'images/hp-logo.svg');
     }
   }
 

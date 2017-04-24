@@ -60,6 +60,7 @@ header {
 
     @media (min-width: $min-desktop-width) {
       &::before {
+        margin: 3rem 0 0 0;
         padding-bottom: 40rem;
         background-image: asset-url('digest', 'images/header-desktop.jpg');
         background-repeat: no-repeat;
