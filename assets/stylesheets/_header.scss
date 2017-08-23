@@ -80,7 +80,7 @@ header {
     bottom: 0;
     left: 50%; // marginLeft be set in CSS
     width: auto;
-    height: 100% * (1032 / 1050);
+    height: 40rem * (1032/1050); // The UTF grid is at 1032x2500; the desktop image is 1050x4000
     opacity: .3;
 
     &.highlight {
